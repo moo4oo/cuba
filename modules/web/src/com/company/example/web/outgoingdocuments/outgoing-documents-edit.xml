@@ -12,6 +12,13 @@
                 <![CDATA[select e from example$OutgoingDocuments e]]>
             </query>
         </collectionDatasource>
+        <groupDatasource id="workersesDs"
+                         class="com.company.example.entity.Workers"
+                         loadDynamicAttributes="true">
+            <query>
+                <![CDATA[select e from example$Workers e]]>
+            </query>
+        </groupDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
