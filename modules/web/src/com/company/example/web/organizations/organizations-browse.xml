@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.company.example.web.organizations.OrganizationsBrowse"
+        focusComponent="organizationsesTable"
+        lookupComponent="organizationsesTable"
+        messagesPack="com.company.example.web.organizations">
+    <dsContext>
+        <groupDatasource id="organizationsesDs"
+                         class="com.company.example.entity.Organizations"
+                         view="organizations-view">
+            <query>
+                <![CDATA[select e from example$Organizations e]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="organizationsesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="organizationsesTable"
+                datasource="organizationsesDs">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="organizationsesTable"
+                    width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="code"/>
+                <column id="short_title"/>
+                <column id="title"/>
+                <column id="law_address"/>
+                <column id="mail_address"/>
+            </columns>
+            <rows datasource="organizationsesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="organizationsesTable.create"/>
+                <button id="editBtn"
+                        action="organizationsesTable.edit"/>
+                <button id="removeBtn"
+                        action="organizationsesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+    </layout>
+</window>

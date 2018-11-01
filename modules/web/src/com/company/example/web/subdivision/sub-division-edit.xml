@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editorCaption"
+        class="com.company.example.web.subdivision.SubDivisionEdit"
+        datasource="subDivisionDs"
+        focusComponent="fieldGroup"
+        messagesPack="com.company.example.web.subdivision">
+    <dsContext>
+        <datasource id="subDivisionDs"
+                    class="com.company.example.entity.SubDivision"
+                    view="subDivision-view"/>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="windowActions"
+            spacing="true">
+        <fieldGroup id="fieldGroup"
+                    datasource="subDivisionDs">
+            <column width="250px">
+                <field property="code"/>
+                <field property="name"/>
+                <field property="lead_subdivision"/>
+                <field property="departament_head"/>
+            </column>
+        </fieldGroup>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

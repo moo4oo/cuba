@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<screen-config xmlns="http://schemas.haulmont.com/cuba/screens.xsd">
+    <screen id="example$SubDivision.browse"
+            template="com/company/example/web/subdivision/sub-division-browse.xml"/>
+    <screen id="example$SubDivision.edit"
+            template="com/company/example/web/subdivision/sub-division-edit.xml"/>
+    <screen id="example$Workers.browse"
+            template="com/company/example/web/workers/workers-browse.xml"/>
+    <screen id="example$Workers.edit"
+            template="com/company/example/web/workers/workers-edit.xml"/>
+    <screen id="example$DocumentTypes.browse"
+            template="com/company/example/web/documenttypes/document-types-browse.xml"/>
+    <screen id="example$DocumentTypes.edit"
+            template="com/company/example/web/documenttypes/document-types-edit.xml"/>
+    <screen id="example$Organizations.browse"
+            template="com/company/example/web/organizations/organizations-browse.xml"/>
+    <screen id="example$Organizations.edit"
+            template="com/company/example/web/organizations/organizations-edit.xml"/>
+    <screen id="example$RegistrationLogs.browse"
+            template="com/company/example/web/registrationlogs/registration-logs-browse.xml"/>
+    <screen id="example$RegistrationLogs.edit"
+            template="com/company/example/web/registrationlogs/registration-logs-edit.xml"/>
+    <screen id="example$AffairsNomenclature.browse"
+            template="com/company/example/web/affairsnomenclature/affairs-nomenclature-browse.xml"/>
+    <screen id="example$AffairsNomenclature.edit"
+            template="com/company/example/web/affairsnomenclature/affairs-nomenclature-edit.xml"/>
+    <screen id="example$OutgoingDocuments.browse"
+            template="com/company/example/web/outgoingdocuments/outgoing-documents-browse.xml"/>
+    <screen id="example$OutgoingDocuments.edit"
+            template="com/company/example/web/outgoingdocuments/outgoing-documents-edit.xml"/>
+</screen-config>

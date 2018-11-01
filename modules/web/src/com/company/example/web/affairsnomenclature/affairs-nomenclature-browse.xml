@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.company.example.web.affairsnomenclature.AffairsNomenclatureBrowse"
+        focusComponent="affairsNomenclaturesTable"
+        lookupComponent="affairsNomenclaturesTable"
+        messagesPack="com.company.example.web.affairsnomenclature">
+    <dsContext>
+        <groupDatasource id="affairsNomenclaturesDs"
+                         class="com.company.example.entity.AffairsNomenclature"
+                         view="affairsNomenclature-view">
+            <query>
+                <![CDATA[select e from example$AffairsNomenclature e]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="affairsNomenclaturesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="affairsNomenclaturesTable"
+                datasource="affairsNomenclaturesDs">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="affairsNomenclaturesTable"
+                    width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="code"/>
+                <column id="title"/>
+            </columns>
+            <rows datasource="affairsNomenclaturesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="affairsNomenclaturesTable.create"/>
+                <button id="editBtn"
+                        action="affairsNomenclaturesTable.edit"/>
+                <button id="removeBtn"
+                        action="affairsNomenclaturesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+    </layout>
+</window>

@@ -1,0 +1,1 @@
+alter table example_outgoing_documents_registration_logs_link rename to EXAMPLE_OUTGOING_DOCUMENTS_REGISTRATION_LOGS_LINK__U58158 ;

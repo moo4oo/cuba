@@ -1,0 +1,1 @@
+alter table EXAMPLE_AFFAIRS_NOMENCLATURE add column SERIAL_NUMBER bigint ;

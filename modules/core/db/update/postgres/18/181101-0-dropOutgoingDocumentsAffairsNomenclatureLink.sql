@@ -1,0 +1,1 @@
+alter table example_outgoing_documents_affairs_nomenclature_link rename to EXAMPLE_OUTGOING_DOCUMENTS_AFFAIRS_NOMENCLATURE_LINK__U00606 ;

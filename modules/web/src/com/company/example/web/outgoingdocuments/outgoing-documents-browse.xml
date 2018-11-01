@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.company.example.web.outgoingdocuments.OutgoingDocumentsBrowse"
+        focusComponent="outgoingDocumentsesTable"
+        lookupComponent="outgoingDocumentsesTable"
+        messagesPack="com.company.example.web.outgoingdocuments">
+    <dsContext>
+        <groupDatasource id="outgoingDocumentsesDs"
+                         class="com.company.example.entity.OutgoingDocuments"
+                         view="main-outgoingDocuments-view">
+            <query>
+                <![CDATA[select e from example$OutgoingDocuments e]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="outgoingDocumentsesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="outgoingDocumentsesTable"
+                datasource="outgoingDocumentsesDs">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="outgoingDocumentsesTable"
+                    width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="document_type"/>
+                <column id="registration_number"/>
+                <column id="date"/>
+                <column id="addressee"/>
+                <column id="full_name"/>
+                <column id="topic"/>
+                <column id="executor"/>
+                <column id="sign"/>
+                <column id="description"/>
+                <column id="title"/>
+                <column id="author"/>
+                <column id="create_date"/>
+                <column id="change_date"/>
+                <column id="state"/>
+            </columns>
+            <rows datasource="outgoingDocumentsesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="outgoingDocumentsesTable.create"/>
+                <button id="editBtn"
+                        action="outgoingDocumentsesTable.edit"/>
+                <button id="removeBtn"
+                        action="outgoingDocumentsesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+    </layout>
+</window>

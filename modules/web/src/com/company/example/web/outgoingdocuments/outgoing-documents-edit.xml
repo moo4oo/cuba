@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editorCaption"
+        class="com.company.example.web.outgoingdocuments.OutgoingDocumentsEdit"
+        datasource="outgoingDocumentsesDs"
+        messagesPack="com.company.example.web.outgoingdocuments">
+    <dsContext>
+        <collectionDatasource id="outgoingDocumentsesDs"
+                              class="com.company.example.entity.OutgoingDocuments"
+                              view="main-outgoingDocuments-view">
+            <query>
+                <![CDATA[select e from example$OutgoingDocuments e]]>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="scrollBox"
+            spacing="true">
+        <scrollBox id="scrollBox"
+                   spacing="true">
+            <tabSheet>
+                <tab id="mainTab"
+                     caption="Main"
+                     margin="true"
+                     spacing="true">
+                    <fieldGroup id="mainFieldGroup"
+                                datasource="outgoingDocumentsesDs">
+                        <column width="250px">
+                            <field property="document_type"/>
+                            <field property="registration_number"/>
+                            <field property="date"/>
+                            <field property="addressee"/>
+                            <field property="full_name"/>
+                            <field property="topic"/>
+                            <field property="executor"/>
+                            <field property="sign"/>
+                            <field property="description"
+                                   rows="5"/>
+                            <field property="title"/>
+                            <field property="author"/>
+                            <field property="create_date"/>
+                            <field property="change_date"/>
+                            <field property="state"/>
+                        </column>
+                    </fieldGroup>
+                </tab>
+                <tab id="documentsTab"
+                     caption="Documents"
+                     margin="true"
+                     spacing="true">
+                    <fieldGroup id="documentsFieldGroup"
+                                datasource="outgoingDocumentsesDs">
+                        <field property="file"/>
+                    </fieldGroup>
+                </tab>
+                <tab id="registrationTab"
+                     caption="Registrations"
+                     margin="true"
+                     spacing="true">
+                    <fieldGroup id="registrationsFieldGroup"
+                                datasource="outgoingDocumentsesDs">
+                        <field property="log"/>
+                        <field property="document_description"/>
+                        <field property="affair"/>
+                        <field property="affair_date"/>
+                    </fieldGroup>
+                </tab>
+                <tab id="matchingTab"
+                     caption="Matching"
+                     margin="true"
+                     spacing="true">
+                    <fieldGroup id="matchingFieldGroup"
+                                datasource="outgoingDocumentsesDs">
+                        <field property="matching"/>
+                        <field property="start_date"/>
+                        <field property="end_date"/>
+                        <field property="result"/>
+                        <field property="comments"/>
+                    </fieldGroup>
+                </tab>
+            </tabSheet>
+        </scrollBox>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

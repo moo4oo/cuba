@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.company.example.web.documenttypes.DocumentTypesBrowse"
+        focusComponent="documentTypesesTable"
+        lookupComponent="documentTypesesTable"
+        messagesPack="com.company.example.web.documenttypes">
+    <dsContext>
+        <groupDatasource id="documentTypesesDs"
+                         class="com.company.example.entity.DocumentTypes"
+                         view="_local">
+            <query>
+                <![CDATA[select e from example$DocumentTypes e]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="documentTypesesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="documentTypesesTable"
+                datasource="documentTypesesDs">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="documentTypesesTable"
+                    width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="code"/>
+                <column id="name"/>
+            </columns>
+            <rows datasource="documentTypesesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="documentTypesesTable.create"/>
+                <button id="editBtn"
+                        action="documentTypesesTable.edit"/>
+                <button id="removeBtn"
+                        action="documentTypesesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+    </layout>
+</window>

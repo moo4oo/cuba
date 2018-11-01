@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
+    <view class="com.company.example.entity.SubDivision"
+          extends="_local"
+          name="subDivision-view">
+        <property name="lead_subdivision"
+                  view="_minimal"/>
+        <property name="departament_head"
+                  view="_minimal"/>
+    </view>
+    <view class="com.company.example.entity.Workers"
+          extends="_local"
+          name="workers-view">
+        <property name="user"
+                  view="_minimal">
+            <property name="firstName"/>
+            <property name="lastName"/>
+        </property>
+        <property name="photo"
+                  view="_minimal"/>
+    </view>
+    <view class="com.company.example.entity.Organizations"
+          extends="_local"
+          name="organizations-view">
+        <property name="code"/>
+        <property name="short_title"/>
+        <property name="title"/>
+        <property name="law_address"/>
+        <property name="mail_address"/>
+    </view>
+    <view class="com.company.example.entity.RegistrationLogs"
+          extends="_local"
+          name="registrationLogs-view">
+        <property name="code"/>
+        <property name="title"/>
+        <property name="number_format"/>
+        <property name="number"/>
+    </view>
+    <view class="com.company.example.entity.AffairsNomenclature"
+          extends="_local"
+          name="affairsNomenclature-view">
+        <property name="code"/>
+        <property name="title"/>
+    </view>
+    <view class="com.company.example.entity.OutgoingDocuments"
+          extends="_local"
+          name="main-outgoingDocuments-view">
+        <property name="document_type"
+                  view="_minimal">
+            <property name="name"/>
+        </property>
+        <property name="registration_number"/>
+        <property name="date"/>
+        <property name="addressee"
+                  view="_minimal">
+            <property name="short_title"/>
+        </property>
+        <property name="full_name"/>
+        <property name="topic"/>
+        <property name="executor"
+                  view="_minimal">
+            <property name="second_name"/>
+            <property name="first_name"/>
+        </property>
+        <property name="sign"
+                  view="_minimal">
+            <property name="second_name"/>
+            <property name="first_name"/>
+        </property>
+        <property name="description"/>
+        <property name="title"/>
+        <property name="author"
+                  view="_minimal"/>
+        <property name="create_date"/>
+        <property name="change_date"/>
+        <property name="state"/>
+    </view>
+    <view class="com.company.example.entity.OutgoingDocuments"
+          extends="_local"
+          name="documents-outgoingDocuments-view">
+        <property name="file"
+                  view="_minimal"/>
+    </view>
+    <view class="com.company.example.entity.OutgoingDocuments"
+          extends="_local"
+          name="matching-outgoingDocuments-view">
+        <property name="matching"
+                  view="_minimal">
+            <property name="second_name"/>
+            <property name="first_name"/>
+        </property>
+        <property name="start_date"/>
+        <property name="end_date"/>
+        <property name="result"/>
+        <property name="comments"/>
+    </view>
+</views>

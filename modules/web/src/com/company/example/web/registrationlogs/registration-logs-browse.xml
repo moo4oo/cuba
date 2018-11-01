@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.company.example.web.registrationlogs.RegistrationLogsBrowse"
+        focusComponent="registrationLogsesTable"
+        lookupComponent="registrationLogsesTable"
+        messagesPack="com.company.example.web.registrationlogs">
+    <dsContext>
+        <groupDatasource id="registrationLogsesDs"
+                         class="com.company.example.entity.RegistrationLogs"
+                         view="registrationLogs-view">
+            <query>
+                <![CDATA[select e from example$RegistrationLogs e]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="registrationLogsesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="registrationLogsesTable"
+                datasource="registrationLogsesDs">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="registrationLogsesTable"
+                    width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="code"/>
+                <column id="title"/>
+                <column id="number_format"/>
+                <column id="number"/>
+            </columns>
+            <rows datasource="registrationLogsesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="registrationLogsesTable.create"/>
+                <button id="editBtn"
+                        action="registrationLogsesTable.edit"/>
+                <button id="removeBtn"
+                        action="registrationLogsesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+    </layout>
+</window>

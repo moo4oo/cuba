@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://editorCaption"
+        class="com.company.example.web.workers.WorkersEdit"
+        datasource="workersDs"
+        focusComponent="fieldGroup"
+        messagesPack="com.company.example.web.workers">
+    <dsContext>
+        <datasource id="workersDs"
+                    class="com.company.example.entity.Workers"
+                    view="workers-view">
+            <datasource id="photoDs"
+                        property="photo"/>
+        </datasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="windowActions"
+            spacing="true">
+        <hbox spacing="true">
+            <fieldGroup id="fieldGroup"
+                        datasource="workersDs">
+                <column width="250px">
+                    <field property="personnel_number"/>
+                    <field id="user"
+                           property="user"/>
+                    <field property="second_name"/>
+                    <field property="first_name"/>
+                    <field property="patronymic"/>
+                    <field property="email"/>
+                    <field property="phone"/>
+                    <field property="photo"/>
+                </column>
+            </fieldGroup>
+            <image id="workersPhotoView"
+                   height="250px"
+                   width="250px"/>
+        </hbox>
+        <frame id="windowActions"
+               screen="editWindowActions"/>
+    </layout>
+</window>

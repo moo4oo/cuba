@@ -1,0 +1,1 @@
+alter table example_outgoing_documents_workers_link rename to EXAMPLE_OUTGOING_DOCUMENTS_WORKERS_LINK__U52746 ;

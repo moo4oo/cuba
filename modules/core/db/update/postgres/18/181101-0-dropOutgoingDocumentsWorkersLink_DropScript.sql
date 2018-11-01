@@ -1,0 +1,1 @@
+drop table if exists EXAMPLE_OUTGOING_DOCUMENTS_WORKERS_LINK__U52746 cascade ;

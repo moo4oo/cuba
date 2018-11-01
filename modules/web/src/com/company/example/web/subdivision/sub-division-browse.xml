@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.company.example.web.subdivision.SubDivisionBrowse"
+        focusComponent="subDivisionsTable"
+        lookupComponent="subDivisionsTable"
+        messagesPack="com.company.example.web.subdivision">
+    <dsContext>
+        <groupDatasource id="subDivisionsDs"
+                         class="com.company.example.entity.SubDivision"
+                         view="subDivision-view">
+            <query>
+                <![CDATA[select e from example$SubDivision e]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="subDivisionsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="subDivisionsTable"
+                datasource="subDivisionsDs">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="subDivisionsTable"
+                    width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="code"/>
+                <column id="name"/>
+                <column id="lead_subdivision"/>
+                <column id="departament_head"/>
+            </columns>
+            <rows datasource="subDivisionsDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="subDivisionsTable.create"/>
+                <button id="editBtn"
+                        action="subDivisionsTable.edit"/>
+                <button id="removeBtn"
+                        action="subDivisionsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+    </layout>
+</window>
