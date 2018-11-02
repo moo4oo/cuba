@@ -1,0 +1,5 @@
+create table EXAMPLE_OUTGOING_DOCUMENTS_FILE_LINK (
+    OUTGOING_DOCUMENTS_ID uuid,
+    FILE_ID uuid,
+    primary key (OUTGOING_DOCUMENTS_ID, FILE_ID)
+);

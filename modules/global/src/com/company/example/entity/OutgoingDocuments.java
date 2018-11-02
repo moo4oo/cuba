@@ -1,26 +1,13 @@
 package com.company.example.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.security.entity.User;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.util.List;
 import javax.validation.constraints.NotNull;
 import com.haulmont.cuba.core.entity.StandardEntity;
-import com.haulmont.chile.core.annotations.Composition;
-import com.haulmont.cuba.core.entity.FileDescriptor;
-import com.haulmont.cuba.core.entity.annotation.OnDelete;
-import com.haulmont.cuba.core.global.DeletePolicy;
-import java.util.List;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 
 @Table(name = "EXAMPLE_OUTGOING_DOCUMENTS")
 @Entity(name = "example$OutgoingDocuments")
@@ -31,6 +18,9 @@ public class OutgoingDocuments extends StandardEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "DOCUMENT_TYPE_ID")
     protected DocumentTypes document_type;
+
+    @Column(name = "SERIAL_NUMBER")
+    protected Long serial_number;
 
     @Column(name = "REGISTRATION_NUMBER")
     protected String registration_number;
@@ -58,6 +48,10 @@ public class OutgoingDocuments extends StandardEntity {
     @JoinColumn(name = "SIGN_ID")
     protected Workers sign;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FILE_ID")
+    protected FileDescriptor file;
+
     @Lob
     @Column(name = "DESCRIPTION")
     protected String description;
@@ -80,13 +74,7 @@ public class OutgoingDocuments extends StandardEntity {
     protected Date change_date;
 
     @Column(name = "STATE")
-    protected Integer state;
-
-    @Composition
-    @OnDelete(DeletePolicy.CASCADE)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FILE_ID")
-    protected FileDescriptor file;
+    protected String state;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LOG_ID")
@@ -122,6 +110,40 @@ public class OutgoingDocuments extends StandardEntity {
     @Column(name = "COMMENTS")
     protected String comments;
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+
+    public void setSerial_number(Long serial_number) {
+        this.serial_number = serial_number;
+    }
+
+    public Long getSerial_number() {
+        return serial_number;
+    }
+
+
+    public FileDescriptor getFile() {
+        return file;
+    }
+
+    public void setFile(FileDescriptor file) {
+        this.file = file;
+    }
+
+
+
+
+
+
+
+
+
     public RegistrationLogs getLog() {
         return log;
     }
@@ -148,22 +170,6 @@ public class OutgoingDocuments extends StandardEntity {
         this.matching = matching;
     }
 
-
-    public void setState(StateEnum state) {
-        this.state = state == null ? null : state.getId();
-    }
-
-    public StateEnum getState() {
-        return state == null ? null : StateEnum.fromId(state);
-    }
-
-    public void setFile(FileDescriptor file) {
-        this.file = file;
-    }
-
-    public FileDescriptor getFile() {
-        return file;
-    }
 
     public void setDocument_description(String document_description) {
         this.document_description = document_description;

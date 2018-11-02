@@ -5,20 +5,9 @@
         datasource="outgoingDocumentsesDs"
         messagesPack="com.company.example.web.outgoingdocuments">
     <dsContext>
-        <collectionDatasource id="outgoingDocumentsesDs"
-                              class="com.company.example.entity.OutgoingDocuments"
-                              view="main-outgoingDocuments-view">
-            <query>
-                <![CDATA[select e from example$OutgoingDocuments e]]>
-            </query>
-        </collectionDatasource>
-        <groupDatasource id="workersesDs"
-                         class="com.company.example.entity.Workers"
-                         loadDynamicAttributes="true">
-            <query>
-                <![CDATA[select e from example$Workers e]]>
-            </query>
-        </groupDatasource>
+        <datasource id="outgoingDocumentsesDs"
+                    class="com.company.example.entity.OutgoingDocuments"
+                    view="main-outgoingDocuments-view"/>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
@@ -68,6 +57,8 @@
                     <fieldGroup id="registrationsFieldGroup"
                                 datasource="outgoingDocumentsesDs">
                         <field property="log"/>
+                        <field property="registration_number"/>
+                        <field property="date"/>
                         <field property="document_description"/>
                         <field property="affair"/>
                         <field property="affair_date"/>

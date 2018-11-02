@@ -1,0 +1,3 @@
+alter table EXAMPLE_DOC_FILES rename column outgoing_documents_id to outgoing_documents_id__u20771 ;
+drop index IDX_EXAMPLE_DOC_FILES_ON_OUTGOING_DOCUMENTS ;
+alter table EXAMPLE_DOC_FILES drop constraint FK_EXAMPLE_DOC_FILES_ON_OUTGOING_DOCUMENTS ;

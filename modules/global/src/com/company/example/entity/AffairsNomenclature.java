@@ -1,8 +1,6 @@
 package com.company.example.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.chile.core.annotations.NamePattern;
@@ -17,7 +15,7 @@ public class AffairsNomenclature extends StandardEntity {
     @Column(name = "CODE", nullable = false)
     protected String code;
 
-    @Column(name = "SERIAL_NUMBER")
+    @Column(name = "SERIAL_NUMBER", nullable = false)
     protected Long serial_number;
 
     @Column(name = "TITLE")

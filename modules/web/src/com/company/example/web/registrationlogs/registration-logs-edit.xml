@@ -3,7 +3,6 @@
         caption="msg://editorCaption"
         class="com.company.example.web.registrationlogs.RegistrationLogsEdit"
         datasource="registrationLogsDs"
-        focusComponent="fieldGroup"
         messagesPack="com.company.example.web.registrationlogs">
     <dsContext>
         <datasource id="registrationLogsDs"
@@ -14,7 +13,7 @@
                 width="800"/>
     <layout expand="windowActions"
             spacing="true">
-        <fieldGroup id="fieldGroup"
+        <fieldGroup id="registrationLogsFieldGroup"
                     datasource="registrationLogsDs">
             <column width="250px">
                 <field property="code"/>

@@ -5,7 +5,9 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import com.haulmont.cuba.core.entity.StandardEntity;
+import com.haulmont.chile.core.annotations.NamePattern;
 
+@NamePattern("%s|number_format")
 @Table(name = "EXAMPLE_REGISTRATION_LOGS")
 @Entity(name = "example$RegistrationLogs")
 public class RegistrationLogs extends StandardEntity {
@@ -27,6 +29,15 @@ public class RegistrationLogs extends StandardEntity {
 
     @Column(name = "SERIAL_NUMBER")
     protected Long serial_number;
+
+    public MacroEnum getNumber_format() {
+        return number_format == null ? null : MacroEnum.fromId(number_format);
+    }
+
+    public void setNumber_format(MacroEnum number_format) {
+        this.number_format = number_format == null ? null : number_format.getId();
+    }
+
 
     public void setSerial_number(Long serial_number) {
         this.serial_number = serial_number;
@@ -51,14 +62,6 @@ public class RegistrationLogs extends StandardEntity {
 
     public String getTitle() {
         return title;
-    }
-
-    public void setNumber_format(String number_format) {
-        this.number_format = number_format;
-    }
-
-    public String getNumber_format() {
-        return number_format;
     }
 
     public void setNumber(String number) {

@@ -1,0 +1,1 @@
+alter table example_outgoing_documents_file_descriptor_link rename to EXAMPLE_OUTGOING_DOCUMENTS_FILE_DESCRIPTOR_LINK__U74576 ;

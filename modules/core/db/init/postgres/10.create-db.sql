@@ -114,7 +114,7 @@ create table EXAMPLE_AFFAIRS_NOMENCLATURE (
     SERIAL_NUMBER bigint,
     TITLE varchar(255),
     --
-    primary key (ID)
+    primary key (SERIAL_NUMBER)
 )^
 -- end EXAMPLE_AFFAIRS_NOMENCLATURE
 -- begin EXAMPLE_OUTGOING_DOCUMENTS
@@ -129,6 +129,7 @@ create table EXAMPLE_OUTGOING_DOCUMENTS (
     DELETED_BY varchar(50),
     --
     DOCUMENT_TYPE_ID uuid not null,
+    SERIAL_NUMBER bigint,
     REGISTRATION_NUMBER varchar(255),
     DATE_ date,
     ADDRESSEE_ID uuid not null,
@@ -136,13 +137,13 @@ create table EXAMPLE_OUTGOING_DOCUMENTS (
     TOPIC varchar(255),
     EXECUTOR_ID uuid,
     SIGN_ID uuid,
+    FILE_ID uuid,
     DESCRIPTION text,
     TITLE varchar(255) not null,
     AUTHOR_ID uuid,
     CREATE_DATE date not null,
     CHANGE_DATE date,
-    STATE integer,
-    FILE_ID uuid,
+    STATE varchar(255),
     LOG_ID uuid,
     DOCUMENT_DESCRIPTION varchar(255),
     AFFAIR_ID uuid,
@@ -156,3 +157,21 @@ create table EXAMPLE_OUTGOING_DOCUMENTS (
     primary key (ID)
 )^
 -- end EXAMPLE_OUTGOING_DOCUMENTS
+
+-- begin EXAMPLE_FILE
+create table EXAMPLE_FILE (
+    ID uuid,
+    VERSION integer not null,
+    CREATE_TS timestamp,
+    CREATED_BY varchar(50),
+    UPDATE_TS timestamp,
+    UPDATED_BY varchar(50),
+    DELETE_TS timestamp,
+    DELETED_BY varchar(50),
+    --
+    OUT_DOC_ID uuid,
+    FILE_ID uuid,
+    --
+    primary key (ID)
+)^
+-- end EXAMPLE_FILE
