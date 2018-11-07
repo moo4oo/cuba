@@ -38,6 +38,7 @@
                 <column id="email"/>
                 <column id="phone"/>
                 <column id="photo"/>
+                <column id="sub_division"/>
             </columns>
             <rows datasource="workersesDs"/>
             <rowsCount/>

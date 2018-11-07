@@ -1,0 +1,1 @@
+alter table EXAMPLE_OUTGOING_DOCUMENTS add column PROC_INSTANCE_ID uuid ;

@@ -18,6 +18,20 @@
         </property>
         <property name="photo"
                   view="_minimal"/>
+        <property name="sub_division"
+                  view="_minimal">
+            <property name="lead_subdivision"
+                      view="_minimal"/>
+            <property name="departament_head"
+                      view="_minimal">
+                <property name="user"
+                          view="_minimal">
+                    <property name="firstName"/>
+                    <property name="lastName"/>
+                </property>
+            </property>
+            <property name="code"/>
+        </property>
     </view>
     <view class="com.company.example.entity.Organizations"
           extends="_local"
@@ -43,6 +57,8 @@
           name="main-outgoingDocuments-view">
         <property name="document_type"
                   view="_minimal">
+            <property name="code"/>
+            <property name="serial_number"/>
         </property>
         <property name="addressee"
                   view="_minimal">
@@ -52,6 +68,11 @@
         </property>
         <property name="sign"
                   view="_minimal">
+            <property name="user"
+                      view="_minimal">
+                <property name="firstName"/>
+                <property name="lastName"/>
+            </property>
         </property>
         <property name="author"
                   view="_minimal"/>
@@ -65,24 +86,7 @@
             <property name="serial_number"/>
         </property>
         <property name="affair"
-                  view="_minimal">
-            <property name="code"/>
-            <property name="serial_number"/>
-        </property>
-        <property name="matching"
-                  view="_minimal">
-            <property name="personnel_number"/>
-            <property name="user"
-                      view="_minimal">
-                <property name="firstName"/>
-                <property name="lastName"/>
-            </property>
-            <property name="patronymic"/>
-            <property name="email"/>
-            <property name="phone"/>
-            <property name="photo"
-                      view="_minimal"/>
-        </property>
+                  view="_minimal"/>
     </view>
     <view class="com.company.example.entity.OutgoingDocuments"
           extends="_local"
@@ -91,14 +95,76 @@
     <view class="com.company.example.entity.OutgoingDocuments"
           extends="_local"
           name="matching-outgoingDocuments-view">
-        <property name="matching"
+    </view>
+    <view class="com.company.example.entity.MatchingTable"
+          extends="_local"
+          name="matchingTable-view">
+        <property name="matcher"
                   view="_minimal">
-            <property name="second_name"/>
-            <property name="first_name"/>
+            <property name="user"
+                      view="_minimal">
+                <property name="firstName"/>
+                <property name="lastName"/>
+            </property>
+            <property name="sub_division"
+                      view="_minimal"/>
         </property>
-        <property name="start_date"/>
-        <property name="end_date"/>
-        <property name="result"/>
-        <property name="comments"/>
+    </view>
+    <view class="com.haulmont.bpm.entity.ProcInstance"
+          extends="_local"
+          name="procInstance-view-custom">
+        <property name="procTasks"
+                  view="_minimal">
+            <property name="outcome"/>
+            <property name="name"/>
+            <property name="comment"/>
+        </property>
+    </view>
+    <view class="com.haulmont.bpm.entity.ProcInstance"
+          extends="_local"
+          name="procInstance-full"
+          overwrite="true">
+        <property name="procDefinition"
+                  view="_local">
+            <property name="procRoles"
+                      view="_local"/>
+        </property>
+        <property name="startedBy"
+                  view="_minimal"/>
+        <property name="entity"
+                  view="_local"/>
+        <property name="procActors"
+                  view="_local">
+            <property name="procRole"
+                      view="_local"/>
+            <property name="user"
+                      view="_local"/>
+        </property>
+        <property name="procAttachments"
+                  view="_local">
+            <property name="type"
+                      view="_minimal"/>
+            <property name="file"
+                      view="_local"/>
+            <property name="author"
+                      view="_minimal"/>
+        </property>
+        <property name="procTasks"
+                  view="_local">
+            <property name="procActor"
+                      view="_minimal"/>
+        </property>
+    </view>
+    <view class="com.haulmont.bpm.entity.ProcTask"
+          extends="_local"
+          name="procTask-view">
+        <property name="procActor"
+                  view="_minimal"/>
+    </view>
+    <view class="com.company.example.entity.File"
+          extends="_local"
+          name="file-view">
+        <property name="file"
+                  view="_minimal"/>
     </view>
 </views>

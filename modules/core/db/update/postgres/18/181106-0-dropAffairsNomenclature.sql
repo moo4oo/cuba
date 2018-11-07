@@ -1,0 +1,1 @@
+alter table example_affairs_nomenclature rename to EXAMPLE_AFFAIRS_NOMENCLATURE__U93614 ;

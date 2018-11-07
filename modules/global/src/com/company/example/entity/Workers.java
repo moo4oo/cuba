@@ -44,6 +44,10 @@ public class Workers extends StandardEntity {
     @Column(name = "PATRONYMIC")
     protected String patronymic;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SUB_DIVISION_ID")
+    protected SubDivision sub_division;
+
     @Column(name = "EMAIL")
     protected String email;
 
@@ -55,6 +59,16 @@ public class Workers extends StandardEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PHOTO_ID")
     protected FileDescriptor photo;
+
+
+    public void setSub_division(SubDivision sub_division) {
+        this.sub_division = sub_division;
+    }
+
+    public SubDivision getSub_division() {
+        return sub_division;
+    }
+
 
     public User getUser() {
         return user;

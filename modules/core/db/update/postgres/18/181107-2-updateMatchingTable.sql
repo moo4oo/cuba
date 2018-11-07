@@ -1,0 +1,3 @@
+alter table EXAMPLE_MATCHING_TABLE rename column outgoing_documents_id to outgoing_documents_id__u09221 ;
+drop index IDX_EXAMPLE_MATCHING_TABLE_ON_OUTGOING_DOCUMENTS ;
+alter table EXAMPLE_MATCHING_TABLE drop constraint FK_EXAMPLE_MATCHING_TABLE_ON_OUTGOING_DOCUMENTS ;

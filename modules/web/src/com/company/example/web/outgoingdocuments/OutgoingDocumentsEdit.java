@@ -1,26 +1,41 @@
 package com.company.example.web.outgoingdocuments;
 
 import com.company.example.entity.*;
+import com.haulmont.bpm.BpmConstants;
+import com.haulmont.bpm.entity.*;
+import com.haulmont.bpm.gui.action.ProcAction;
+import com.haulmont.bpm.gui.procactions.ProcActionsFrame;
+import com.haulmont.bpm.service.BpmEntitiesService;
+import com.haulmont.bpm.service.ProcessFormService;
+import com.haulmont.bpm.service.ProcessMessagesService;
+import com.haulmont.bpm.service.ProcessRuntimeService;
 import com.haulmont.cuba.core.app.UniqueNumbersService;
+import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.entity.FileDescriptor;
-import com.haulmont.cuba.core.global.DataManager;
-import com.haulmont.cuba.core.global.FileStorageException;
+import com.haulmont.cuba.core.global.*;
+import com.haulmont.cuba.gui.WindowParams;
+import com.haulmont.cuba.gui.app.core.file.FileDownloadHelper;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
 import com.haulmont.cuba.gui.data.DataSupplier;
+import com.haulmont.cuba.gui.data.Datasource;
 import com.haulmont.cuba.gui.data.GroupDatasource;
 import com.haulmont.cuba.gui.upload.FileUploadingAPI;
+import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.Transaction;
+import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
+    private static final String PROCESS_CODE = "contractApproval";
+    @Inject
+    private ProcActionsFrame procActionsFrame;
     @Inject
     private UniqueNumbersService uniqueNumbersService;
     @Named("registrationsFieldGroup.registration_number")
@@ -30,7 +45,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     @Named("mainFieldGroup.title")
     private TextField titleField;
     @Named("mainFieldGroup.state")
-    private LookupField stateField;
+    private TextField stateField;
     @Named("mainFieldGroup.change_date")
     private DateField change_dateField;
     @Named("mainFieldGroup.create_date")
@@ -53,7 +68,8 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private PickerField affairField;
     @Named("registrationsFieldGroup.affair_date")
     private DateField affair_dateField;
-
+    @Inject
+    private BpmEntitiesService bpmEntitiesService;
 
     @Override
     public void init(Map<String, Object> params) {
@@ -67,10 +83,14 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         stateField.setEditable(false);
         dateField.setEditable(false);
         registration_numberField.setEditable(false);
-        if(getItem() != null)
-        initListeners(getItem());
-    }
+        Entity docs = WindowParams.ITEM.getEntity(params);
+        setItem(docs);
+        if(getItem() != null) {
+            initListeners(getItem());
+        }
 
+
+    }
     @Override
     protected boolean preCommit() {
         if(getItem() != null)
@@ -88,15 +108,30 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         item.setAuthor(userSession.getUser());
         item.setCreate_date(new Date());
         initListeners(item);
-    }
 
+    }
     private Workers getCurrentWorker(UUID userUUID){
         return dataManager.load(Workers.class).query("select e from example$Workers e where " +
                 "e.user.id = :userUUID")
                 .parameter("userUUID", userUUID)
                 .one();
     }
+    private List<ProcTask> getTasks(UUID outDocUUID){
+        return dataManager.load(ProcTask.class).query("select e from bpm$ProcTask e " +
+                "where e.procInstance.entity.entityId = :entityUUID")
+                .parameter("entityUUID", outDocUUID)
+                .list();
+    }
+    private User getDevHeaderUser(User user){
+        return dataManager.load(User.class).query("select e.sub_division.departament_head.user from example$Workers e where " +
+                "e.user.id = :userUUID")
+                .parameter("userUUID", user.getId())
+                .one();
+    }
 
+
+    @Inject
+    private Metadata metadata;
 
     private void initListeners(OutgoingDocuments item){
         Title title = new Title();
@@ -147,6 +182,36 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
             }
         });
 
+        procActionsFrame.initializer()
+                .standard()
+                .setBeforeStartProcessPredicate(() -> {
+                    if(commit()){
+                        ProcInstance procInstance = procActionsFrame.getProcInstance();
+                        ProcActor initActor = createProcActor("init", procInstance, userSession.getUser());
+                        ProcActor depActor = createProcActor("dev_head", procInstance, getDevHeaderUser(userSession.getUser()));
+                        ProcActor signActor = createProcActor("sign", procInstance, item.getSign().getUser());
+                        Set<ProcActor> procActors = new HashSet<>();
+                        procActors.add(initActor);
+                        procActors.add(depActor);
+                        procActors.add(signActor);
+                        procInstance.setProcActors(procActors);
+                        commit();
+
+                        return true;
+                    }
+                    return false;
+                })
+                .init(PROCESS_CODE, item);
+
+    }
+
+    private ProcActor createProcActor(String procRoleCode, ProcInstance procInstance, User user) {
+        ProcActor initiatorProcActor = metadata.create(ProcActor.class);
+        initiatorProcActor.setUser(user);
+        ProcRole initiatorProcRole = bpmEntitiesService.findProcRole(PROCESS_CODE, procRoleCode, View.MINIMAL);
+        initiatorProcActor.setProcRole(initiatorProcRole);
+        initiatorProcActor.setProcInstance(procInstance);
+        return initiatorProcActor;
     }
     private class Title{
         private String docType = "";
@@ -195,4 +260,5 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
             this.topic = topic;
         }
     }
+
 }

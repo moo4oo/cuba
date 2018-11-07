@@ -14,6 +14,7 @@ create table EXAMPLE_WORKERS (
     SECOND_NAME varchar(255) not null,
     FIRST_NAME varchar(255) not null,
     PATRONYMIC varchar(255),
+    SUB_DIVISION_ID uuid,
     EMAIL varchar(255),
     PHONE varchar(255),
     PHOTO_ID uuid,
@@ -99,24 +100,7 @@ create table EXAMPLE_REGISTRATION_LOGS (
     primary key (ID)
 )^
 -- end EXAMPLE_REGISTRATION_LOGS
--- begin EXAMPLE_AFFAIRS_NOMENCLATURE
-create table EXAMPLE_AFFAIRS_NOMENCLATURE (
-    ID uuid,
-    VERSION integer not null,
-    CREATE_TS timestamp,
-    CREATED_BY varchar(50),
-    UPDATE_TS timestamp,
-    UPDATED_BY varchar(50),
-    DELETE_TS timestamp,
-    DELETED_BY varchar(50),
-    --
-    CODE varchar(255) not null,
-    SERIAL_NUMBER bigint,
-    TITLE varchar(255),
-    --
-    primary key (SERIAL_NUMBER)
-)^
--- end EXAMPLE_AFFAIRS_NOMENCLATURE
+
 -- begin EXAMPLE_OUTGOING_DOCUMENTS
 create table EXAMPLE_OUTGOING_DOCUMENTS (
     ID uuid,
@@ -148,11 +132,6 @@ create table EXAMPLE_OUTGOING_DOCUMENTS (
     DOCUMENT_DESCRIPTION varchar(255),
     AFFAIR_ID uuid,
     AFFAIR_DATE date,
-    MATCHING_ID uuid,
-    START_DATE date,
-    END_DATE date,
-    RESULT_ varchar(255),
-    COMMENTS text,
     --
     primary key (ID)
 )^
@@ -175,3 +154,41 @@ create table EXAMPLE_FILE (
     primary key (ID)
 )^
 -- end EXAMPLE_FILE
+-- begin EXAMPLE_MATCHING_TABLE
+create table EXAMPLE_MATCHING_TABLE (
+    ID uuid,
+    VERSION integer not null,
+    CREATE_TS timestamp,
+    CREATED_BY varchar(50),
+    UPDATE_TS timestamp,
+    UPDATED_BY varchar(50),
+    DELETE_TS timestamp,
+    DELETED_BY varchar(50),
+    --
+    MATCHER_ID uuid,
+    START_DATE date,
+    END_DATE date,
+    RESULT_ varchar(255),
+    COMMENT_ varchar(255),
+    --
+    primary key (ID)
+)^
+-- end EXAMPLE_MATCHING_TABLE
+-- begin EXAMPLE_AFFAIR_NOMENCLATURE
+create table EXAMPLE_AFFAIR_NOMENCLATURE (
+    ID uuid,
+    VERSION integer not null,
+    CREATE_TS timestamp,
+    CREATED_BY varchar(50),
+    UPDATE_TS timestamp,
+    UPDATED_BY varchar(50),
+    DELETE_TS timestamp,
+    DELETED_BY varchar(50),
+    --
+    CODE varchar(255) not null,
+    SERIAL_NUMBER bigint not null,
+    TITLE varchar(255),
+    --
+    primary key (ID)
+)^
+-- end EXAMPLE_AFFAIR_NOMENCLATURE

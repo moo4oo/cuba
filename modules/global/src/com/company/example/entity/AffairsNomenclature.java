@@ -6,7 +6,7 @@ import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.chile.core.annotations.NamePattern;
 
 @NamePattern("%s|title")
-@Table(name = "EXAMPLE_AFFAIRS_NOMENCLATURE")
+@Table(name = "EXAMPLE_AFFAIR_NOMENCLATURE")
 @Entity(name = "example$AffairsNomenclature")
 public class AffairsNomenclature extends StandardEntity {
     private static final long serialVersionUID = -2822776024895394574L;

@@ -1,0 +1,1 @@
+alter table EXAMPLE_OUTGOING_DOCUMENTS drop column PROC_INSTANCE_ID__U97587 cascade ;

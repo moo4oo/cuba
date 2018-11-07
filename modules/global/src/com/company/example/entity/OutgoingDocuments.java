@@ -8,14 +8,18 @@ import java.util.Date;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import com.haulmont.cuba.core.entity.StandardEntity;
+import com.haulmont.chile.core.annotations.Composition;
+import com.haulmont.cuba.core.entity.annotation.OnDelete;
+import com.haulmont.cuba.core.global.DeletePolicy;
+import com.haulmont.bpm.entity.ProcInstance;
 
 @Table(name = "EXAMPLE_OUTGOING_DOCUMENTS")
 @Entity(name = "example$OutgoingDocuments")
 public class OutgoingDocuments extends StandardEntity {
     private static final long serialVersionUID = 3214497642282058730L;
 
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "DOCUMENT_TYPE_ID")
     protected DocumentTypes document_type;
 
@@ -91,24 +95,21 @@ public class OutgoingDocuments extends StandardEntity {
     @Column(name = "AFFAIR_DATE")
     protected Date affair_date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MATCHING_ID")
-    protected Workers matching;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "START_DATE")
-    protected Date start_date;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "END_DATE")
-    protected Date end_date;
 
-    @Column(name = "RESULT_")
-    protected String result;
 
-    @Lob
-    @Column(name = "COMMENTS")
-    protected String comments;
+
+
+    public void setAffair(AffairsNomenclature affair) {
+        this.affair = affair;
+    }
+
+    public AffairsNomenclature getAffair() {
+        return affair;
+    }
+
+
 
     public String getState() {
         return state;
@@ -153,22 +154,6 @@ public class OutgoingDocuments extends StandardEntity {
     }
 
 
-    public AffairsNomenclature getAffair() {
-        return affair;
-    }
-
-    public void setAffair(AffairsNomenclature affair) {
-        this.affair = affair;
-    }
-
-
-    public Workers getMatching() {
-        return matching;
-    }
-
-    public void setMatching(Workers matching) {
-        this.matching = matching;
-    }
 
 
     public void setDocument_description(String document_description) {
@@ -185,38 +170,6 @@ public class OutgoingDocuments extends StandardEntity {
 
     public Date getAffair_date() {
         return affair_date;
-    }
-
-    public void setStart_date(Date start_date) {
-        this.start_date = start_date;
-    }
-
-    public Date getStart_date() {
-        return start_date;
-    }
-
-    public void setEnd_date(Date end_date) {
-        this.end_date = end_date;
-    }
-
-    public Date getEnd_date() {
-        return end_date;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public String getComments() {
-        return comments;
     }
 
 

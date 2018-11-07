@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 import com.haulmont.chile.core.annotations.NamePattern;
 import java.math.BigDecimal;
 import com.haulmont.chile.core.annotations.NumberFormat;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 
 @NamePattern("%s|name")
 @Table(name = "EXAMPLE_DOCUMENT_TYPES")
@@ -28,6 +30,18 @@ public class DocumentTypes extends StandardEntity {
     @NumberFormat(pattern = "ВД000000")
     @Column(name = "SERIAL_NUMBER")
     protected Long serial_number;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "document_type")
+    protected OutgoingDocuments outgoingDocuments;
+
+    public void setOutgoingDocuments(OutgoingDocuments outgoingDocuments) {
+        this.outgoingDocuments = outgoingDocuments;
+    }
+
+    public OutgoingDocuments getOutgoingDocuments() {
+        return outgoingDocuments;
+    }
+
 
     public void setSerial_number(Long serial_number) {
         this.serial_number = serial_number;

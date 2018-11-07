@@ -1,0 +1,1 @@
+alter table example_outgoing_documents_proc_instance_link rename to EXAMPLE_OUTGOING_DOCUMENTS_PROC_INSTANCE_LINK__U60315 ;

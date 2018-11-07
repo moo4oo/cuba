@@ -8,6 +8,40 @@
         <datasource id="outgoingDocumentsesDs"
                     class="com.company.example.entity.OutgoingDocuments"
                     view="main-outgoingDocuments-view"/>
+        <collectionDatasource id="procAttachmentsDs"
+                              class="com.haulmont.bpm.entity.ProcAttachment">
+            <query>
+                <![CDATA[select e from bpm$ProcAttachment e 
+where 
+e.procInstance.entity.entityId =
+:ds$outgoingDocumentsesDs
+order by e.createTs]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="procTasksDs"
+                              class="com.haulmont.bpm.entity.ProcTask"
+                              view="procTask-view">
+            <query>
+                <![CDATA[select e from bpm$ProcTask e 
+where e.procInstance.entity.entityId
+= :ds$outgoingDocumentsesDs.id]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="matchingTablesDs"
+                              class="com.company.example.entity.MatchingTable">
+            <query>
+                <![CDATA[select e from example$MatchingTable e
+where e.outgoingDocuments.id
+= :ds$outgoingDocumentsesDs.id]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="filesDs"
+                              class="com.company.example.entity.File">
+            <query>
+                <![CDATA[select e from example$File e
+where e.outDoc.id = :ds$outgoingDocumentsesDs.id]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
@@ -45,10 +79,29 @@
                      caption="Documents"
                      margin="true"
                      spacing="true">
-                    <fieldGroup id="documentsFieldGroup"
-                                datasource="outgoingDocumentsesDs">
-                        <field property="file"/>
-                    </fieldGroup>
+                    <table id="filesTable"
+                           height="100%"
+                           width="100%">
+                        <actions>
+                            <action id="create"
+                                    openType="DIALOG"/>
+                            <action id="edit"
+                                    openType="DIALOG"/>
+                            <action id="add"
+                                    openType="DIALOG"/>
+                        </actions>
+                        <columns>
+                            <column id="file.name"/>
+                            <column id="createTs"/>
+                            <column id="updateTs"/>
+                        </columns>
+                        <rows datasource="filesDs"/>
+                        <buttonsPanel>
+                            <button action="filesTable.create"/>
+                            <button action="filesTable.edit"/>
+                            <button action="filesTable.add"/>
+                        </buttonsPanel>
+                    </table>
                 </tab>
                 <tab id="registrationTab"
                      caption="Registrations"
@@ -68,14 +121,26 @@
                      caption="Matching"
                      margin="true"
                      spacing="true">
-                    <fieldGroup id="matchingFieldGroup"
-                                datasource="outgoingDocumentsesDs">
-                        <field property="matching"/>
-                        <field property="start_date"/>
-                        <field property="end_date"/>
-                        <field property="result"/>
-                        <field property="comments"/>
-                    </fieldGroup>
+                    <table height="100px"
+                           width="100%">
+                        <columns>
+                            <column id="name"/>
+                            <column id="procActor.user"/>
+                            <column id="startDate"/>
+                            <column id="endDate"/>
+                            <column id="outcome"/>
+                            <column id="comment"/>
+                        </columns>
+                        <rows datasource="procTasksDs"/>
+                    </table>
+                    <groupBox id="procActionsBox"
+                              caption="process"
+                              orientation="vertical"
+                              spacing="true"
+                              width="AUTO">
+                        <frame id="procActionsFrame"
+                               screen="procActionsFrame"/>
+                    </groupBox>
                 </tab>
             </tabSheet>
         </scrollBox>

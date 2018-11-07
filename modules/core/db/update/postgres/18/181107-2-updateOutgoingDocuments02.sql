@@ -1,0 +1,3 @@
+alter table EXAMPLE_OUTGOING_DOCUMENTS rename column proc_instance_id to proc_instance_id__u25874 ;
+drop index IDX_EXAMPLE_OUTGOING_DOCUMENTS_ON_PROC_INSTANCE ;
+alter table EXAMPLE_OUTGOING_DOCUMENTS drop constraint FK_EXAMPLE_OUTGOING_DOCUMENTS_ON_PROC_INSTANCE ;

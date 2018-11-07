@@ -1,0 +1,1 @@
+drop table if exists EXAMPLE_OUTGOING_DOCUMENTS_PROC_INSTANCE_LINK__U60315 cascade ;

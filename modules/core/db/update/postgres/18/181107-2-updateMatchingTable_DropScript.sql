@@ -1,0 +1,1 @@
+alter table EXAMPLE_MATCHING_TABLE drop column OUTGOING_DOCUMENTS_ID__U09221 cascade ;

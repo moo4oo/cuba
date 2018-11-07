@@ -30,6 +30,7 @@
                     <field property="email"/>
                     <field property="phone"/>
                     <field property="photo"/>
+                    <field property="sub_division"/>
                 </column>
             </fieldGroup>
             <image id="workersPhotoView"

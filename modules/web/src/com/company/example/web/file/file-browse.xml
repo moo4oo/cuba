@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.company.example.web.file.FileBrowse"
+        focusComponent="filesTable"
+        lookupComponent="filesTable"
+        messagesPack="com.company.example.web.file">
+    <dsContext>
+        <groupDatasource id="filesDs"
+                         class="com.company.example.entity.File"
+                         view="file-view">
+            <query>
+                <![CDATA[select e from example$File e]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="filesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="filesTable"
+                datasource="filesDs">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="filesTable"
+                    width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="file"/>
+            </columns>
+            <rows datasource="filesDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="filesTable.create"/>
+                <button id="editBtn"
+                        action="filesTable.edit"/>
+                <button id="removeBtn"
+                        action="filesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+    </layout>
+</window>
