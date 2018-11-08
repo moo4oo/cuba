@@ -31,6 +31,12 @@ public class SubDivisionEdit extends AbstractEditor<SubDivision> {
         if(subDivision != null) {
             lead_subdivisionField.getLookupAction().setLookupScreenParams(ParamsMap.of("subdiv_key", subDivision));
         }
+        lead_subdivisionField.addValueChangeListener(new ValueChangeListener() {
+            @Override
+            public void valueChanged(ValueChangeEvent e) {
+                
+            }
+        });
 
 
     }
