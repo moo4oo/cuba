@@ -23,6 +23,8 @@ import com.haulmont.cuba.gui.data.GroupDatasource;
 import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
+import com.haulmont.reports.gui.actions.EditorPrintFormAction;
+import com.haulmont.reports.gui.actions.RunReportAction;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -38,10 +40,14 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private ProcActionsFrame procActionsFrame;
     @Inject
     private UniqueNumbersService uniqueNumbersService;
-    @Named("registrationsFieldGroup.registration_number")
-    private TextField registration_numberField;
+    @Named("mainFieldGroup.registration_number")
+    private TextField registration_numberFieldMain;
+    @Named("mainFieldGroup.date")
+    private DateField dateFieldMain;
     @Named("registrationsFieldGroup.date")
     private DateField dateField;
+    @Named("registrationsFieldGroup.registration_number")
+    private TextField registration_numberField;
     @Named("mainFieldGroup.title")
     private TextField titleField;
     @Named("mainFieldGroup.state")
@@ -70,10 +76,13 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private DateField affair_dateField;
     @Inject
     private BpmEntitiesService bpmEntitiesService;
+    @Inject
+    private Button printCardInfoBtn;
 
     @Override
     public void init(Map<String, Object> params) {
         super.init(params);
+        printCardInfoBtn.setAction(new EditorPrintFormAction("docCardReport", this, null));
         titleField.setEditable(false);
         registration_numberField.setEditable(false);
         dateField.setEditable(false);
@@ -82,6 +91,8 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         change_dateField.setEditable(false);
         stateField.setEditable(false);
         dateField.setEditable(false);
+        dateFieldMain.setEditable(false);
+        registration_numberFieldMain.setEditable(false);
         registration_numberField.setEditable(false);
         Entity docs = WindowParams.ITEM.getEntity(params);
         setItem(docs);
@@ -94,7 +105,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     @Override
     protected boolean preCommit() {
         if(getItem() != null)
-        getItem().setDate(new Date());
+        getItem().setChange_date(new Date());
         return super.preCommit();
     }
 
@@ -137,32 +148,29 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         Title title = new Title();
         document_typeField.addValueChangeListener(e -> {
             if(e.getValue() != null) {
-                title.setDocType(((DocumentTypes) e.getValue()).getCode());
-                item.setTitle(title.getStringTitle());
+                updateTitle(item, title);
+
             }
         });
         registration_numberField.addValueChangeListener(e -> {
             if(e.getValue() != null){
-                title.setRegNumber((String)e.getValue());
-                item.setTitle(title.getStringTitle());
+                updateTitle(item, title);
             }
         });
         dateField.addValueChangeListener(e -> {
             if(e.getValue() != null){
-                title.setDate(dateField.getValue().toString());
-                item.setTitle(title.getStringTitle());
+                updateTitle(item, title);
             }
         });
+
         addresseeField.addValueChangeListener(e ->{
             if(e.getValue() != null){
-                title.setAddresse(((Organizations)e.getValue()).getShort_title());
-                item.setTitle(title.getStringTitle());
+                updateTitle(item, title);
             }
         });
         topicField.addValueChangeListener(e -> {
             if(e.getValue() != null){
-                title.setTopic(topicField.getRawValue());
-                item.setTitle(title.getStringTitle());
+                updateTitle(item, title);
             }
         });
         logField.addValueChangeListener(e -> {
@@ -170,15 +178,19 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                 RegistrationLogs logs = (RegistrationLogs)e.getValue();
                 SimpleDateFormat fd = new SimpleDateFormat(logs.getNumber_format().getId());
                 String number = " ";
-                if(item.getLog().getNumber() != null)
-                number = String.format("%0"+item.getLog().getNumber()+"d", item.getSerial_number());
+                if(logs.getNumber() != null)
+                number = String.format("%0"+logs.getNumber()+"d", item.getSerial_number());
                 item.setRegistration_number("Исх - " + fd.format(item.getDate()) + " " + number);
+                registration_numberField.setValue("Исх - " + fd.format(item.getDate()) + " " + number);
             }
         });
 
         affairField.addValueChangeListener(e -> {
             if(e.getValue() != null){
-                affair_dateField.setValue(new Date());
+                if(!e.getPrevValue().equals(e.getValue())) {
+                    item.setAffair_date(new Date());
+                    affair_dateField.setValue(new Date());
+                }
             }
         });
 
@@ -196,7 +208,6 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                         procActors.add(signActor);
                         procInstance.setProcActors(procActors);
                         commit();
-
                         return true;
                     }
                     return false;
@@ -212,6 +223,20 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         initiatorProcActor.setProcRole(initiatorProcRole);
         initiatorProcActor.setProcInstance(procInstance);
         return initiatorProcActor;
+    }
+    private void updateTitle(OutgoingDocuments item, Title title){
+        if(document_typeField.getValue() != null)
+        title.setDocType(((DocumentTypes)document_typeField.getValue()).getCode()+"");
+        if(dateField.getValue() != null)
+        title.setDate(dateField.getValue().toString()+"");
+        if(topicField.getRawValue() != null)
+        title.setTopic(topicField.getRawValue()+"");
+        if(addresseeField.getValue() != null)
+        title.setAddresse(((Organizations)addresseeField.getValue()).getTitle()+"");
+        if(registration_numberFieldMain.getRawValue() != null)
+        title.setRegNumber(registration_numberFieldMain.getRawValue()+"");
+        item.setTitle(title.getStringTitle()+"");
+        titleField.setValue(title.getStringTitle()+"");
     }
     private class Title{
         private String docType = "";

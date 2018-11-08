@@ -119,9 +119,11 @@ where e.outDoc.id = :ds$outgoingDocumentsesDs.id]]>
                 </tab>
                 <tab id="matchingTab"
                      caption="Matching"
+                     expand="procTasksTable"
                      margin="true"
                      spacing="true">
-                    <table height="100px"
+                    <table id="procTasksTable"
+                           height="100px"
                            width="100%">
                         <columns>
                             <column id="name"/>
@@ -144,7 +146,13 @@ where e.outDoc.id = :ds$outgoingDocumentsesDs.id]]>
                 </tab>
             </tabSheet>
         </scrollBox>
-        <frame id="windowActions"
-               screen="editWindowActions"/>
+        <hbox spacing="true"
+              width="100%">
+            <frame id="windowActions"
+                   screen="editWindowActions"/>
+            <button id="printCardInfoBtn"
+                    align="TOP_RIGHT"
+                    caption="Prin Card Report"/>
+        </hbox>
     </layout>
 </window>

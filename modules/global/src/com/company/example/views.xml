@@ -62,6 +62,7 @@
         </property>
         <property name="addressee"
                   view="_minimal">
+            <property name="title"/>
         </property>
         <property name="executor"
                   view="_minimal">

@@ -27,6 +27,8 @@ public class WorkersEdit extends AbstractEditor<Workers> {
     private FileUploadField photoField;
     @Inject
     private Image workersPhotoView;
+    @Named("fieldGroup.patronymic")
+    private TextField patronymicField;
 
     @Override
     public void init(Map<String, Object> params) {
@@ -57,8 +59,22 @@ public class WorkersEdit extends AbstractEditor<Workers> {
 
     }
     private void setFirstLastNames(User user){
-        first_nameField.setValue(user.getFirstName());
-        second_nameField.setValue(user.getLastName());
+        String firstName = user.getFirstName();
+        String secondName = user.getLastName();
+        String middleName = user.getMiddleName();
+        if(firstName == null){
+            firstName = " ";
+        }
+        if(secondName == null){
+            secondName = " ";
+        }
+        if(middleName == null){
+            middleName = " ";
+        }
+        first_nameField.setValue(firstName);
+        second_nameField.setValue(secondName);
+        patronymicField.setValue(middleName);
+
 
     }
     private void displayPhoto(Workers worker){

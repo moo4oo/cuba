@@ -101,6 +101,7 @@ public class OutgoingDocuments extends StandardEntity {
 
 
 
+
     public void setAffair(AffairsNomenclature affair) {
         this.affair = affair;
     }
