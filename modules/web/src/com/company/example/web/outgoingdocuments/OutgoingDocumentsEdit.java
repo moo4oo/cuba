@@ -93,30 +93,35 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         if (getItem() != null) {
             initListeners(getItem());
 
-            List<User> users = getCurrentTaskUser(getItem().getId());
+
             List<ProcTask> tasks = getDocTasks(getItem().getId());
-            if (tasks.size() > 0) {
-                ProcTask task = tasks.get(tasks.size() - 1);
-                if(task.getEndDate() == null)
-                if (task.getName().equals("Регистрация документов"))
-                    if (users.size() > 0)
-                        if (users.get(users.size() - 1).getId().equals(userSession.getUser().getId())) {
-                            registrationBtn.setVisible(true);
-                            registrationBtn.setEnabled(true);
-                            //registrationBtn.setAction(logField.getLookupAction());
-                            currentTask = true;
-                        }
+            for(ProcTask task : tasks) {
+                if (task.getEndDate() == null) {
+                    User user = getCurrentTaskUser(task.getId(), getItem().getId());
+                        if (task.getName().equals("Регистрация документов"))
+                            if (user != null)
+                                if (user.getId().equals(userSession.getUser().getId())) {
+                                    registrationBtn.setVisible(true);
+                                    registrationBtn.setEnabled(true);
+                                    //registrationBtn.setAction(logField.getLookupAction());
+                                    Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
+                                    registrationBtn.setAction(action);
+                                }
+                }
             }
         }
 
     }
 
-    private List<User> getCurrentTaskUser(UUID docUUID) {
+    private User getCurrentTaskUser(UUID procTaskUUID, UUID docUUID) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("procTaskUUID", procTaskUUID);
+        parameters.put("docUUID", docUUID);
         return dataManager.load(User.class).query("select e.procActor.user from bpm$ProcTask e " +
                 "where e.procInstance.entity.entityId " +
-                "= :docUUID")
-                .parameter("docUUID", docUUID)
-                .list();
+                "= :docUUID and e.id = :procTaskUUID")
+                .setParameters(parameters)
+                .one();
     }
 
     private List<ProcTask> getDocTasks(UUID docUUID) {
@@ -203,10 +208,6 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                     number = String.format("%0" + logs.getNumber() + "d", item.getSerial_number());
                 item.setRegistration_number("Исх - " + fd.format(item.getDate()) + " " + number);
                 registration_numberField.setValue("Исх - " + fd.format(item.getDate()) + " " + number);
-                if(currentTask){
-                    Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
-                    registrationBtn.setAction(action);
-                }
 
             }
         });
