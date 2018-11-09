@@ -6,19 +6,13 @@
         lookupComponent="subDivisionsTable"
         messagesPack="com.company.example.web.subdivision">
     <dsContext>
-        <groupDatasource id="subDivisionsDs"
-                         class="com.company.example.entity.SubDivision"
-                         view="subDivision-view">
+        <collectionDatasource id="subDivisionsDs"
+                              class="com.company.example.entity.SubDivision"
+                              view="subDivision-view">
             <query>
                 <![CDATA[select e from example$SubDivision e]]>
             </query>
-        </groupDatasource>
-        <groupDatasource id="workersesDs"
-                         class="com.company.example.entity.Workers">
-            <query>
-                <![CDATA[select e from example$Workers e]]>
-            </query>
-        </groupDatasource>
+        </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
@@ -29,12 +23,14 @@
                 datasource="subDivisionsDs">
             <properties include=".*"/>
         </filter>
-        <groupTable id="subDivisionsTable"
-                    width="100%">
+        <table id="subDivisionsTable"
+               height="300px"
+               width="100%">
             <actions>
                 <action id="create"/>
                 <action id="edit"/>
                 <action id="remove"/>
+                <action id="refresh"/>
             </actions>
             <columns>
                 <column id="code"/>
@@ -43,7 +39,6 @@
                 <column id="departament_head"/>
             </columns>
             <rows datasource="subDivisionsDs"/>
-            <rowsCount/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
@@ -52,7 +47,8 @@
                         action="subDivisionsTable.edit"/>
                 <button id="removeBtn"
                         action="subDivisionsTable.remove"/>
+                <button action="subDivisionsTable.refresh"/>
             </buttonsPanel>
-        </groupTable>
+        </table>
     </layout>
 </window>

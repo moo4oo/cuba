@@ -1,17 +1,21 @@
 package com.company.example.web.outgoingdocuments;
 
 import com.company.example.entity.*;
-import com.haulmont.bpm.entity.*;
-import com.haulmont.bpm.gui.action.ProcAction;
+import com.haulmont.bpm.entity.ProcActor;
+import com.haulmont.bpm.entity.ProcInstance;
+import com.haulmont.bpm.entity.ProcRole;
+import com.haulmont.bpm.entity.ProcTask;
 import com.haulmont.bpm.gui.procactions.ProcActionsFrame;
 import com.haulmont.bpm.service.BpmEntitiesService;
+import com.haulmont.cuba.core.app.DataService;
 import com.haulmont.cuba.core.app.UniqueNumbersService;
 import com.haulmont.cuba.core.entity.Entity;
-import com.haulmont.cuba.core.entity.ScheduledTask;
-import com.haulmont.cuba.core.global.*;
+import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.Metadata;
+import com.haulmont.cuba.core.global.View;
 import com.haulmont.cuba.gui.WindowParams;
 import com.haulmont.cuba.gui.components.*;
-import com.haulmont.cuba.gui.data.CollectionDatasource;
+import com.haulmont.cuba.gui.data.Datasource;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
 import com.haulmont.reports.gui.actions.EditorPrintFormAction;
@@ -66,13 +70,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     @Inject
     private Button printCardInfoBtn;
     @Inject
-    private CollectionDatasource<ProcTask, UUID> procTasksDs;
-    @Inject
     private Button registrationBtn;
-    @Inject
-    private Table<ProcTask> procTasksTable;
-
-    private boolean currentTask = false;
 
     @Override
     public void init(Map<String, Object> params) {
@@ -93,7 +91,6 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         if (getItem() != null) {
             initListeners(getItem());
 
-
             List<ProcTask> tasks = getDocTasks(getItem().getId());
             for(ProcTask task : tasks) {
                 if (task.getEndDate() == null) {
@@ -103,9 +100,9 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                                 if (user.getId().equals(userSession.getUser().getId())) {
                                     registrationBtn.setVisible(true);
                                     registrationBtn.setEnabled(true);
-                                    //registrationBtn.setAction(logField.getLookupAction());
                                     Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
                                     registrationBtn.setAction(action);
+
                                 }
                 }
             }
@@ -144,7 +141,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         super.initNewItem(item);
         item.setSerial_number(uniqueNumbersService.getNextNumber("serial_number_outgoing"));
         item.setRegistration_number(item.getSerial_number() + "");
-        item.setDate(new Date());
+        //item.setDate(new Date());
         item.setExecutor(getCurrentWorker(userSession.getUser().getId()));
         item.setAuthor(userSession.getUser());
         item.setCreate_date(new Date());
@@ -241,19 +238,12 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                         if (signActor != null)
                             procActors.add(signActor);
                         procInstance.setProcActors(procActors);
-                        commit();
                         return true;
                     }
                     return false;
                 })
-                .setBeforeCompleteTaskPredicate(new ProcAction.BeforeActionPredicate() {
-                    @Override
-                    public boolean evaluate() {
-                        showNotification("finished");
-                        return true;
-                    }
-                })
                 .init(PROCESS_CODE, item);
+
 
     }
 

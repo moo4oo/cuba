@@ -1,0 +1,1 @@
+alter table example_sub_division_sub_division_link rename to EXAMPLE_SUB_DIVISION_SUB_DIVISION_LINK__U95689 ;

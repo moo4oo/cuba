@@ -1,0 +1,3 @@
+alter table EXAMPLE_SUB_DIVISION rename column lead_subdivision_id to lead_subdivision_id__u71392 ;
+drop index IDX_EXAMPLE_SUB_DIVISION_ON_LEAD_SUBDIVISION ;
+alter table EXAMPLE_SUB_DIVISION drop constraint FK_EXAMPLE_SUB_DIVISION_ON_LEAD_SUBDIVISION ;

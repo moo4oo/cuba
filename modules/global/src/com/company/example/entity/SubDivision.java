@@ -9,6 +9,10 @@ import com.haulmont.chile.core.annotations.NamePattern;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import java.util.List;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @NamePattern("%s|name")
 @Table(name = "EXAMPLE_SUB_DIVISION")
@@ -24,21 +28,23 @@ public class SubDivision extends StandardEntity {
     @Column(name = "NAME", nullable = false)
     protected String name;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LEAD_SUBDIVISION_ID")
     protected SubDivision lead_subdivision;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEPARTAMENT_HEAD_ID")
     protected Workers departament_head;
+
+    public SubDivision getLead_subdivision() {
+        return lead_subdivision;
+    }
 
     public void setLead_subdivision(SubDivision lead_subdivision) {
         this.lead_subdivision = lead_subdivision;
     }
 
-    public SubDivision getLead_subdivision() {
-        return lead_subdivision;
-    }
+
 
     public void setDepartament_head(Workers departament_head) {
         this.departament_head = departament_head;

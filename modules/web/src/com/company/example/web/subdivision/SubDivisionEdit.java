@@ -1,6 +1,7 @@
 package com.company.example.web.subdivision;
 
 import com.haulmont.bali.util.ParamsMap;
+import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.gui.WindowParam;
 import com.haulmont.cuba.gui.WindowParams;
@@ -32,12 +33,14 @@ public class SubDivisionEdit extends AbstractEditor<SubDivision> {
     protected boolean preCommit() {
         return checkLooping(lead_subdivisionField.getValue());
     }
+
     private boolean checkLooping(SubDivision subDiv){
         SubDivision sd = subDiv;
+        SubDivision item = getItem();
         if(sd!=null)
-        if(!sd.getId().equals(getItem().getId())){
+        if(!sd.getId().equals(item.getId())){
             while(sd != null){
-                if(getItem().getId().equals(sd.getId())){
+                if(item.getId().equals(sd.getId())){
                     showNotification("Select another Subdivision");
                     return false;
                 }
@@ -64,6 +67,8 @@ public class SubDivisionEdit extends AbstractEditor<SubDivision> {
     @Override
     public void init(Map<String, Object> params) {
         super.init(params);
+        Entity div = WindowParams.ITEM.getEntity(params);
+        setItem(div);
 
         SubDivision subDivision = (SubDivision) WindowParams.ITEM.getEntity(params);
         if (subDivision != null) {

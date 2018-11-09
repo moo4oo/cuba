@@ -1,0 +1,5 @@
+create table EXAMPLE_SUB_DIVISION_SUB_DIVISION_LINK (
+    SUB_DIVISION_1_ID uuid,
+    SUB_DIVISION_2_ID uuid,
+    primary key (SUB_DIVISION_1_ID, SUB_DIVISION_2_ID)
+);

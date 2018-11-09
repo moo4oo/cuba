@@ -129,7 +129,7 @@ where e.outDoc.id = :ds$outgoingDocumentsesDs.id]]>
                      margin="true"
                      spacing="true">
                     <table id="procTasksTable"
-                           height="100px"
+                           height="400px"
                            width="100%">
                         <columns>
                             <column id="name"/>

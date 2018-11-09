@@ -1,16 +1,14 @@
 package com.company.example.core;
 
-import com.company.example.entity.MatchingTable;
 import com.company.example.entity.OutgoingDocuments;
 import com.company.example.entity.Workers;
 import com.haulmont.cuba.core.global.DataManager;
-import com.haulmont.cuba.core.global.Metadata;
-import com.haulmont.cuba.security.global.UserSession;
 import org.springframework.stereotype.Component;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.UUID;
 
 @Component(ApprovalHelper.NAME)
@@ -27,6 +25,12 @@ public class ApprovalHelper {
             OutgoingDocuments doc = persistence.getEntityManager().find(OutgoingDocuments.class, entityId);
             if (doc != null) {
                 doc.setState(state);
+                if(state.equals("Registered")){
+                    doc.setDate(new Date());
+                    doc.setTopic(doc.getTopic() + "1");
+
+                }
+
 
             }
             tx.commit();

@@ -2,7 +2,7 @@ package com.company.example.web.subdivision;
 
 import com.company.example.entity.SubDivision;
 import com.haulmont.cuba.gui.components.AbstractLookup;
-import com.haulmont.cuba.gui.data.GroupDatasource;
+import com.haulmont.cuba.gui.data.CollectionDatasource;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.UUID;
 public class SubDivisionBrowse extends AbstractLookup {
 
     @Inject
-    private GroupDatasource<SubDivision, UUID> subDivisionsDs;
+    private CollectionDatasource<SubDivision, UUID> subDivisionsDs;
 
     @Override
     public void init(Map<String, Object> params) {
