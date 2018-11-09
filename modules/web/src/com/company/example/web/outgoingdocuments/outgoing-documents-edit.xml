@@ -107,15 +107,21 @@ where e.outDoc.id = :ds$outgoingDocumentsesDs.id]]>
                      caption="Registrations"
                      margin="true"
                      spacing="true">
-                    <fieldGroup id="registrationsFieldGroup"
-                                datasource="outgoingDocumentsesDs">
-                        <field property="log"/>
-                        <field property="registration_number"/>
-                        <field property="date"/>
-                        <field property="document_description"/>
-                        <field property="affair"/>
-                        <field property="affair_date"/>
-                    </fieldGroup>
+                    <hbox spacing="true">
+                        <fieldGroup id="registrationsFieldGroup"
+                                    datasource="outgoingDocumentsesDs">
+                            <field property="log"/>
+                            <field property="registration_number"/>
+                            <field property="date"/>
+                            <field property="document_description"/>
+                            <field property="affair"/>
+                            <field property="affair_date"/>
+                        </fieldGroup>
+                        <button id="registrationBtn"
+                                caption="Registration"
+                                invoke="onRegistrationBtnClick"
+                                visible="false"/>
+                    </hbox>
                 </tab>
                 <tab id="matchingTab"
                      caption="Matching"

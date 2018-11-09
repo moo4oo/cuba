@@ -1,36 +1,23 @@
 package com.company.example.web.outgoingdocuments;
 
 import com.company.example.entity.*;
-import com.haulmont.bpm.BpmConstants;
 import com.haulmont.bpm.entity.*;
 import com.haulmont.bpm.gui.action.ProcAction;
 import com.haulmont.bpm.gui.procactions.ProcActionsFrame;
 import com.haulmont.bpm.service.BpmEntitiesService;
-import com.haulmont.bpm.service.ProcessFormService;
-import com.haulmont.bpm.service.ProcessMessagesService;
-import com.haulmont.bpm.service.ProcessRuntimeService;
 import com.haulmont.cuba.core.app.UniqueNumbersService;
 import com.haulmont.cuba.core.entity.Entity;
-import com.haulmont.cuba.core.entity.FileDescriptor;
+import com.haulmont.cuba.core.entity.ScheduledTask;
 import com.haulmont.cuba.core.global.*;
 import com.haulmont.cuba.gui.WindowParams;
-import com.haulmont.cuba.gui.app.core.file.FileDownloadHelper;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
-import com.haulmont.cuba.gui.data.DataSupplier;
-import com.haulmont.cuba.gui.data.Datasource;
-import com.haulmont.cuba.gui.data.GroupDatasource;
-import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
 import com.haulmont.reports.gui.actions.EditorPrintFormAction;
-import com.haulmont.reports.gui.actions.RunReportAction;
 
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.transaction.Transaction;
-import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -78,6 +65,14 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private BpmEntitiesService bpmEntitiesService;
     @Inject
     private Button printCardInfoBtn;
+    @Inject
+    private CollectionDatasource<ProcTask, UUID> procTasksDs;
+    @Inject
+    private Button registrationBtn;
+    @Inject
+    private Table<ProcTask> procTasksTable;
+
+    private boolean currentTask = false;
 
     @Override
     public void init(Map<String, Object> params) {
@@ -90,22 +85,52 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         create_dateField.setEditable(false);
         change_dateField.setEditable(false);
         stateField.setEditable(false);
-        dateField.setEditable(false);
         dateFieldMain.setEditable(false);
         registration_numberFieldMain.setEditable(false);
         registration_numberField.setEditable(false);
         Entity docs = WindowParams.ITEM.getEntity(params);
         setItem(docs);
-        if(getItem() != null) {
+        if (getItem() != null) {
             initListeners(getItem());
+
+            List<User> users = getCurrentTaskUser(getItem().getId());
+            List<ProcTask> tasks = getDocTasks(getItem().getId());
+            if (tasks.size() > 0) {
+                ProcTask task = tasks.get(tasks.size() - 1);
+                if(task.getEndDate() == null)
+                if (task.getName().equals("Регистрация документов"))
+                    if (users.size() > 0)
+                        if (users.get(users.size() - 1).getId().equals(userSession.getUser().getId())) {
+                            registrationBtn.setVisible(true);
+                            registrationBtn.setEnabled(true);
+                            //registrationBtn.setAction(logField.getLookupAction());
+                            currentTask = true;
+                        }
+            }
         }
 
-
     }
+
+    private List<User> getCurrentTaskUser(UUID docUUID) {
+        return dataManager.load(User.class).query("select e.procActor.user from bpm$ProcTask e " +
+                "where e.procInstance.entity.entityId " +
+                "= :docUUID")
+                .parameter("docUUID", docUUID)
+                .list();
+    }
+
+    private List<ProcTask> getDocTasks(UUID docUUID) {
+        return dataManager.load(ProcTask.class).query("select e from bpm$ProcTask e " +
+                "where e.procInstance.entity.entityId " +
+                "= :docUUID")
+                .parameter("docUUID", docUUID)
+                .list();
+    }
+
     @Override
     protected boolean preCommit() {
-        if(getItem() != null)
-        getItem().setChange_date(new Date());
+        if (getItem() != null)
+            getItem().setChange_date(new Date());
         return super.preCommit();
     }
 
@@ -121,19 +146,15 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         initListeners(item);
 
     }
-    private Workers getCurrentWorker(UUID userUUID){
+
+    private Workers getCurrentWorker(UUID userUUID) {
         return dataManager.load(Workers.class).query("select e from example$Workers e where " +
                 "e.user.id = :userUUID")
                 .parameter("userUUID", userUUID)
                 .one();
     }
-    private List<ProcTask> getTasks(UUID outDocUUID){
-        return dataManager.load(ProcTask.class).query("select e from bpm$ProcTask e " +
-                "where e.procInstance.entity.entityId = :entityUUID")
-                .parameter("entityUUID", outDocUUID)
-                .list();
-    }
-    private User getDevHeaderUser(User user){
+
+    private User getDevHeaderUser(User user) {
         return dataManager.load(User.class).query("select e.sub_division.departament_head.user from example$Workers e where " +
                 "e.user.id = :userUUID")
                 .parameter("userUUID", user.getId())
@@ -144,50 +165,55 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     @Inject
     private Metadata metadata;
 
-    private void initListeners(OutgoingDocuments item){
+    private void initListeners(OutgoingDocuments item) {
         Title title = new Title();
         document_typeField.addValueChangeListener(e -> {
-            if(e.getValue() != null) {
+            if (e.getValue() != null) {
                 updateTitle(item, title);
 
             }
         });
         registration_numberField.addValueChangeListener(e -> {
-            if(e.getValue() != null){
+            if (e.getValue() != null) {
                 updateTitle(item, title);
             }
         });
         dateField.addValueChangeListener(e -> {
-            if(e.getValue() != null){
+            if (e.getValue() != null) {
                 updateTitle(item, title);
             }
         });
 
-        addresseeField.addValueChangeListener(e ->{
-            if(e.getValue() != null){
+        addresseeField.addValueChangeListener(e -> {
+            if (e.getValue() != null) {
                 updateTitle(item, title);
             }
         });
         topicField.addValueChangeListener(e -> {
-            if(e.getValue() != null){
+            if (e.getValue() != null) {
                 updateTitle(item, title);
             }
         });
         logField.addValueChangeListener(e -> {
-            if(e.getValue() != null){
-                RegistrationLogs logs = (RegistrationLogs)e.getValue();
+            if (e.getValue() != null) {
+                RegistrationLogs logs = (RegistrationLogs) e.getValue();
                 SimpleDateFormat fd = new SimpleDateFormat(logs.getNumber_format().getId());
                 String number = " ";
-                if(logs.getNumber() != null)
-                number = String.format("%0"+logs.getNumber()+"d", item.getSerial_number());
+                if (logs.getNumber() != null)
+                    number = String.format("%0" + logs.getNumber() + "d", item.getSerial_number());
                 item.setRegistration_number("Исх - " + fd.format(item.getDate()) + " " + number);
                 registration_numberField.setValue("Исх - " + fd.format(item.getDate()) + " " + number);
+                if(currentTask){
+                    Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
+                    registrationBtn.setAction(action);
+                }
+
             }
         });
 
         affairField.addValueChangeListener(e -> {
-            if(e.getValue() != null){
-                if(!e.getPrevValue().equals(e.getValue())) {
+            if (e.getValue() != null) {
+                if (!e.getPrevValue().equals(e.getValue())) {
                     item.setAffair_date(new Date());
                     affair_dateField.setValue(new Date());
                 }
@@ -197,20 +223,34 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         procActionsFrame.initializer()
                 .standard()
                 .setBeforeStartProcessPredicate(() -> {
-                    if(commit()){
+                    if (commit()) {
                         ProcInstance procInstance = procActionsFrame.getProcInstance();
                         ProcActor initActor = createProcActor("init", procInstance, userSession.getUser());
-                        ProcActor depActor = createProcActor("dev_head", procInstance, getDevHeaderUser(userSession.getUser()));
+                        ProcActor depActor = null;
+                        try {
+                            depActor = createProcActor("dev_head", procInstance, getDevHeaderUser(userSession.getUser()));
+                        } catch (Exception e) {
+
+                        }
                         ProcActor signActor = createProcActor("sign", procInstance, item.getSign().getUser());
                         Set<ProcActor> procActors = new HashSet<>();
                         procActors.add(initActor);
-                        procActors.add(depActor);
-                        procActors.add(signActor);
+                        if (depActor != null)
+                            procActors.add(depActor);
+                        if (signActor != null)
+                            procActors.add(signActor);
                         procInstance.setProcActors(procActors);
                         commit();
                         return true;
                     }
                     return false;
+                })
+                .setBeforeCompleteTaskPredicate(new ProcAction.BeforeActionPredicate() {
+                    @Override
+                    public boolean evaluate() {
+                        showNotification("finished");
+                        return true;
+                    }
                 })
                 .init(PROCESS_CODE, item);
 
@@ -224,35 +264,41 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         initiatorProcActor.setProcInstance(procInstance);
         return initiatorProcActor;
     }
-    private void updateTitle(OutgoingDocuments item, Title title){
-        if(document_typeField.getValue() != null)
-        title.setDocType(((DocumentTypes)document_typeField.getValue()).getCode()+"");
-        if(dateField.getValue() != null)
-        title.setDate(dateField.getValue().toString()+"");
-        if(topicField.getRawValue() != null)
-        title.setTopic(topicField.getRawValue()+"");
-        if(addresseeField.getValue() != null)
-        title.setAddresse(((Organizations)addresseeField.getValue()).getTitle()+"");
-        if(registration_numberFieldMain.getRawValue() != null)
-        title.setRegNumber(registration_numberFieldMain.getRawValue()+"");
-        item.setTitle(title.getStringTitle()+"");
-        titleField.setValue(title.getStringTitle()+"");
+
+    private void updateTitle(OutgoingDocuments item, Title title) {
+        if (document_typeField.getValue() != null)
+            title.setDocType(((DocumentTypes) document_typeField.getValue()).getCode() + "");
+        if (dateField.getValue() != null)
+            title.setDate(dateField.getValue().toString() + "");
+        if (topicField.getRawValue() != null)
+            title.setTopic(topicField.getRawValue() + "");
+        if (addresseeField.getValue() != null)
+            title.setAddresse(((Organizations) addresseeField.getValue()).getTitle() + "");
+        if (registration_numberFieldMain.getRawValue() != null)
+            title.setRegNumber(registration_numberFieldMain.getRawValue() + "");
+        item.setTitle(title.getStringTitle() + "");
+        titleField.setValue(title.getStringTitle() + "");
     }
-    private class Title{
+
+    private class Title {
         private String docType = "";
         private String regNumber = "";
         private String date = "";
         private String addresse = "";
         private String topic = "";
-        public String getStringTitle(){
-           return docType + " №" + regNumber + " от " + date + " в " + addresse + ", " + topic;
+
+        public String getStringTitle() {
+            return docType + " №" + regNumber + " от " + date + " в " + addresse + ", " + topic;
         }
+
         public String getDocType() {
             return docType;
         }
+
         public void setDocType(String docType) {
             this.docType = docType;
         }
+
         public String getRegNumber() {
             return regNumber;
         }
@@ -286,4 +332,9 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         }
     }
 
+    public void onRegistrationBtnClick() {
+
+        showNotification("Clicked");
+
+    }
 }
