@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.company.example.web.procactor.ProcActorBrowse"
+        focusComponent="procActorsTable"
+        lookupComponent="procActorsTable"
+        messagesPack="com.company.example.web.procactor">
+    <dsContext>
+        <groupDatasource id="procActorsDs"
+                         class="com.haulmont.bpm.entity.ProcActor"
+                         view="procActor-view">
+            <query>
+                <![CDATA[select e from bpm$ProcActor e]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="procActorsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="procActorsTable"
+                datasource="procActorsDs">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="procActorsTable"
+                    width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+            </actions>
+            <columns>
+                <column id="user"/>
+                <column id="procInstance"/>
+                <column id="procRole"/>
+                <column id="order"/>
+            </columns>
+            <rows datasource="procActorsDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="procActorsTable.create"/>
+                <button id="editBtn"
+                        action="procActorsTable.edit"/>
+                <button id="removeBtn"
+                        action="procActorsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+    </layout>
+</window>

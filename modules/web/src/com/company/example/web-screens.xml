@@ -32,4 +32,8 @@
             template="com/company/example/web/file/file-browse.xml"/>
     <screen id="example$File.edit"
             template="com/company/example/web/file/file-edit.xml"/>
+    <screen id="bpm-screen"
+            template="com/company/example/web/forms/bpm-screen.xml"/>
+    <screen id="bpm$ProcActor.browse"
+            template="com/company/example/web/procactor/proc-actor-browse.xml"/>
 </screen-config>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://caption"
+        class="com.company.example.web.forms.BpmScreen"
+        messagesPack="com.company.example.web.forms">
+    <dsContext>
+        <collectionDatasource id="procActorsDs"
+                              class="com.haulmont.bpm.entity.ProcActor"
+                              refreshMode="NEVER"
+                              view="procActor-view"/>
+    </dsContext>
+    <actions>
+        <action id="windowCommit"
+                caption="Ok"
+                icon="icons/ok.png"
+                invoke="onWindowCommit"/>
+        <action id="windowClose"
+                caption="Cancel"
+                icon="icons/cancel.png"
+                invoke="onWindowClose"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="table"
+            spacing="true">
+        <textArea id="commentTextArea"
+                  align="TOP_CENTER"
+                  caption="Comments"
+                  required="true"
+                  width="100%"/>
+        <button id="addButton"
+                invoke="onAddButtonClick"/>
+        <table id="table"
+               width="100%">
+            <actions>
+                <action id="add"/>
+            </actions>
+            <columns>
+                <column id="user"/>
+                <column id="procRole"/>
+            </columns>
+            <rows datasource="procActorsDs"/>
+        </table>
+        <hbox spacing="true">
+            <button id="okBtn"
+                    action="windowCommit"/>
+            <button id="cancelBtn"
+                    action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

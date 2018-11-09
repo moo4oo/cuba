@@ -169,4 +169,25 @@
         <property name="file"
                   view="_minimal"/>
     </view>
+    <view class="com.haulmont.bpm.entity.ProcActor"
+          extends="_local"
+          name="procActor-view">
+        <property name="user"
+                  view="_minimal"/>
+        <property name="procInstance"
+                  view="_minimal">
+            <property name="entity"
+                      view="_minimal">
+                <property name="entityId"/>
+            </property>
+        </property>
+        <property name="procRole"
+                  view="_minimal"/>
+    </view>
+    <view class="com.company.example.entity.Workers"
+          extends="_local"
+          name="workers-view_1">
+        <property name="user"
+                  view="_minimal"/>
+    </view>
 </views>
