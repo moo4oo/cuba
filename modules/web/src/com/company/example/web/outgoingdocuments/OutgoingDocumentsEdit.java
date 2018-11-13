@@ -1,5 +1,6 @@
 package com.company.example.web.outgoingdocuments;
 
+import com.company.example.Title;
 import com.company.example.entity.*;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
@@ -7,7 +8,6 @@ import com.haulmont.bpm.entity.ProcRole;
 import com.haulmont.bpm.entity.ProcTask;
 import com.haulmont.bpm.gui.procactions.ProcActionsFrame;
 import com.haulmont.bpm.service.BpmEntitiesService;
-import com.haulmont.cuba.core.app.DataService;
 import com.haulmont.cuba.core.app.UniqueNumbersService;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.DataManager;
@@ -15,7 +15,6 @@ import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.global.View;
 import com.haulmont.cuba.gui.WindowParams;
 import com.haulmont.cuba.gui.components.*;
-import com.haulmont.cuba.gui.data.Datasource;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
 import com.haulmont.reports.gui.actions.EditorPrintFormAction;
@@ -271,57 +270,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         titleField.setValue(title.getStringTitle() + "");
     }
 
-    private class Title {
-        private String docType = "";
-        private String regNumber = "";
-        private String date = "";
-        private String addresse = "";
-        private String topic = "";
 
-        public String getStringTitle() {
-            return docType + " №" + regNumber + " от " + date + " в " + addresse + ", " + topic;
-        }
-
-        public String getDocType() {
-            return docType;
-        }
-
-        public void setDocType(String docType) {
-            this.docType = docType;
-        }
-
-        public String getRegNumber() {
-            return regNumber;
-        }
-
-        public void setRegNumber(String regNumber) {
-            this.regNumber = regNumber;
-        }
-
-        public String getDate() {
-            return date;
-        }
-
-        public void setDate(String date) {
-            this.date = date;
-        }
-
-        public String getAddresse() {
-            return addresse;
-        }
-
-        public void setAddresse(String addresse) {
-            this.addresse = addresse;
-        }
-
-        public String getTopic() {
-            return topic;
-        }
-
-        public void setTopic(String topic) {
-            this.topic = topic;
-        }
-    }
 
     public void onRegistrationBtnClick() {
 

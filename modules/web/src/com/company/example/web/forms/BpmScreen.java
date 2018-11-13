@@ -6,12 +6,11 @@ import com.haulmont.bpm.entity.ProcInstance;
 import com.haulmont.bpm.entity.ProcRole;
 import com.haulmont.bpm.gui.form.ProcForm;
 import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.global.View;
 import com.haulmont.cuba.gui.WindowContext;
-import com.haulmont.cuba.gui.components.AbstractWindow;
-import com.haulmont.cuba.gui.components.Action;
-import com.haulmont.cuba.gui.components.ResizableTextArea;
-import com.haulmont.cuba.gui.components.Table;
+import com.haulmont.cuba.gui.WindowManager;
+import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
 import com.haulmont.cuba.gui.data.Datasource;
 import com.haulmont.cuba.gui.data.DsBuilder;
@@ -29,6 +28,10 @@ public class BpmScreen extends AbstractWindow implements ProcForm {
     @Inject
     private ResizableTextArea commentTextArea;
     private boolean comm = false;
+    @Inject
+    private Metadata metadata;
+    @Inject
+    private DataManager dataManager;
 
     @Override
     public String getComment() {
@@ -36,6 +39,8 @@ public class BpmScreen extends AbstractWindow implements ProcForm {
     }
 
     private ProcRole procRole = null;
+    private ProcInstance procInstance = null;
+    private List<ProcActor> actors = new ArrayList<>();
 
 
     @Override
@@ -50,12 +55,13 @@ public class BpmScreen extends AbstractWindow implements ProcForm {
     @Override
     public void init(Map<String, Object> params) {
         super.init(params);
-        Set<ProcActor> procActors = ((ProcInstance) params.get("procInstance")).getProcActors();
+        procInstance =((ProcInstance) params.get("procInstance"));
+        Set<ProcActor> procActors = procInstance.getProcActors();
         for (ProcActor actor : procActors) {
-
             if (actor.getProcRole().getCode().equals("matching")) {
                 procActorsDs.includeItem(actor);
                 procRole = actor.getProcRole();
+
             }
         }
 
@@ -68,6 +74,9 @@ public class BpmScreen extends AbstractWindow implements ProcForm {
 
     public void onWindowCommit() {
         if (commentTextArea.getValue() != null) {
+            for(ProcActor actor : actors){
+                dataManager.commit(actor);
+            }
             close(COMMIT_ACTION_ID);
         } else {
             showNotification("COMMENTS REQUIRED");
@@ -75,9 +84,23 @@ public class BpmScreen extends AbstractWindow implements ProcForm {
     }
 
     public void onWindowClose() {
+        for(ProcActor actor : actors){
+            procActorsDs.excludeItem(actor);
+        }
         close(CLOSE_ACTION_ID);
     }
+
     public void onAddButtonClick() {
+        openLookup(User.class, items -> {
+            User user = (User) items.toArray()[0];
+            ProcActor actor = metadata.create(ProcActor.class);
+            actor.setProcRole(procRole);
+            actor.setUser(user);
+            actor.setProcInstance(procInstance);
+            actors.add(actor);
+            procActorsDs.includeItem(actor);
+
+        }, WindowManager.OpenType.DIALOG);
 
     }
 }

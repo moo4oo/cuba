@@ -77,7 +77,10 @@
             </property>
         </property>
         <property name="author"
-                  view="_minimal"/>
+                  view="_minimal">
+            <property name="firstName"/>
+            <property name="lastName"/>
+        </property>
         <property name="file"
                   view="_minimal"/>
         <property name="log"

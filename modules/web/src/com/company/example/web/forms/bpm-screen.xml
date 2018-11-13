@@ -28,12 +28,17 @@
                   caption="Comments"
                   required="true"
                   width="100%"/>
-        <button id="addButton"
-                invoke="onAddButtonClick"/>
+        <hbox spacing="true">
+            <button id="addButton"
+                    caption="Add"
+                    invoke="onAddButtonClick"/>
+            <button action="table.refresh"/>
+        </hbox>
         <table id="table"
                width="100%">
             <actions>
                 <action id="add"/>
+                <action id="refresh"/>
             </actions>
             <columns>
                 <column id="user"/>
