@@ -170,7 +170,9 @@
           extends="_local"
           name="file-view">
         <property name="file"
-                  view="_minimal"/>
+                  view="_local"/>
+        <property name="outDoc"
+                  view="main-outgoingDocuments-view"/>
     </view>
     <view class="com.haulmont.bpm.entity.ProcActor"
           extends="_local"

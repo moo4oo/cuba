@@ -17,7 +17,10 @@
         <fieldGroup id="fieldGroup"
                     datasource="fileDs">
             <column width="250px">
+                <field property="outDoc"/>
                 <field property="file"/>
+                <field property="create_time"/>
+                <field property="update_time"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"

@@ -9,7 +9,7 @@
         <item screen="example$RegistrationLogs.browse"/>
         <item screen="example$AffairsNomenclature.browse"/>
         <item screen="example$OutgoingDocuments.browse"/>
-        <item screen="example$File.browse"/>
         <item screen="bpm$ProcActor.browse"/>
+        <item screen="example$File.browse"/>
     </menu>
 </menu-config>

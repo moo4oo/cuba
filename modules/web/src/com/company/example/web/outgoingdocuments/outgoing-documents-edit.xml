@@ -36,7 +36,8 @@ where e.outgoingDocuments.id
             </query>
         </collectionDatasource>
         <collectionDatasource id="filesDs"
-                              class="com.company.example.entity.File">
+                              class="com.company.example.entity.File"
+                              view="file-view">
             <query>
                 <![CDATA[select e from example$File e
 where e.outDoc.id = :ds$outgoingDocumentsesDs.id]]>
@@ -92,14 +93,16 @@ where e.outDoc.id = :ds$outgoingDocumentsesDs.id]]>
                         </actions>
                         <columns>
                             <column id="file.name"/>
-                            <column id="createTs"/>
-                            <column id="updateTs"/>
+                            <column id="create_time"/>
+                            <column id="update_time"/>
                         </columns>
                         <rows datasource="filesDs"/>
                         <buttonsPanel>
-                            <button action="filesTable.create"/>
-                            <button action="filesTable.edit"/>
-                            <button action="filesTable.add"/>
+                            <button id="createButton"
+                                    caption="Create"
+                                    invoke="onCreateButtonClick"/>
+                            <button id="editButton"
+                                    action="filesTable.edit"/>
                         </buttonsPanel>
                     </table>
                 </tab>

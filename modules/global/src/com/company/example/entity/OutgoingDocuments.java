@@ -54,7 +54,7 @@ public class OutgoingDocuments extends StandardEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "FILE_ID")
-    protected FileDescriptor file;
+    protected File file;
 
     @Lob
     @Column(name = "DESCRIPTION")
@@ -95,6 +95,15 @@ public class OutgoingDocuments extends StandardEntity {
     @Column(name = "AFFAIR_DATE")
     protected Date affair_date;
 
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+
 
 
 
@@ -129,14 +138,6 @@ public class OutgoingDocuments extends StandardEntity {
         return serial_number;
     }
 
-
-    public FileDescriptor getFile() {
-        return file;
-    }
-
-    public void setFile(FileDescriptor file) {
-        this.file = file;
-    }
 
 
 

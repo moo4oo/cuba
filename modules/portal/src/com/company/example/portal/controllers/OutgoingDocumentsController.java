@@ -5,7 +5,6 @@ import com.company.example.entity.*;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.cuba.core.app.DataService;
 import com.haulmont.cuba.core.app.UniqueNumbersService;
-import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.*;
 import com.haulmont.cuba.portal.security.PortalSessionProvider;
 import com.haulmont.cuba.restapi.Converter;
@@ -112,19 +111,15 @@ public class OutgoingDocumentsController {
                                @RequestParam(value = "addressee") String addresseeId,
                                @RequestParam(value = "full_name") String full_name,
                                @RequestParam(value = "topic") String topic,
-                               @RequestParam(value = "executor") String executorId,
                                @RequestParam(value = "sign") String signId,
                                @RequestParam(value = "file") String fileId,
                                @RequestParam(value = "description") String description,
-                               @RequestParam(value = "title") String title,
-                               @RequestParam(value = "author") String authorId,
                                @RequestParam(value = "log") String logId,
                                @RequestParam(value = "document_description") String document_description,
                                @RequestParam(value = "affair") String affairId) {
         Title t = new Title();
-
-        OutgoingDocuments doc = submitDoc(t, dataManager.create(OutgoingDocuments.class), docTypeId, addresseeId, full_name, topic, executorId, signId, fileId, description,
-                title, authorId, logId, document_description, affairId);
+        OutgoingDocuments doc = submitCreateDoc(t, dataManager.create(OutgoingDocuments.class), docTypeId,
+                addresseeId, full_name, topic, signId, fileId, description, logId, document_description, affairId);
         MetaClass metaClass = metadata.getClassNN(OutgoingDocuments.class);
         Converter converter = new JSONConverter();
 
@@ -132,7 +127,6 @@ public class OutgoingDocumentsController {
             doc.setSerial_number(uniqueNumbersService.getNextNumber("serial_number_outgoing"));
             doc.setRegistration_number(doc.getSerial_number() + "");
             doc.setTitle(t.getStringTitle());
-            doc.setCreate_date(new Date());
             dataManager.commit(doc);
             Metadata metadata = AppBeans.get(Metadata.NAME);
             View view = metadata.getViewRepository().getView(metaClass, "main-outgoingDocuments-view");
@@ -142,9 +136,9 @@ public class OutgoingDocumentsController {
         }
     }
 
-    private OutgoingDocuments submitDoc(Title t, OutgoingDocuments doc, String docTypeId, String addresseeId, String full_name, String topic, String executorId,
-                                        String signId, String fileId, String description, String title, String authorId,
-                                        String logId, String document_description, String affairId) {
+    private OutgoingDocuments submitCreateDoc(Title t, OutgoingDocuments doc, String docTypeId, String addresseeId, String full_name, String topic,
+                                              String signId, String fileId, String description,
+                                              String logId, String document_description, String affairId) {
         doc.setAuthor(PortalSessionProvider.getUserSession().getUser());
         if (docTypeId != null && !docTypeId.equals("")) {
             doc.setDocument_type(dataManager.load(LoadContext.create(DocumentTypes.class).setId(UUID.fromString(docTypeId))));
@@ -164,14 +158,14 @@ public class OutgoingDocumentsController {
             t.setTopic(topic);
         }
 
-        if (executorId != null && !executorId.equals("")) {
-            User user = PortalSessionProvider.getUserSession().getUser();
-            doc.setExecutor(dataManager.load(Workers.class).query("select e from example$Workers e where e.user.id = :userId")
-                    .parameter("userId", user.getId()).one());
-        }
+        User user = PortalSessionProvider.getUserSession().getUser();
+        doc.setExecutor(dataManager.load(Workers.class).query("select e from example$Workers e where e.user.id = :userId")
+                .parameter("userId", user.getId()).one());
 
         if (signId != null && !signId.equals(""))
             doc.setSign(dataManager.load(LoadContext.create(Workers.class).setId(UUID.fromString(signId))));
+
+        doc.setCreate_date(new Date());
 
         //if(fileId != null && !fileId.equals(""))
         //doc.setFile(dataManager.load(LoadContext.create(FileDescriptor.class).setId(fileId)));
@@ -179,27 +173,23 @@ public class OutgoingDocumentsController {
         if (description != null && !description.equals(""))
             doc.setDescription(description);
 
-        if (authorId != null && !authorId.equals(""))
-            doc.setAuthor(dataManager.load(LoadContext.create(User.class).setId(UUID.fromString(authorId))));
-
         if (logId != null && !logId.equals(""))
             doc.setLog(dataManager.load(LoadContext.create(RegistrationLogs.class).setId(UUID.fromString(logId))));
 
         if (document_description != null && !document_description.equals(""))
             doc.setDocument_description(document_description);
 
-        if (affairId != null && !affairId.equals(""))
+        if (affairId != null && !affairId.equals("")) {
             doc.setAffair(dataManager.load(LoadContext.create(AffairsNomenclature.class).setId(UUID.fromString(affairId))));
+            doc.setAffair_date(new Date());
+        }
 
         return doc;
     }
 
     private OutgoingDocuments submitEditDoc(Title t, OutgoingDocuments doc, String docTypeId, String addresseeId, String full_name, String topic, String executorId,
-                                            String signId, String fileId, String description, String title, String authorId,
+                                            String signId, String fileId, String description,
                                             String logId, String document_description, String affairId) {
-        if(authorId != null && !authorId.equals("") && !doc.getAuthor().getId().toString().equals(authorId)){
-            doc.setAuthor(dataManager.load(LoadContext.create(User.class).setId(UUID.fromString(docTypeId))));
-        }
         if (docTypeId != null && !docTypeId.equals("") && !doc.getDocument_type().getId().toString().equals(docTypeId)) {
             doc.setDocument_type(dataManager.load(LoadContext.create(DocumentTypes.class).setId(UUID.fromString(docTypeId))));
             t.setDocType(doc.getDocument_type().getCode());
@@ -252,8 +242,6 @@ public class OutgoingDocumentsController {
                              @RequestParam(value = "sign") String signId,
                              @RequestParam(value = "file") String fileId,
                              @RequestParam(value = "description") String description,
-                             @RequestParam(value = "title") String title,
-                             @RequestParam(value = "author") String authorId,
                              @RequestParam(value = "log") String logId,
                              @RequestParam(value = "document_description") String document_description,
                              @RequestParam(value = "affair") String affairId) {
@@ -263,8 +251,7 @@ public class OutgoingDocumentsController {
                         .setParameter("docId", UUID.fromString(docId)))
                 .setView("main-outgoingDocuments-view");
         OutgoingDocuments doc = submitEditDoc(t, dataManager.load(docLoadContext),
-                docTypeId, addresseeId, full_name, topic, executorId, signId, fileId, description,
-                title, authorId, logId, document_description, affairId);
+                docTypeId, addresseeId, full_name, topic, executorId, signId, fileId, description, logId, document_description, affairId);
 
 
         MetaClass metaClass = metadata.getClassNN(OutgoingDocuments.class);
@@ -279,6 +266,39 @@ public class OutgoingDocumentsController {
         }
 
     }
+
+    @RequestMapping(value = "/addfile", method = RequestMethod.GET)
+    public String add(Model model){
+
+        return "addfile";
+    }
+    @PostMapping("/addfiletodoc")
+    @ResponseBody
+    public String addFileToDoc(@RequestParam(value = "doc") String docId,
+                               @RequestParam(value = "file") String fileId){
+
+        LoadContext<File> fileLoadContext = new LoadContext<>(File.class)
+                .setQuery(LoadContext.createQuery("select e from example$File e where e.id = :fileId")
+                        .setParameter("fileId", UUID.fromString(fileId)))
+                .setView("file-view");
+        LoadContext<OutgoingDocuments> docLoadContext = new LoadContext<>(OutgoingDocuments.class)
+                .setQuery(LoadContext.createQuery("select e from example$OutgoingDocuments e where e.id = :docId")
+                        .setParameter("docId", UUID.fromString(docId)))
+                .setView("main-outgoingDocuments-view");
+        File file = dataManager.load(fileLoadContext);
+        file.setOutDoc(dataManager.load(docLoadContext));
+        MetaClass metaClass = metadata.getClassNN(File.class);
+        Converter converter = new JSONConverter();
+        try {
+
+            dataManager.commit(file);
+            return converter.process(file, metaClass, fileLoadContext.getView());
+        } catch (Exception e) {
+            return "fail";
+        }
+    }
+
+
 
 
 }

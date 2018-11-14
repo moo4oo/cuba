@@ -28,12 +28,12 @@
             template="com/company/example/web/outgoingdocuments/outgoing-documents-browse.xml"/>
     <screen id="example$OutgoingDocuments.edit"
             template="com/company/example/web/outgoingdocuments/outgoing-documents-edit.xml"/>
-    <screen id="example$File.browse"
-            template="com/company/example/web/file/file-browse.xml"/>
-    <screen id="example$File.edit"
-            template="com/company/example/web/file/file-edit.xml"/>
     <screen id="bpm-screen"
             template="com/company/example/web/forms/bpm-screen.xml"/>
     <screen id="bpm$ProcActor.browse"
             template="com/company/example/web/procactor/proc-actor-browse.xml"/>
+    <screen id="example$File.browse"
+            template="com/company/example/web/file/file-browse.xml"/>
+    <screen id="example$File.edit"
+            template="com/company/example/web/file/file-edit.xml"/>
 </screen-config>

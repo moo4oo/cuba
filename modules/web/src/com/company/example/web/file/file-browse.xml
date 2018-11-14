@@ -31,7 +31,10 @@
                 <action id="remove"/>
             </actions>
             <columns>
+                <column id="outDoc"/>
                 <column id="file"/>
+                <column id="create_time"/>
+                <column id="update_time"/>
             </columns>
             <rows datasource="filesDs"/>
             <rowsCount/>

@@ -13,6 +13,7 @@ import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.global.View;
+import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.WindowParams;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.security.entity.User;
@@ -70,6 +71,12 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private Button printCardInfoBtn;
     @Inject
     private Button registrationBtn;
+    @Inject
+    private Table<File> filesTable;
+    @Inject
+    private Button createButton;
+    @Inject
+    private Button editButton;
 
     @Override
     public void init(Map<String, Object> params) {
@@ -242,7 +249,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                     return false;
                 })
                 .init(PROCESS_CODE, item);
-
+        
 
     }
 
@@ -270,11 +277,14 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         titleField.setValue(title.getStringTitle() + "");
     }
 
-
-
-    public void onRegistrationBtnClick() {
-
-        showNotification("Clicked");
-
+    public void onCreateButtonClick() {
+        Map<String,Object> params = new HashMap<>();
+        params.put("doc", getItem());
+        //openWindow("example$File.edit", WindowManager.OpenType.DIALOG, params);
+        Editor editor = openEditor("example$File.edit", new File(), WindowManager.OpenType.DIALOG, params);
+        editor.addCloseWithCommitListener(() -> {
+            filesTable.getDatasource().refresh();
+            //getItem().setFiles
+        });
     }
 }

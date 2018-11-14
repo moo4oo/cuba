@@ -150,6 +150,8 @@ create table EXAMPLE_FILE (
     --
     OUT_DOC_ID uuid,
     FILE_ID uuid,
+    CREATE_TIME date,
+    UPDATE_TIME date,
     --
     primary key (ID)
 )^
