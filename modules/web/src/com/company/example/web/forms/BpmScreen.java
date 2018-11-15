@@ -1,22 +1,15 @@
 package com.company.example.web.forms;
 
-import com.company.example.entity.OutgoingDocuments;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
 import com.haulmont.bpm.entity.ProcRole;
 import com.haulmont.bpm.gui.form.ProcForm;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.Metadata;
-import com.haulmont.cuba.core.global.View;
-import com.haulmont.cuba.gui.WindowContext;
 import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
-import com.haulmont.cuba.gui.data.Datasource;
-import com.haulmont.cuba.gui.data.DsBuilder;
-import com.haulmont.cuba.gui.xml.layout.ComponentsFactory;
 import com.haulmont.cuba.security.entity.User;
-import com.haulmont.cuba.security.global.UserSession;
 
 import javax.inject.Inject;
 import java.util.*;

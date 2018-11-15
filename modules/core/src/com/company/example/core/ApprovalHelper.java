@@ -38,11 +38,4 @@ public class ApprovalHelper {
     }
 
 
-
-    private Workers getCurrentWorker(UUID userUUID){
-        return dataManager.load(Workers.class).query("select e from example$Workers e where " +
-                "e.user.id = :userUUID")
-                .parameter("userUUID", userUUID)
-                .one();
-    }
 }

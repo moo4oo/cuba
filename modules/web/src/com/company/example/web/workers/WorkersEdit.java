@@ -1,10 +1,8 @@
 package com.company.example.web.workers;
 
-import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.gui.WindowParams;
 import com.haulmont.cuba.gui.components.*;
 import com.company.example.entity.Workers;
-import com.haulmont.cuba.gui.data.Datasource;
 import com.haulmont.cuba.security.entity.User;
 
 import javax.inject.Inject;
@@ -15,8 +13,6 @@ import java.util.Objects;
 public class WorkersEdit extends AbstractEditor<Workers> {
 
 
-    @Inject
-    private FieldGroup fieldGroup;
     @Named("fieldGroup.user")
     private PickerField userField;
     @Named("fieldGroup.second_name")
