@@ -10,6 +10,7 @@ import com.haulmont.cuba.portal.security.PortalSessionProvider;
 import com.haulmont.cuba.restapi.Converter;
 import com.haulmont.cuba.restapi.JSONConverter;
 import com.haulmont.cuba.security.entity.User;
+import com.haulmont.cuba.security.global.UserSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -84,22 +85,17 @@ public class OutgoingDocumentsController {
 
     @RequestMapping(value = "/editdoc", method = RequestMethod.GET)
     public String edit(@RequestParam(value = "docid") String id, Model model) {
-        if (PortalSessionProvider.getUserSession().isAuthenticated()) {
             LoadContext doc = LoadContext.create(OutgoingDocuments.class).setView("main-outgoingDocuments-view");
             doc.setQueryString("select e from example$OutgoingDocuments e where e.id = :id").setParameter("id", UUID.fromString(id));
             model.addAttribute("doc", dataService.load(doc));
 
 
-        }
         return "edit";
 
     }
 
     @RequestMapping(value = "/createdoc", method = RequestMethod.GET)
     public String edit(Model model) {
-        if (PortalSessionProvider.getUserSession().isAuthenticated()) {
-
-        }
         return "create";
 
     }

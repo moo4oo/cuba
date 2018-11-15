@@ -73,10 +73,8 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private Button registrationBtn;
     @Inject
     private Table<File> filesTable;
-    @Inject
-    private Button createButton;
-    @Inject
-    private Button editButton;
+
+
 
     @Override
     public void init(Map<String, Object> params) {

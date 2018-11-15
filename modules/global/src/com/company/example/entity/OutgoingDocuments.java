@@ -12,7 +12,9 @@ import com.haulmont.chile.core.annotations.Composition;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.global.DeletePolicy;
 import com.haulmont.bpm.entity.ProcInstance;
+import com.haulmont.cuba.core.entity.annotation.Listeners;
 
+@Listeners("example_OutgoingDocumentsListener")
 @Table(name = "EXAMPLE_OUTGOING_DOCUMENTS")
 @Entity(name = "example$OutgoingDocuments")
 public class OutgoingDocuments extends StandardEntity {
@@ -60,8 +62,7 @@ public class OutgoingDocuments extends StandardEntity {
     @Column(name = "DESCRIPTION")
     protected String description;
 
-    @NotNull
-    @Column(name = "TITLE", nullable = false)
+    @Column(name = "TITLE")
     protected String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -69,8 +70,7 @@ public class OutgoingDocuments extends StandardEntity {
     protected User author;
 
     @Temporal(TemporalType.DATE)
-    @NotNull
-    @Column(name = "CREATE_DATE", nullable = false)
+    @Column(name = "CREATE_DATE")
     protected Date create_date;
 
     @Temporal(TemporalType.DATE)
