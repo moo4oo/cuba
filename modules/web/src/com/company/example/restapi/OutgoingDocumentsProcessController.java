@@ -62,7 +62,6 @@ public class OutgoingDocumentsProcessController {
     @RequestMapping(value = "/finishtask", method = RequestMethod.POST)
     @ResponseBody
     public String finishTask(@RequestBody FinishTaskRequest taskBody){
-        try {
 
             ProcTask procTask = dataManager.load(LoadContext.create(ProcTask.class).setId(UUID.fromString(taskBody.getTaskId())).setView("procTask-view"));
             if(procTask.getName()!=null)
@@ -76,7 +75,6 @@ public class OutgoingDocumentsProcessController {
                             procRole = actor.getProcRole();
                         }
                     }
-
                     for (String id : taskBody.getMatchers()) {
                         ProcActor actor = metadata.create(ProcActor.class);
                         actor.setProcRole(procRole);
@@ -88,10 +86,15 @@ public class OutgoingDocumentsProcessController {
             }
             processRuntimeService.completeProcTask(procTask, taskBody.getOutcome(), taskBody.getComment(), null);
 
+        try {
 
-            return "task finished";
+            MetaClass metaClass = metadata.getClassNN(ProcTask.class);
+            Converter converter = new JSONConverter();
+            Metadata metadata = AppBeans.get(Metadata.NAME);
+            View view = metadata.getViewRepository().getView(metaClass, "procTask-view");
+            return converter.process(procTask, metaClass, view);
         }catch (Exception e) {
-            return "fail task finish";
+            return e.fillInStackTrace().toString();
         }
     }
 
@@ -103,11 +106,14 @@ public class OutgoingDocumentsProcessController {
         User init = dataManager.load(LoadContext.create(User.class).setId(UUID.fromString(taskBody.getInit())));
         User sign = dataManager.load(LoadContext.create(User.class).setId(UUID.fromString(taskBody.getSign())));
 
-        SubDivision initSubDivision = dataManager.load(LoadContext.create(SubDivision.class)
+        OutgoingDocuments doc = dataManager.load(LoadContext.create(OutgoingDocuments.class).setId(UUID.fromString(taskBody.getDocId()))
+                .setView("main-outgoingDocuments-view"));
+        Workers initWorker = dataManager.load(LoadContext.create(Workers.class)
                 .setQuery(LoadContext
-                        .createQuery("select e.sub_division from example$Workers e where e.user.id = :id")
+                        .createQuery("select e from example$Workers e where e.user.id = :id")
                         .setParameter("id", init.getId()))
-        .setView("subDivision-view"));
+                .setView("workers-view"));
+        SubDivision initSubDivision = initWorker.getSub_division();
         Workers subDivHead = null;
         if(initSubDivision != null)
         subDivHead = initSubDivision.getDepartament_head();
@@ -120,7 +126,8 @@ public class OutgoingDocumentsProcessController {
         }
         BpmEntitiesService.ProcInstanceDetails procInstanceDetails = new BpmEntitiesService.ProcInstanceDetails(CODE)
                 .addProcActor("init", init)
-                .addProcActor("sign", sign);
+                .addProcActor("sign", sign)
+                .setEntity(doc);
         if(dev_head != null){
                 procInstanceDetails.addProcActor("dev_head", dev_head);
         }
@@ -131,13 +138,14 @@ public class OutgoingDocumentsProcessController {
         ProcInstance procInstance = bpmEntitiesService.createProcInstance(procInstanceDetails);
         processRuntimeService.startProcess(procInstance, "start process", null);
 
-        MetaClass metaClass = metadata.getClassNN(OutgoingDocuments.class);
+        MetaClass metaClass = metadata.getClassNN(ProcInstance.class);
         Converter converter = new JSONConverter();
         try {
-            //return converter.process((List) entities, metaClass, docsLoadContext.getView());
-            return "success";
+            View view = metadata.getViewRepository().getView(metadata.getClass(ProcInstance.class), "procInstance-full");
+            return converter.process(procInstance, metaClass, view);
+            //return "success";
         } catch (Exception e) {
-            return "";
+            return e.toString();
         }
     }
 }
