@@ -7,7 +7,10 @@
                   view="_minimal">
         </property>
         <property name="departament_head"
-                  view="_minimal"/>
+                  view="_minimal">
+            <property name="user"
+                      view="_minimal"/>
+        </property>
     </view>
     <view class="com.company.example.entity.Workers"
           extends="_local"
@@ -16,6 +19,7 @@
                   view="_minimal">
             <property name="firstName"/>
             <property name="lastName"/>
+            <property name="middleName"/>
         </property>
         <property name="photo"
                   view="_minimal"/>
@@ -165,6 +169,11 @@
           name="procTask-view">
         <property name="procActor"
                   view="_minimal"/>
+        <property name="procInstance"
+                  view="_minimal">
+            <property name="procActors"
+                      view="_minimal"/>
+        </property>
     </view>
     <view class="com.company.example.entity.File"
           extends="_local"

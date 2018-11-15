@@ -36,8 +36,12 @@ public class OutgoingDocumentsListener implements BeforeInsertEntityListener<Out
         entity.setCreate_date(new Date());
         Title title = new Title();
 
+        String date = null;
+        if(entity.getDate() != null){
+            date = entity.getDate().toString();
+        }
         entity.setTitle(getTitleString(title, entity.getTopic(), entity.getAddressee().getShort_title(),
-                entity.getDocument_type().getName(), entity.getDate().toString(), entity.getRegistration_number()));
+                entity.getDocument_type().getName(), date, entity.getRegistration_number()));
 
 
         User user = userSessionSource.getUserSession().getUser();

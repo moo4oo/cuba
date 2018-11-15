@@ -33,6 +33,7 @@ public class OutgoingDocumentsController {
     @Inject
     private UniqueNumbersService uniqueNumbersService;
 
+
     @RequestMapping(value = "/alloutdoc", method = RequestMethod.GET)
     @ResponseBody
     public String outDocs() {
