@@ -54,10 +54,6 @@ public class OutgoingDocuments extends StandardEntity {
     @JoinColumn(name = "SIGN_ID")
     protected Workers sign;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FILE_ID")
-    protected File file;
-
     @Lob
     @Column(name = "DESCRIPTION")
     protected String description;
@@ -95,13 +91,20 @@ public class OutgoingDocuments extends StandardEntity {
     @Column(name = "AFFAIR_DATE")
     protected Date affair_date;
 
-    public File getFile() {
-        return file;
+    @JoinTable(name = "EXAMPLE_OUTGOING_DOCUMENTS_FILE_DESCRIPTOR_LINK",
+        joinColumns = @JoinColumn(name = "OUTGOING_DOCUMENTS_ID"),
+        inverseJoinColumns = @JoinColumn(name = "FILE_DESCRIPTOR_ID"))
+    @ManyToMany
+    protected List<FileDescriptor> file_des;
+
+    public void setFile_des(List<FileDescriptor> file_des) {
+        this.file_des = file_des;
     }
 
-    public void setFile(File file) {
-        this.file = file;
+    public List<FileDescriptor> getFile_des() {
+        return file_des;
     }
+
 
 
 

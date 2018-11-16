@@ -43,7 +43,6 @@ public class SubDivisionEdit extends AbstractEditor<SubDivision> {
                 }catch (Exception e){
                     return true;
                 }
-                //sd = sd.getLead_subdivision();
             }
         }else {
             return false;
@@ -77,8 +76,5 @@ public class SubDivisionEdit extends AbstractEditor<SubDivision> {
                     }
             }
         });
-
-
-
     }
 }

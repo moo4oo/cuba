@@ -85,8 +85,6 @@
             <property name="firstName"/>
             <property name="lastName"/>
         </property>
-        <property name="file"
-                  view="_minimal"/>
         <property name="log"
                   view="_minimal">
             <property name="code"/>
@@ -96,6 +94,8 @@
         </property>
         <property name="affair"
                   view="_minimal"/>
+        <property name="file_des"
+                  view="_local"/>
     </view>
     <view class="com.company.example.entity.OutgoingDocuments"
           extends="_local"
@@ -201,14 +201,6 @@
             <property name="procAttachments"
                       view="_local"/>
         </property>
-    </view>
-    <view class="com.company.example.entity.File"
-          extends="_local"
-          name="file-view">
-        <property name="file"
-                  view="_local"/>
-        <property name="outDoc"
-                  view="main-outgoingDocuments-view"/>
     </view>
     <view class="com.haulmont.bpm.entity.ProcActor"
           extends="_local"

@@ -10,6 +10,12 @@
                   ref="cuba_ServerSelector"/>
         <property name="remoteServices">
             <map>
+                <entry key="example_UniqueNumbersHelperService"
+                       value="com.company.example.listener.UniqueNumbersHelperService"/>
+                <entry key="example_EditWorkersService"
+                       value="com.company.example.listener.EditWorkersService"/>
+                <entry key="example_OutgoingDocumentsService"
+                       value="com.company.example.listener.OutgoingDocumentsService"/>
             </map>
         </property>
     </bean>

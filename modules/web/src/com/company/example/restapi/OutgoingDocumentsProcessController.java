@@ -26,6 +26,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping(value = "/restapi", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class OutgoingDocumentsProcessController {
+
     @Inject
     private DataManager dataManager;
     @Inject
@@ -139,7 +140,6 @@ public class OutgoingDocumentsProcessController {
         try {
             View view = metadata.getViewRepository().getView(metadata.getClass(ProcInstance.class), "procInstance-full");
             return converter.process(procInstance, metaClass, view);
-            //return "success";
         } catch (Exception e) {
             return e.toString();
         }

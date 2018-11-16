@@ -2,18 +2,14 @@ package com.company.example.web.outgoingdocuments;
 
 import com.company.example.Title;
 import com.company.example.entity.*;
+import com.company.example.listener.OutgoingDocumentsService;
+import com.company.example.listener.UniqueNumbersHelperService;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
-import com.haulmont.bpm.entity.ProcRole;
 import com.haulmont.bpm.entity.ProcTask;
 import com.haulmont.bpm.gui.procactions.ProcActionsFrame;
-import com.haulmont.bpm.service.BpmEntitiesService;
-import com.haulmont.cuba.core.app.UniqueNumbersService;
 import com.haulmont.cuba.core.entity.Entity;
-import com.haulmont.cuba.core.global.DataManager;
-import com.haulmont.cuba.core.global.Metadata;
-import com.haulmont.cuba.core.global.View;
-import com.haulmont.cuba.gui.WindowManager;
+import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.gui.WindowParams;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.security.entity.User;
@@ -30,7 +26,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     @Inject
     private ProcActionsFrame procActionsFrame;
     @Inject
-    private UniqueNumbersService uniqueNumbersService;
+    private UniqueNumbersHelperService uniqueNumbersHelperService;
     @Named("mainFieldGroup.registration_number")
     private TextField registration_numberFieldMain;
     @Named("mainFieldGroup.date")
@@ -57,8 +53,6 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private UserSession userSession;
     @Named("mainFieldGroup.topic")
     private TextField topicField;
-    @Inject
-    private DataManager dataManager;
     @Named("registrationsFieldGroup.log")
     private PickerField logField;
     @Named("registrationsFieldGroup.affair")
@@ -66,15 +60,13 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     @Named("registrationsFieldGroup.affair_date")
     private DateField affair_dateField;
     @Inject
-    private BpmEntitiesService bpmEntitiesService;
-    @Inject
     private Button printCardInfoBtn;
     @Inject
     private Button registrationBtn;
     @Inject
-    private Table<File> filesTable;
-
-
+    private Table<FileDescriptor> filesTable;
+    @Inject
+    private OutgoingDocumentsService outgoingDocumentsService;
 
     @Override
     public void init(Map<String, Object> params) {
@@ -95,10 +87,10 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         if (getItem() != null) {
             initListeners(getItem());
 
-            List<ProcTask> tasks = getDocTasks(getItem().getId());
+            List<ProcTask> tasks = outgoingDocumentsService.getDocTasks(getItem().getId());
             for(ProcTask task : tasks) {
                 if (task.getEndDate() == null) {
-                    User user = getCurrentTaskUser(task.getId(), getItem().getId());
+                    User user = outgoingDocumentsService.getCurrentTaskUser(task.getId(), getItem().getId());
                         if (task.getName().equals("Регистрация документов"))
                             if (user != null)
                                 if (user.getId().equals(userSession.getUser().getId())) {
@@ -106,7 +98,6 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                                     registrationBtn.setEnabled(true);
                                     Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
                                     registrationBtn.setAction(action);
-
                                 }
                 }
             }
@@ -114,69 +105,35 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
 
     }
 
-    private User getCurrentTaskUser(UUID procTaskUUID, UUID docUUID) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("procTaskUUID", procTaskUUID);
-        parameters.put("docUUID", docUUID);
-        return dataManager.load(User.class).query("select e.procActor.user from bpm$ProcTask e " +
-                "where e.procInstance.entity.entityId " +
-                "= :docUUID and e.id = :procTaskUUID")
-                .setParameters(parameters)
-                .one();
-    }
-
-    private List<ProcTask> getDocTasks(UUID docUUID) {
-        return dataManager.load(ProcTask.class).query("select e from bpm$ProcTask e " +
-                "where e.procInstance.entity.entityId " +
-                "= :docUUID")
-                .parameter("docUUID", docUUID)
-                .list();
-    }
-
     @Override
     protected boolean preCommit() {
         if (getItem() != null)
             getItem().setChange_date(new Date());
+        for(Object o : filesTable.getDatasource().getItems().toArray()){
+            FileDescriptor fd = (FileDescriptor)o;
+            if(!getItem().getFile_des().contains(fd))
+            getItem().getFile_des().add(fd);
+        }
         return super.preCommit();
     }
 
     @Override
     protected void initNewItem(OutgoingDocuments item) {
         super.initNewItem(item);
-        item.setSerial_number(uniqueNumbersService.getNextNumber("serial_number_outgoing"));
+        item.setSerial_number(uniqueNumbersHelperService.getNextUniqueNumber("serial_number_outgoing"));
         item.setRegistration_number(item.getSerial_number() + "");
-        //item.setDate(new Date());
-        item.setExecutor(getCurrentWorker(userSession.getUser().getId()));
+        item.setExecutor(outgoingDocumentsService.getCurrentWorker(userSession.getUser().getId()));
         item.setAuthor(userSession.getUser());
         item.setCreate_date(new Date());
         initListeners(item);
-
     }
 
-    private Workers getCurrentWorker(UUID userUUID) {
-        return dataManager.load(Workers.class).query("select e from example$Workers e where " +
-                "e.user.id = :userUUID")
-                .parameter("userUUID", userUUID)
-                .one();
-    }
-
-    private User getDevHeaderUser(User user) {
-        return dataManager.load(User.class).query("select e.sub_division.departament_head.user from example$Workers e where " +
-                "e.user.id = :userUUID")
-                .parameter("userUUID", user.getId())
-                .one();
-    }
-
-
-    @Inject
-    private Metadata metadata;
 
     private void initListeners(OutgoingDocuments item) {
         Title title = new Title();
         document_typeField.addValueChangeListener(e -> {
             if (e.getValue() != null) {
                 updateTitle(item, title);
-
             }
         });
         registration_numberField.addValueChangeListener(e -> {
@@ -227,14 +184,14 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                 .setBeforeStartProcessPredicate(() -> {
                     if (commit()) {
                         ProcInstance procInstance = procActionsFrame.getProcInstance();
-                        ProcActor initActor = createProcActor("init", procInstance, userSession.getUser());
+                        ProcActor initActor = outgoingDocumentsService.createProcActor("init", procInstance, userSession.getUser());
                         ProcActor depActor = null;
                         try {
-                            depActor = createProcActor("dev_head", procInstance, getDevHeaderUser(userSession.getUser()));
+                            depActor = outgoingDocumentsService.createProcActor("dev_head", procInstance, outgoingDocumentsService.getDevHeaderUser(userSession.getUser()));
                         } catch (Exception e) {
 
                         }
-                        ProcActor signActor = createProcActor("sign", procInstance, item.getSign().getUser());
+                        ProcActor signActor = outgoingDocumentsService.createProcActor("sign", procInstance, item.getSign().getUser());
                         Set<ProcActor> procActors = new HashSet<>();
                         procActors.add(initActor);
                         if (depActor != null)
@@ -247,17 +204,16 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                     return false;
                 })
                 .init(PROCESS_CODE, item);
-        
 
-    }
 
-    private ProcActor createProcActor(String procRoleCode, ProcInstance procInstance, User user) {
-        ProcActor initiatorProcActor = metadata.create(ProcActor.class);
-        initiatorProcActor.setUser(user);
-        ProcRole initiatorProcRole = bpmEntitiesService.findProcRole(PROCESS_CODE, procRoleCode, View.MINIMAL);
-        initiatorProcActor.setProcRole(initiatorProcRole);
-        initiatorProcActor.setProcInstance(procInstance);
-        return initiatorProcActor;
+        if(item.getFile_des() == null)
+            item.setFile_des(new ArrayList<>());
+        for(FileDescriptor fd : item.getFile_des()){
+            filesTable.getDatasource().includeItem(fd);
+        }
+        filesTable.getDatasource().refresh();
+
+
     }
 
     private void updateTitle(OutgoingDocuments item, Title title) {
@@ -275,14 +231,4 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         titleField.setValue(title.getStringTitle() + "");
     }
 
-    public void onCreateButtonClick() {
-        Map<String,Object> params = new HashMap<>();
-        params.put("doc", getItem());
-        //openWindow("example$File.edit", WindowManager.OpenType.DIALOG, params);
-        Editor editor = openEditor("example$File.edit", new File(), WindowManager.OpenType.DIALOG, params);
-        editor.addCloseWithCommitListener(() -> {
-            filesTable.getDatasource().refresh();
-            //getItem().setFiles
-        });
-    }
 }

@@ -10,7 +10,6 @@
         <class>com.company.example.entity.RegistrationLogs</class>
         <class>com.company.example.entity.AffairsNomenclature</class>
         <class>com.company.example.entity.OutgoingDocuments</class>
-        <class>com.company.example.entity.File</class>
         <class>com.company.example.entity.MatchingTable</class>
     </persistence-unit>
 </persistence>

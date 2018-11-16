@@ -35,14 +35,9 @@ where e.outgoingDocuments.id
 = :ds$outgoingDocumentsesDs.id]]>
             </query>
         </collectionDatasource>
-        <collectionDatasource id="filesDs"
-                              class="com.company.example.entity.File"
-                              view="file-view">
-            <query>
-                <![CDATA[select e from example$File e
-where e.outDoc.id = :ds$outgoingDocumentsesDs.id]]>
-            </query>
-        </collectionDatasource>
+        <collectionDatasource id="fileDescriptorsDs"
+                              class="com.haulmont.cuba.core.entity.FileDescriptor"
+                              refreshMode="NEVER"/>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
@@ -92,15 +87,18 @@ where e.outDoc.id = :ds$outgoingDocumentsesDs.id]]>
                                     openType="DIALOG"/>
                         </actions>
                         <columns>
-                            <column id="file.name"/>
-                            <column id="create_time"/>
-                            <column id="update_time"/>
+                            <column id="name"/>
+                            <column id="extension"/>
+                            <column id="size"/>
+                            <column id="createDate"/>
                         </columns>
-                        <rows datasource="filesDs"/>
+                        <rows datasource="fileDescriptorsDs"/>
                         <buttonsPanel>
                             <button id="createButton"
-                                    caption="Create"
-                                    invoke="onCreateButtonClick"/>
+                                    action="filesTable.create"
+                                    caption="Create"/>
+                            <button id="addButton"
+                                    action="filesTable.add"/>
                             <button id="editButton"
                                     action="filesTable.edit"/>
                         </buttonsPanel>

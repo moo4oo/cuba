@@ -121,7 +121,6 @@ create table EXAMPLE_OUTGOING_DOCUMENTS (
     TOPIC varchar(255),
     EXECUTOR_ID uuid,
     SIGN_ID uuid,
-    FILE_ID uuid,
     DESCRIPTION text,
     TITLE varchar(255),
     AUTHOR_ID uuid,
@@ -137,25 +136,6 @@ create table EXAMPLE_OUTGOING_DOCUMENTS (
 )^
 -- end EXAMPLE_OUTGOING_DOCUMENTS
 
--- begin EXAMPLE_FILE
-create table EXAMPLE_FILE (
-    ID uuid,
-    VERSION integer not null,
-    CREATE_TS timestamp,
-    CREATED_BY varchar(50),
-    UPDATE_TS timestamp,
-    UPDATED_BY varchar(50),
-    DELETE_TS timestamp,
-    DELETED_BY varchar(50),
-    --
-    OUT_DOC_ID uuid,
-    FILE_ID uuid,
-    CREATE_TIME date,
-    UPDATE_TIME date,
-    --
-    primary key (ID)
-)^
--- end EXAMPLE_FILE
 -- begin EXAMPLE_MATCHING_TABLE
 create table EXAMPLE_MATCHING_TABLE (
     ID uuid,
@@ -194,3 +174,10 @@ create table EXAMPLE_AFFAIR_NOMENCLATURE (
     primary key (ID)
 )^
 -- end EXAMPLE_AFFAIR_NOMENCLATURE
+-- begin EXAMPLE_OUTGOING_DOCUMENTS_FILE_DESCRIPTOR_LINK
+create table EXAMPLE_OUTGOING_DOCUMENTS_FILE_DESCRIPTOR_LINK (
+    OUTGOING_DOCUMENTS_ID uuid,
+    FILE_DESCRIPTOR_ID uuid,
+    primary key (OUTGOING_DOCUMENTS_ID, FILE_DESCRIPTOR_ID)
+)^
+-- end EXAMPLE_OUTGOING_DOCUMENTS_FILE_DESCRIPTOR_LINK
