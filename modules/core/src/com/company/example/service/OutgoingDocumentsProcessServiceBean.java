@@ -12,9 +12,7 @@ import com.haulmont.bpm.entity.ProcTask;
 import com.haulmont.bpm.service.BpmEntitiesService;
 import com.haulmont.bpm.service.ProcessRuntimeService;
 import com.haulmont.cuba.core.global.*;
-import com.haulmont.cuba.security.app.UserSessionService;
 import com.haulmont.cuba.security.entity.User;
-import com.haulmont.cuba.security.global.UserSession;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;

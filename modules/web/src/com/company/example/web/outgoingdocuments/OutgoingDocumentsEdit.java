@@ -87,7 +87,6 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         setItem(docs);
         if (getItem() != null) {
             initListeners(getItem());
-
             List<ProcTask> tasks = outgoingDocumentsService.getDocTasks(getItem().getId());
             for(ProcTask task : tasks) {
                 if (task.getEndDate() == null) {

@@ -1,6 +1,5 @@
 package com.company.example.service;
 
-import com.company.example.service.UniqueNumbersHelperService;
 import com.haulmont.cuba.core.app.UniqueNumbersService;
 import org.springframework.stereotype.Service;
 

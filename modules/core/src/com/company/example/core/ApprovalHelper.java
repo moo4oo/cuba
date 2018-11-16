@@ -1,8 +1,6 @@
 package com.company.example.core;
 
 import com.company.example.entity.OutgoingDocuments;
-import com.company.example.entity.Workers;
-import com.haulmont.cuba.core.global.DataManager;
 import org.springframework.stereotype.Component;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
@@ -16,8 +14,6 @@ public class ApprovalHelper {
     public static final String NAME = "demo_ApprovalHelper";
     @Inject
     private Persistence persistence;
-    @Inject
-    private DataManager dataManager;
 
 
     public void updateState(UUID entityId, String state) {
@@ -28,10 +24,7 @@ public class ApprovalHelper {
                 if(state.equals("Registered")){
                     doc.setDate(new Date());
                     doc.setTopic(doc.getTopic() + "1");
-
                 }
-
-
             }
             tx.commit();
         }

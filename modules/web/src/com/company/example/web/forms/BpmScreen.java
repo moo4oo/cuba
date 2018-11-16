@@ -1,5 +1,6 @@
 package com.company.example.web.forms;
 
+import com.company.example.service.BpmScreenService;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
 import com.haulmont.bpm.entity.ProcRole;
@@ -22,9 +23,10 @@ public class BpmScreen extends AbstractWindow implements ProcForm {
     private ResizableTextArea commentTextArea;
     private boolean comm = false;
     @Inject
-    private Metadata metadata;
+    private BpmScreenService bpmScreenService;
     @Inject
     private DataManager dataManager;
+
 
     @Override
     public String getComment() {
@@ -49,14 +51,11 @@ public class BpmScreen extends AbstractWindow implements ProcForm {
     public void init(Map<String, Object> params) {
         super.init(params);
         procInstance =((ProcInstance) params.get("procInstance"));
-        Set<ProcActor> procActors = procInstance.getProcActors();
-        for (ProcActor actor : procActors) {
-            if (actor.getProcRole().getCode().equals("matching")) {
-                procActorsDs.includeItem(actor);
-                procRole = actor.getProcRole();
 
-            }
+        for (ProcActor actor : bpmScreenService.setData(procInstance)) {
+                procActorsDs.includeItem(actor);
         }
+
 
     }
 
@@ -86,10 +85,7 @@ public class BpmScreen extends AbstractWindow implements ProcForm {
     public void onAddButtonClick() {
         openLookup(User.class, items -> {
             User user = (User) items.toArray()[0];
-            ProcActor actor = metadata.create(ProcActor.class);
-            actor.setProcRole(procRole);
-            actor.setUser(user);
-            actor.setProcInstance(procInstance);
+            ProcActor actor = bpmScreenService.createProcActor(bpmScreenService.getProcRole(), procInstance, user);
             actors.add(actor);
             procActorsDs.includeItem(actor);
 

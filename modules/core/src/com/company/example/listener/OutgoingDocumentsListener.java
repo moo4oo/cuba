@@ -8,13 +8,10 @@ import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.UserSessionSource;
 import com.haulmont.cuba.security.entity.User;
-import com.haulmont.cuba.security.global.UserSession;
 import org.springframework.stereotype.Component;
 import com.haulmont.cuba.core.listener.BeforeInsertEntityListener;
 import com.haulmont.cuba.core.EntityManager;
-import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.listener.BeforeUpdateEntityListener;
-import com.haulmont.cuba.core.listener.BeforeAttachEntityListener;
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -110,14 +107,5 @@ public class OutgoingDocumentsListener implements BeforeInsertEntityListener<Out
         entity.setChange_date(new Date());
 
     }
-
-    /*
-    @Override
-    public void onBeforeAttach(OutgoingDocuments entity) {
-        entity.setCreate_date(new Date());
-
-    }
-*/
-
 
 }
