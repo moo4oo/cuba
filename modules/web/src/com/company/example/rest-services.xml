@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns="http://schemas.haulmont.com/cuba/rest-services-v2.xsd">
+    <service name="example_OutgoingDocumentsProcessService">
+        <method name="finishTask">
+            <param name="finishTaskBody" type="com.company.example.Request.FinishTaskRequest"/>
+        </method>
+        <method name="getCurrentTasks">
+        </method>
+        <method name="startProcInstance" >
+            <param name="startProcBody" type="com.company.example.Request.StartTaskRequest"/>
+        </method>
+    </service>
+
+</services>

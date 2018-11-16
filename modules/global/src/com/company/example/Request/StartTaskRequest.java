@@ -1,11 +1,12 @@
 
-package com.company.example.restapi;
+package com.company.example.Request;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StartTaskRequest {
+public class StartTaskRequest implements Serializable {
 
     private String docId;
     private String init;

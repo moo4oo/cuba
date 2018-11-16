@@ -1,6 +1,6 @@
 package com.company.example.web.registrationlogs;
 
-import com.company.example.listener.UniqueNumbersHelperService;
+import com.company.example.service.UniqueNumbersHelperService;
 import com.haulmont.cuba.gui.components.AbstractEditor;
 import com.company.example.entity.RegistrationLogs;
 import javax.inject.Inject;

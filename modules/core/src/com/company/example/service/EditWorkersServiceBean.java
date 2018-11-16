@@ -1,5 +1,6 @@
-package com.company.example.listener;
+package com.company.example.service;
 
+import com.company.example.service.EditWorkersService;
 import com.haulmont.cuba.security.entity.User;
 import org.springframework.stereotype.Service;
 

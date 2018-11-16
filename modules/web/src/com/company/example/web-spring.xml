@@ -11,11 +11,13 @@
         <property name="remoteServices">
             <map>
                 <entry key="example_UniqueNumbersHelperService"
-                       value="com.company.example.listener.UniqueNumbersHelperService"/>
+                       value="com.company.example.service.UniqueNumbersHelperService"/>
                 <entry key="example_EditWorkersService"
-                       value="com.company.example.listener.EditWorkersService"/>
+                       value="com.company.example.service.EditWorkersService"/>
                 <entry key="example_OutgoingDocumentsService"
-                       value="com.company.example.listener.OutgoingDocumentsService"/>
+                       value="com.company.example.service.OutgoingDocumentsService"/>
+                <entry key="example_OutgoingDocumentsProcessService"
+                       value="com.company.example.service.OutgoingDocumentsProcessService"/>
             </map>
         </property>
     </bean>

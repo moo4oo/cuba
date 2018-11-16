@@ -1,6 +1,7 @@
-package com.company.example.listener;
+package com.company.example.service;
 
 import com.company.example.entity.Workers;
+import com.company.example.service.OutgoingDocumentsService;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
 import com.haulmont.bpm.entity.ProcRole;

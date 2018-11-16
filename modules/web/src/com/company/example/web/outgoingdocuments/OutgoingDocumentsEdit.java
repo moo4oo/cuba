@@ -2,8 +2,8 @@ package com.company.example.web.outgoingdocuments;
 
 import com.company.example.Title;
 import com.company.example.entity.*;
-import com.company.example.listener.OutgoingDocumentsService;
-import com.company.example.listener.UniqueNumbersHelperService;
+import com.company.example.service.OutgoingDocumentsService;
+import com.company.example.service.UniqueNumbersHelperService;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
 import com.haulmont.bpm.entity.ProcTask;
@@ -23,6 +23,7 @@ import java.util.*;
 
 public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private static final String PROCESS_CODE = "contractApproval";
+
     @Inject
     private ProcActionsFrame procActionsFrame;
     @Inject

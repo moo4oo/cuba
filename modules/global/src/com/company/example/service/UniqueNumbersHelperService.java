@@ -1,4 +1,4 @@
-package com.company.example.listener;
+package com.company.example.service;
 
 
 public interface UniqueNumbersHelperService {

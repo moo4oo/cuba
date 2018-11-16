@@ -1,4 +1,4 @@
-package com.company.example.listener;
+package com.company.example.service;
 
 
 import com.haulmont.cuba.security.entity.User;
