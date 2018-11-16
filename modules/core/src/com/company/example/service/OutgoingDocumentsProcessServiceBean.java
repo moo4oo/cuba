@@ -18,9 +18,7 @@ import com.haulmont.cuba.security.global.UserSession;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service(OutgoingDocumentsProcessService.NAME)
 public class OutgoingDocumentsProcessServiceBean implements OutgoingDocumentsProcessService {
@@ -42,9 +40,16 @@ public class OutgoingDocumentsProcessServiceBean implements OutgoingDocumentsPro
         LoadContext<ProcTask> docsLoadContext = new LoadContext<>(ProcTask.class)
                 .setQuery(LoadContext.createQuery("select e from bpm$ProcTask e where e.procActor.user.id = :id")
                         .setParameter("id", userSessionSource.getUserSession().getUser().getId()))
-                .setView("procTask-view");
+                .setView("procTask-view_1");
 
-        return dataManager.loadList(docsLoadContext);
+        List<ProcTask> list = dataManager.loadList(docsLoadContext);
+        List<ProcTask> result = new ArrayList<>();
+        for(ProcTask task : list){
+            if(task.getEndDate() == null){
+                result.add(task);
+            }
+        }
+        return result;
     }
 
     @Override

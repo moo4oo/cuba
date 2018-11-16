@@ -191,13 +191,6 @@
             <property name="entity"
                       view="_local">
             </property>
-            <property name="procDefinition"
-                      view="_local">
-                <property name="procRoles"
-                          view="_minimal"/>
-            </property>
-            <property name="procTasks"
-                      view="_local"/>
             <property name="procAttachments"
                       view="_local"/>
         </property>
@@ -221,6 +214,12 @@
           extends="_local"
           name="workers-view_1">
         <property name="user"
+                  view="_minimal"/>
+    </view>
+    <view class="com.haulmont.bpm.entity.ProcTask"
+          extends="_local"
+          name="procTask-view_1">
+        <property name="procActor"
                   view="_minimal"/>
     </view>
 </views>
