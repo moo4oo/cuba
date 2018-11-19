@@ -221,5 +221,12 @@
           name="procTask-view_1">
         <property name="procActor"
                   view="_minimal"/>
+        <property name="procInstance"
+                  view="_minimal">
+            <property name="entity"
+                      view="_minimal">
+                <property name="entityId"/>
+            </property>
+        </property>
     </view>
 </views>

@@ -3,46 +3,61 @@ package com.company.example.service;
 import com.company.example.ExampleTestContainer;
 import com.company.example.Request.FinishTaskRequest;
 import com.company.example.Request.StartTaskRequest;
-import com.haulmont.bpm.service.BpmEntitiesService;
-import com.haulmont.bpm.service.ProcessRuntimeService;
+import com.company.example.entity.Workers;
+import com.haulmont.bpm.entity.ProcActor;
+import com.haulmont.bpm.entity.ProcInstance;
+import com.haulmont.bpm.entity.ProcTask;
 import com.haulmont.cuba.core.global.AppBeans;
+import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.LoadContext;
+import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.testsupport.TestContainer;
-import mockit.Mock;
 import org.junit.Before;
 import org.junit.ClassRule;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.runners.MethodSorters;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertTrue;
 
 
-
-
-
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class OutgoingDocumentsProcessServiceTest extends TestContainer {
 
 
     @ClassRule
     public static ExampleTestContainer cont = ExampleTestContainer.Common.INSTANCE;
-    public FinishTaskRequest finishTaskBody;
-    public StartTaskRequest startTaskBody;
+    public FinishTaskRequest finishTaskBody = new FinishTaskRequest();
+    public StartTaskRequest startTaskBody = new StartTaskRequest();
 
-   // public ProcessRuntimeService processRuntimeService;
-   // public BpmEntitiesService bpmEntitiesService;
-      OutgoingDocumentsProcessService bean;
+    OutgoingDocumentsProcessService bean;
 
     @Before
-    public void initTest(){
-        finishTaskBody = new FinishTaskRequest();
+    public void initTest() {
+        DataManager dataManager = AppBeans.get(DataManager.class);
+        LoadContext<ProcTask> docsLoadContext = new LoadContext<>(ProcTask.class)
+                .setQuery(LoadContext.createQuery("select e from bpm$ProcTask e where e.procActor.user.id = :id order by e.startDate")
+                        .setParameter("id", UUID.fromString("60885987-1b61-4247-94c7-dff348347f93")))
+                .setView("procTask-view_1");
+        List<ProcTask> list = dataManager.loadList(docsLoadContext);
+        if(list != null && list.size() > 0){
+            finishTaskBody.setTaskId(list.get(list.size() - 1).getId().toString());
+        }else{
+            finishTaskBody.setTaskId("f264f2ff-e444-7c1a-85f9-3a978da875d6");
+        }
         finishTaskBody.setComment("test");
         finishTaskBody.setOutcome("test");
         List<String> matchers = new ArrayList<>();
         finishTaskBody.setMatchers(matchers);
 
-        startTaskBody = new StartTaskRequest();
-        startTaskBody.setDocId("d900434f-9e63-ce75-da8e-75c694ede0d1");
+
+        startTaskBody.setDocId("d44b5459-3b13-6384-b8a8-0569b5978400");
         startTaskBody.setInit("60885987-1b61-4247-94c7-dff348347f93");
         startTaskBody.setSign("60885987-1b61-4247-94c7-dff348347f93");
         List<String> m = new ArrayList<>();
@@ -50,37 +65,71 @@ public class OutgoingDocumentsProcessServiceTest extends TestContainer {
         startTaskBody.setMatching(m);
 
 
-       // bean = AppBeans.get(OutgoingDocumentsProcessService.NAME);
-    }
-
-
-    @Test
-    public void getCurrentTasks() {
-
-        //bean.getCurrentTasks();
-    }
-
-
-
-    @Test
-    public void finishTask() {
-       // bpmEntitiesService = AppBeans.get(BpmEntitiesService.class);
-      //  processRuntimeService = cont.getSpringAppContext().getBean(ProcessRuntimeService.class);
         bean = AppBeans.get(OutgoingDocumentsProcessService.class);
-        finishTaskBody = new FinishTaskRequest();
-        finishTaskBody.setTaskId("ffa4a48a-0f52-45b5-263c-86b0cb9eb67a");
-        finishTaskBody.setComment("test");
-        finishTaskBody.setOutcome("test");
-        List<String> matchers = new ArrayList<>();
-        finishTaskBody.setMatchers(matchers);
-
-
-
-        bean.finishTask(finishTaskBody);
     }
 
     @Test
-    public void startProcInstance() {
-        //bean.startProcInstance(startTaskBody);
+    public void test1startProcInstance() {
+        ProcInstance procInstance = bean.startProcInstance(startTaskBody);
+        assertTrue(procInstance.getActive() && (procInstance.getStartDate() != null));
+        Set<ProcActor> procActorSet = procInstance.getProcActors();
+        boolean checkInit = false, checkDevHead = false, checkSign = false, checkMatching = false, checkDocId = false;
+        for (ProcActor procActor : procActorSet) {
+            if (procActor.getProcRole().getCode().equals("init")) {
+                if (procActor.getUser().getId().equals(UUID.fromString(startTaskBody.getInit())))
+                    checkInit = true;
+            } else if (procActor.getProcRole().getCode().equals("sign")) {
+                if (procActor.getUser().getId().equals(UUID.fromString(startTaskBody.getSign())))
+                    checkSign = true;
+            } else if (procActor.getProcRole().getCode().equals("matching")) {
+                if (procActor.getUser().getId().equals(UUID.fromString(startTaskBody.getMatching().get(0))))
+                    checkMatching = true;
+            } else if (procActor.getProcRole().getCode().equals("dev_head")) {
+                DataManager dataManager = AppBeans.get(DataManager.class);
+                User initUser = dataManager.load(LoadContext.create(User.class).setId(UUID.fromString(startTaskBody.getInit())));
+                if(initUser != null) {
+                    Workers initWorker = dataManager.load(LoadContext.create(Workers.class).setQuery(
+                            LoadContext.createQuery("select e from example$Workers e where e.user.id = :id")
+                                    .setParameter("id", initUser.getId())
+                    ).setView("workers-view"));
+                    if(initWorker != null) {
+                        User devHead = initWorker.getSub_division().getDepartament_head().getUser();
+                        if(procActor.getUser().getId().equals(devHead.getId()))
+                            checkDevHead = true;
+                    }
+                }
+            }
+            if (procActor.getProcInstance().getEntity().getEntityId().equals(UUID.fromString(startTaskBody.getDocId()))) {
+                checkDocId = true;
+            }else {
+                checkDocId = false;
+            }
+        }
+        assertTrue(checkInit && checkDocId && checkSign && checkMatching && checkDevHead);
+
     }
+
+    @Test
+    public void test2getCurrentTasks() {
+        List<ProcTask> procTasks;
+        procTasks = bean.getCurrentTasks();
+        assertNotNull(procTasks);
+        if(procTasks.size() > 0){
+            ProcTask procTask = procTasks.get(procTasks.size() - 1);
+            String docId = procTask.getProcInstance().getEntity().getEntityId().toString();
+            assertNotNull(docId);
+            finishTaskBody.setTaskId(docId);
+        }
+    }
+
+
+    @Test
+    public void test3finishTask() {
+
+        ProcTask procTask = bean.finishTask(finishTaskBody);
+        assertTrue(procTask.getStartDate() != null && procTask.getEndDate() == null);
+
+
+    }
+
 }

@@ -36,7 +36,7 @@ public class OutgoingDocumentsProcessServiceBean implements OutgoingDocumentsPro
     @Override
     public List<ProcTask> getCurrentTasks() {
         LoadContext<ProcTask> docsLoadContext = new LoadContext<>(ProcTask.class)
-                .setQuery(LoadContext.createQuery("select e from bpm$ProcTask e where e.procActor.user.id = :id")
+                .setQuery(LoadContext.createQuery("select e from bpm$ProcTask e where e.procActor.user.id = :id order by e.startDate")
                         .setParameter("id", userSessionSource.getUserSession().getUser().getId()))
                 .setView("procTask-view_1");
 
