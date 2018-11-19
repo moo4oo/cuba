@@ -11,12 +11,13 @@ import java.util.Arrays;
 
 public class ExampleTestContainer extends TestContainer {
 
+
     public ExampleTestContainer() {
         super();
         appComponents = new ArrayList<>(Arrays.asList(
-                "com.haulmont.cuba"
+                "com.haulmont.cuba",
                 // add CUBA premium add-ons here
-                // "com.haulmont.bpm",
+                 "com.haulmont.bpm"
                 // "com.haulmont.charts",
                 // "com.haulmont.fts",
                 // "com.haulmont.reports",

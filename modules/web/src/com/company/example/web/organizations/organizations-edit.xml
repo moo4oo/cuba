@@ -17,11 +17,16 @@
         <fieldGroup id="fieldGroup"
                     datasource="organizationsDs">
             <column width="250px">
-                <field property="code"/>
-                <field property="short_title"/>
-                <field property="title"/>
-                <field property="law_address"/>
-                <field property="mail_address"/>
+                <field caption="mainMsg://codeCaption"
+                       property="code"/>
+                <field caption="mainMsg://shortTitleCaption"
+                       property="short_title"/>
+                <field caption="mainMsg://titleCaption"
+                       property="title"/>
+                <field caption="mainMsg://lawAddresseCaption"
+                       property="law_address"/>
+                <field caption="mainMsg://mailAddressCaption"
+                       property="mail_address"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"

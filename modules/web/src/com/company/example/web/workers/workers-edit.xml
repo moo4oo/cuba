@@ -21,16 +21,25 @@
             <fieldGroup id="fieldGroup"
                         datasource="workersDs">
                 <column width="250px">
-                    <field property="personnel_number"/>
+                    <field caption="mainMsg://personnelNumberCaption"
+                           property="personnel_number"/>
                     <field id="user"
+                           caption="mainMsg://userCaption"
                            property="user"/>
-                    <field property="second_name"/>
-                    <field property="first_name"/>
-                    <field property="patronymic"/>
-                    <field property="email"/>
-                    <field property="phone"/>
-                    <field property="photo"/>
-                    <field property="sub_division"/>
+                    <field caption="mainMsg://secondNameCaption"
+                           property="second_name"/>
+                    <field caption="mainMsg://firstNameCaption"
+                           property="first_name"/>
+                    <field caption="mainMsg://patronymicCaption"
+                           property="patronymic"/>
+                    <field caption="mainMsg://emailCaption"
+                           property="email"/>
+                    <field caption="mainMsg://phoneCaption"
+                           property="phone"/>
+                    <field caption="mainMsg://photoCaption"
+                           property="photo"/>
+                    <field caption="mainMsg://subdivisionCaption"
+                           property="sub_division"/>
                 </column>
             </fieldGroup>
             <image id="workersPhotoView"

@@ -16,10 +16,14 @@
         <fieldGroup id="registrationLogsFieldGroup"
                     datasource="registrationLogsDs">
             <column width="250px">
-                <field property="code"/>
-                <field property="title"/>
-                <field property="number_format"/>
-                <field property="number"/>
+                <field caption="mainMsg://codeCaption"
+                       property="code"/>
+                <field caption="mainMsg://titleCaption"
+                       property="title"/>
+                <field caption="mainMsg://numberFormatCaption"
+                       property="number_format"/>
+                <field caption="mainMsg://numberCaption"
+                       property="number"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"

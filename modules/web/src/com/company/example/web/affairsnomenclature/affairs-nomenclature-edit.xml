@@ -17,8 +17,10 @@
         <fieldGroup id="fieldGroup"
                     datasource="affairsNomenclatureDs">
             <column width="250px">
-                <field property="code"/>
-                <field property="title"/>
+                <field caption="msg://codeCaption"
+                       property="code"/>
+                <field caption="msg://titleCaption"
+                       property="title"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"

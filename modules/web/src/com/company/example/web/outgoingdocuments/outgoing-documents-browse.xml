@@ -31,31 +31,48 @@
                 <action id="remove"/>
             </actions>
             <columns>
-                <column id="document_type"/>
-                <column id="registration_number"/>
-                <column id="date"/>
-                <column id="addressee"/>
-                <column id="full_name"/>
-                <column id="topic"/>
-                <column id="executor"/>
-                <column id="sign"/>
-                <column id="description"/>
-                <column id="title"/>
-                <column id="author"/>
-                <column id="create_date"/>
-                <column id="change_date"/>
-                <column id="state"/>
+                <column id="document_type"
+                        caption="mainMsg://documentTypeCaption"/>
+                <column id="registration_number"
+                        caption="mainMsg://registrationNumberCaption"/>
+                <column id="date"
+                        caption="mainMsg://dateCaption"/>
+                <column id="addressee"
+                        caption="mainMsg://addresseeCaption"/>
+                <column id="full_name"
+                        caption="mainMsg://fullNameCaption"/>
+                <column id="topic"
+                        caption="mainMsg://topicCaption"/>
+                <column id="executor"
+                        caption="mainMsg://executorCaption"/>
+                <column id="sign"
+                        caption="mainMsg://signCaption"/>
+                <column id="description"
+                        caption="mainMsg://descriptionCaption"/>
+                <column id="title"
+                        caption="mainMsg://titleCaption"/>
+                <column id="author"
+                        caption="mainMsg://authorCaption"/>
+                <column id="create_date"
+                        caption="mainMsg://createDateCaption"/>
+                <column id="change_date"
+                        caption="mainMsg://changeDateCaption"/>
+                <column id="state"
+                        caption="mainMsg://stateCaption"/>
             </columns>
             <rows datasource="outgoingDocumentsesDs"/>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
-                        action="outgoingDocumentsesTable.create"/>
+                        action="outgoingDocumentsesTable.create"
+                        caption="mainMsg://createCaption"/>
                 <button id="editBtn"
-                        action="outgoingDocumentsesTable.edit"/>
+                        action="outgoingDocumentsesTable.edit"
+                        caption="mainMsg://editCaption"/>
                 <button id="removeBtn"
-                        action="outgoingDocumentsesTable.remove"/>
+                        action="outgoingDocumentsesTable.remove"
+                        caption="mainMsg://removeCaption"/>
             </buttonsPanel>
         </groupTable>
     </layout>

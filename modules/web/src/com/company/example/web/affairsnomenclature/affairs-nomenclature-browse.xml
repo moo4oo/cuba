@@ -31,19 +31,24 @@
                 <action id="remove"/>
             </actions>
             <columns>
-                <column id="code"/>
-                <column id="title"/>
+                <column id="code"
+                        caption="msg://codeCaption"/>
+                <column id="title"
+                        caption="msg://titleCaption"/>
             </columns>
             <rows datasource="affairsNomenclaturesDs"/>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
-                        action="affairsNomenclaturesTable.create"/>
+                        action="affairsNomenclaturesTable.create"
+                        caption="msg://createCaption"/>
                 <button id="editBtn"
-                        action="affairsNomenclaturesTable.edit"/>
+                        action="affairsNomenclaturesTable.edit"
+                        caption="msg://editCaption"/>
                 <button id="removeBtn"
-                        action="affairsNomenclaturesTable.remove"/>
+                        action="affairsNomenclaturesTable.remove"
+                        caption="msg://removeCaption"/>
             </buttonsPanel>
         </groupTable>
     </layout>

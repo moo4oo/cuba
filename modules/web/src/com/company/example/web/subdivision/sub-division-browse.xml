@@ -33,21 +33,29 @@
                 <action id="refresh"/>
             </actions>
             <columns>
-                <column id="code"/>
-                <column id="name"/>
-                <column id="lead_subdivision"/>
-                <column id="departament_head"/>
+                <column id="code"
+                        caption="mainMsg://codeCaption"/>
+                <column id="name"
+                        caption="mainMsg://titleCaption"/>
+                <column id="lead_subdivision"
+                        caption="mainMsg://leadSubdivisionCaption"/>
+                <column id="departament_head"
+                        caption="mainMsg://departamentHeadCaption"/>
             </columns>
             <rows datasource="subDivisionsDs"/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
-                        action="subDivisionsTable.create"/>
+                        action="subDivisionsTable.create"
+                        caption="mainMsg://createCaption"/>
                 <button id="editBtn"
-                        action="subDivisionsTable.edit"/>
+                        action="subDivisionsTable.edit"
+                        caption="mainMsg://editCaption"/>
                 <button id="removeBtn"
-                        action="subDivisionsTable.remove"/>
-                <button action="subDivisionsTable.refresh"/>
+                        action="subDivisionsTable.remove"
+                        caption="mainMsg://removeCaption"/>
+                <button action="subDivisionsTable.refresh"
+                        caption="mainMsg://refreshCaption"/>
             </buttonsPanel>
         </table>
     </layout>

@@ -17,8 +17,10 @@
         <fieldGroup id="fieldGroup"
                     datasource="documentTypesDs">
             <column width="250px">
-                <field property="code"/>
-                <field property="name"/>
+                <field caption="mainMsg://codeCaption"
+                       property="code"/>
+                <field caption="mainMsg:// nameCaption"
+                       property="name"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"

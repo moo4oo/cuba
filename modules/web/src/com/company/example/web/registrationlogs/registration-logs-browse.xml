@@ -31,21 +31,28 @@
                 <action id="remove"/>
             </actions>
             <columns>
-                <column id="code"/>
-                <column id="title"/>
-                <column id="number_format"/>
-                <column id="number"/>
+                <column id="code"
+                        caption="mainMsg://codeCaption"/>
+                <column id="title"
+                        caption="mainMsg://titleCaption"/>
+                <column id="number_format"
+                        caption="mainMsg://numberFormatCaption"/>
+                <column id="number"
+                        caption="mainMsg://numberCaption"/>
             </columns>
             <rows datasource="registrationLogsesDs"/>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
-                        action="registrationLogsesTable.create"/>
+                        action="registrationLogsesTable.create"
+                        caption="mainMsg://createCaption"/>
                 <button id="editBtn"
-                        action="registrationLogsesTable.edit"/>
+                        action="registrationLogsesTable.edit"
+                        caption="mainMsg://editCaption"/>
                 <button id="removeBtn"
-                        action="registrationLogsesTable.remove"/>
+                        action="registrationLogsesTable.remove"
+                        caption="mainMsg://removeCaption"/>
             </buttonsPanel>
         </groupTable>
     </layout>

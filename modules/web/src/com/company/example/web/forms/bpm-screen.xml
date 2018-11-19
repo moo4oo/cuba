@@ -25,14 +25,15 @@
             spacing="true">
         <textArea id="commentTextArea"
                   align="TOP_CENTER"
-                  caption="Comments"
+                  caption="mainMsg://commentsCaption"
                   required="true"
                   width="100%"/>
         <hbox spacing="true">
             <button id="addButton"
-                    caption="Add"
+                    caption="mainMsg://Add"
                     invoke="onAddButtonClick"/>
-            <button action="table.refresh"/>
+            <button action="table.refresh"
+                    caption="mainMsg://refreshCaption"/>
         </hbox>
         <table id="table"
                width="100%">
@@ -41,8 +42,10 @@
                 <action id="refresh"/>
             </actions>
             <columns>
-                <column id="user"/>
-                <column id="procRole"/>
+                <column id="user"
+                        caption="mainMsg://userCaption"/>
+                <column id="procRole"
+                        caption="mainMsg://procRoleCaption"/>
             </columns>
             <rows datasource="procActorsDs"/>
         </table>

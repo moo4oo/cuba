@@ -31,25 +31,36 @@
                 <action id="remove"/>
             </actions>
             <columns>
-                <column id="personnel_number"/>
-                <column id="second_name"/>
-                <column id="first_name"/>
-                <column id="patronymic"/>
-                <column id="email"/>
-                <column id="phone"/>
-                <column id="photo"/>
-                <column id="sub_division"/>
+                <column id="personnel_number"
+                        caption="mainMsg://personnelNumberCaption"/>
+                <column id="second_name"
+                        caption="mainMsg://secondNameCaption"/>
+                <column id="first_name"
+                        caption="mainMsg://firstNameCaption"/>
+                <column id="patronymic"
+                        caption="mainMsg://patronymicCaption"/>
+                <column id="email"
+                        caption="mainMsg://emailCaption"/>
+                <column id="phone"
+                        caption="mainMsg://phoneCaption"/>
+                <column id="photo"
+                        caption="mainMsg://photoCaption"/>
+                <column id="sub_division"
+                        caption="mainMsg://subdivisionCaption"/>
             </columns>
             <rows datasource="workersesDs"/>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
-                        action="workersesTable.create"/>
+                        action="workersesTable.create"
+                        caption="mainMsg://createCaption"/>
                 <button id="editBtn"
-                        action="workersesTable.edit"/>
+                        action="workersesTable.edit"
+                        caption="mainMsg://editCaption"/>
                 <button id="removeBtn"
-                        action="workersesTable.remove"/>
+                        action="workersesTable.remove"
+                        caption="mainMsg://removeCaption"/>
             </buttonsPanel>
         </groupTable>
     </layout>

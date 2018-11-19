@@ -17,10 +17,14 @@
         <fieldGroup id="fieldGroup"
                     datasource="subDivisionDs">
             <column width="250px">
-                <field property="code"/>
-                <field property="name"/>
-                <field property="lead_subdivision"/>
-                <field property="departament_head"/>
+                <field caption="mainMsg://codeCaption"
+                       property="code"/>
+                <field caption="mainMsg://titleCaption"
+                       property="name"/>
+                <field caption="mainMsg://leadSubdivisionCaption"
+                       property="lead_subdivision"/>
+                <field caption="mainMsg://departamentHeadCaption"
+                       property="departament_head"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"

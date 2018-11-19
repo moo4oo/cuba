@@ -31,22 +31,30 @@
                 <action id="remove"/>
             </actions>
             <columns>
-                <column id="code"/>
-                <column id="short_title"/>
-                <column id="title"/>
-                <column id="law_address"/>
-                <column id="mail_address"/>
+                <column id="code"
+                        caption="mainMsg://codeCaption"/>
+                <column id="short_title"
+                        caption="mainMsg://shortTitleCaption"/>
+                <column id="title"
+                        caption="mainMsg://titleCaption"/>
+                <column id="law_address"
+                        caption="mainMsg://lawAddressCaption"/>
+                <column id="mail_address"
+                        caption="mainMsg://mailAddressCaption"/>
             </columns>
             <rows datasource="organizationsesDs"/>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
-                        action="organizationsesTable.create"/>
+                        action="organizationsesTable.create"
+                        caption="mainMsg://createCaption"/>
                 <button id="editBtn"
-                        action="organizationsesTable.edit"/>
+                        action="organizationsesTable.edit"
+                        caption="mainMsg://editCaption"/>
                 <button id="removeBtn"
-                        action="organizationsesTable.remove"/>
+                        action="organizationsesTable.remove"
+                        caption="mainMsg://removeCaption"/>
             </buttonsPanel>
         </groupTable>
     </layout>
