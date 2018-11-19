@@ -7,6 +7,7 @@ import com.haulmont.bpm.entity.ProcRole;
 import com.haulmont.bpm.entity.ProcTask;
 import com.haulmont.bpm.service.BpmEntitiesService;
 import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.global.View;
 import com.haulmont.cuba.security.entity.User;
@@ -51,10 +52,9 @@ public class OutgoingDocumentsServiceBean implements OutgoingDocumentsService {
 
     @Override
     public Workers getCurrentWorker(UUID userUUID) {
-        return dataManager.load(Workers.class).query("select e from example$Workers e where " +
-                "e.user.id = :userUUID")
-                .parameter("userUUID", userUUID)
-                .one();
+        return dataManager.load(LoadContext.create(Workers.class).setQuery(LoadContext.createQuery(
+                "select e from example$Workers e where e.user.id = :userUUID")
+                .setParameter("userUUID", userUUID)).setView("workers-view"));
     }
 
     @Override

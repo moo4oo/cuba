@@ -182,7 +182,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
             if (e.getValue() != null) {
                 item.setAffair_date(new Date());
                 affair_dateField.setValue(new Date());
-                
+
             }
         });
 
