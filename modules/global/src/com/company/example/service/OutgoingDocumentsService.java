@@ -1,6 +1,7 @@
 package com.company.example.service;
 
 
+import com.company.example.entity.OutgoingDocuments;
 import com.company.example.entity.Workers;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;

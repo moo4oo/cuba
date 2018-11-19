@@ -9,7 +9,6 @@ import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.UserSessionSource;
 import com.haulmont.cuba.security.entity.User;
-import javafx.concurrent.Worker;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -99,6 +98,6 @@ public class OutgoingDocumentsServiceTest {
 
     @Test
     public void createProcActor() {
-        
+
     }
 }

@@ -1,23 +1,18 @@
 package com.company.example.service;
 
+import com.company.example.entity.OutgoingDocuments;
 import com.company.example.entity.Workers;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
 import com.haulmont.bpm.entity.ProcRole;
 import com.haulmont.bpm.entity.ProcTask;
 import com.haulmont.bpm.service.BpmEntitiesService;
-import com.haulmont.cuba.core.global.DataManager;
-import com.haulmont.cuba.core.global.LoadContext;
-import com.haulmont.cuba.core.global.Metadata;
-import com.haulmont.cuba.core.global.View;
+import com.haulmont.cuba.core.global.*;
 import com.haulmont.cuba.security.entity.User;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service(OutgoingDocumentsService.NAME)
 public class OutgoingDocumentsServiceBean implements OutgoingDocumentsService {
@@ -28,6 +23,10 @@ public class OutgoingDocumentsServiceBean implements OutgoingDocumentsService {
     private DataManager dataManager;
     @Inject
     private BpmEntitiesService bpmEntitiesService;
+    @Inject
+    private UserSessionSource userSessionSource;
+    @Inject
+    private UniqueNumbersHelperService uniqueNumbersHelperService;
 
     @Override
     public User getCurrentTaskUser(UUID procTaskUUID, UUID docUUID) {
@@ -74,4 +73,6 @@ public class OutgoingDocumentsServiceBean implements OutgoingDocumentsService {
         initiatorProcActor.setProcInstance(procInstance);
         return initiatorProcActor;
     }
+
+
 }

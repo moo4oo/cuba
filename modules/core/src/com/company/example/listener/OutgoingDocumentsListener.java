@@ -39,8 +39,6 @@ public class OutgoingDocumentsListener implements BeforeInsertEntityListener<Out
         }
         entity.setTitle(getTitleString(title, entity.getTopic(), entity.getAddressee().getShort_title(),
                 entity.getDocument_type().getName(), date, entity.getRegistration_number()));
-
-
         User user = userSessionSource.getUserSession().getUser();
         Workers executor = dataManager.load(LoadContext.create(Workers.class).setView("workers-view").setQuery(LoadContext.createQuery(
                 "select e from example$Workers e where e.user.id = :userId").setParameter("userId", user.getId())));
@@ -60,23 +58,19 @@ public class OutgoingDocumentsListener implements BeforeInsertEntityListener<Out
             title.setDate(date);
         if (regNumber != null)
             title.setRegNumber(regNumber);
-
         return title.getStringTitle();
     }
 
 
     @Override
     public void onBeforeUpdate(OutgoingDocuments entity, EntityManager entityManager) {
-
         OutgoingDocuments doc = dataManager.load(LoadContext.create(OutgoingDocuments.class).setView("main-outgoingDocuments-view").setId(entity.getId()));
         Title title = new Title();
-
         String topic = null;
         String addresseTitle = null;
         String docType = null;
         String date = null;
         String regNumber = null;
-
         if (entity.getTopic() != null) {
             topic = entity.getTopic();
         } else {
