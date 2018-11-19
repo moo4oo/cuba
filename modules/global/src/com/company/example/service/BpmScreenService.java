@@ -5,8 +5,6 @@ import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
 import com.haulmont.bpm.entity.ProcRole;
 import com.haulmont.cuba.security.entity.User;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public interface BpmScreenService {

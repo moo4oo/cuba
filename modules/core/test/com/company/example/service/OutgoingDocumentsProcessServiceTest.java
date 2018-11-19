@@ -35,7 +35,6 @@ public class OutgoingDocumentsProcessServiceTest extends TestContainer {
     public static ExampleTestContainer cont = ExampleTestContainer.Common.INSTANCE;
     public FinishTaskRequest finishTaskBody = new FinishTaskRequest();
     public StartTaskRequest startTaskBody = new StartTaskRequest();
-
     OutgoingDocumentsProcessService bean;
 
     @Before
@@ -46,8 +45,14 @@ public class OutgoingDocumentsProcessServiceTest extends TestContainer {
                         .setParameter("id", UUID.fromString("60885987-1b61-4247-94c7-dff348347f93")))
                 .setView("procTask-view_1");
         List<ProcTask> list = dataManager.loadList(docsLoadContext);
-        if(list != null && list.size() > 0){
-            finishTaskBody.setTaskId(list.get(list.size() - 1).getId().toString());
+        List<ProcTask> result = new ArrayList<>();
+        for(ProcTask task : list){
+            if(task.getEndDate() == null){
+                result.add(task);
+            }
+        }
+        if(result.size() > 0){
+            finishTaskBody.setTaskId(result.get(result.size() - 1).getId().toString());
         }else{
             finishTaskBody.setTaskId("f264f2ff-e444-7c1a-85f9-3a978da875d6");
         }
@@ -106,7 +111,6 @@ public class OutgoingDocumentsProcessServiceTest extends TestContainer {
             }
         }
         assertTrue(checkInit && checkDocId && checkSign && checkMatching && checkDevHead);
-
     }
 
     @Test
@@ -125,11 +129,11 @@ public class OutgoingDocumentsProcessServiceTest extends TestContainer {
 
     @Test
     public void test3finishTask() {
-
+        DataManager dataManager = AppBeans.get(DataManager.class);
         ProcTask procTask = bean.finishTask(finishTaskBody);
-        assertTrue(procTask.getStartDate() != null && procTask.getEndDate() == null);
-
-
+        ProcTask task = dataManager.load(LoadContext.create(ProcTask.class).setId(procTask.getId()));
+        assertNotNull(task);
+        assertTrue(task.getStartDate() != null && task.getEndDate() != null);
     }
 
 }
