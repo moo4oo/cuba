@@ -74,5 +74,15 @@ public class OutgoingDocumentsServiceBean implements OutgoingDocumentsService {
         return initiatorProcActor;
     }
 
+    @Override
+    public OutgoingDocuments initNewItem(OutgoingDocuments item) {
+        item.setSerial_number(uniqueNumbersHelperService.getNextUniqueNumber("serial_number_outgoing"));
+        item.setRegistration_number(item.getSerial_number() + "");
+        item.setExecutor(getCurrentWorker(userSessionSource.getUserSession().getUser().getId()));
+        item.setAuthor(userSessionSource.getUserSession().getUser());
+        item.setCreate_date(new Date());
+        return item;
+    }
+
 
 }

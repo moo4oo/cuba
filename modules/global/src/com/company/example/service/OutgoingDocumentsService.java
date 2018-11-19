@@ -19,4 +19,5 @@ public interface OutgoingDocumentsService {
     public Workers getCurrentWorker(UUID userUUID);
     public User getDevHeaderUser(User user);
     public ProcActor createProcActor(String procRoleCode, ProcInstance procInstance, User user);
+    public OutgoingDocuments initNewItem(OutgoingDocuments item);
 }

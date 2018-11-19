@@ -68,6 +68,8 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private Table<FileDescriptor> filesTable;
     @Inject
     private OutgoingDocumentsService outgoingDocumentsService;
+    @Inject
+    private FieldGroup mainFieldGroup;
 
     @Override
     public void init(Map<String, Object> params) {
@@ -120,12 +122,10 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     @Override
     protected void initNewItem(OutgoingDocuments item) {
         super.initNewItem(item);
-        item.setSerial_number(uniqueNumbersHelperService.getNextUniqueNumber("serial_number_outgoing"));
-        item.setRegistration_number(item.getSerial_number() + "");
-        item.setExecutor(outgoingDocumentsService.getCurrentWorker(userSession.getUser().getId()));
-        item.setAuthor(userSession.getUser());
-        item.setCreate_date(new Date());
+        item = outgoingDocumentsService.initNewItem(item);
         initListeners(item);
+
+
     }
 
 
