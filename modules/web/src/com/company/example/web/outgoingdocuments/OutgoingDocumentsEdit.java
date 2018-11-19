@@ -88,17 +88,17 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         if (getItem() != null) {
             initListeners(getItem());
             List<ProcTask> tasks = outgoingDocumentsService.getDocTasks(getItem().getId());
-            for(ProcTask task : tasks) {
+            for (ProcTask task : tasks) {
                 if (task.getEndDate() == null) {
                     User user = outgoingDocumentsService.getCurrentTaskUser(task.getId(), getItem().getId());
-                        if (task.getName().equals("Регистрация документов"))
-                            if (user != null)
-                                if (user.getId().equals(userSession.getUser().getId())) {
-                                    registrationBtn.setVisible(true);
-                                    registrationBtn.setEnabled(true);
-                                    Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
-                                    registrationBtn.setAction(action);
-                                }
+                    if (task.getName().equals("Регистрация документов"))
+                        if (user != null)
+                            if (user.getId().equals(userSession.getUser().getId())) {
+                                registrationBtn.setVisible(true);
+                                registrationBtn.setEnabled(true);
+                                Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
+                                registrationBtn.setAction(action);
+                            }
                 }
             }
         }
@@ -109,10 +109,10 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     protected boolean preCommit() {
         if (getItem() != null)
             getItem().setChange_date(new Date());
-        for(Object o : filesTable.getDatasource().getItems().toArray()){
-            FileDescriptor fd = (FileDescriptor)o;
-            if(!getItem().getFile_des().contains(fd))
-            getItem().getFile_des().add(fd);
+        for (Object o : filesTable.getDatasource().getItems().toArray()) {
+            FileDescriptor fd = (FileDescriptor) o;
+            if (!getItem().getFile_des().contains(fd))
+                getItem().getFile_des().add(fd);
         }
         return super.preCommit();
     }
@@ -162,9 +162,17 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                 RegistrationLogs logs = (RegistrationLogs) e.getValue();
                 SimpleDateFormat fd = new SimpleDateFormat(logs.getNumber_format().getId());
                 String number = " ";
+                Date date = null;
+                if (item.getDate() != null) {
+                    date = item.getDate();
+                }
                 if (logs.getNumber() != null)
                     number = String.format("%0" + logs.getNumber() + "d", item.getSerial_number());
-                item.setRegistration_number("Исх - " + fd.format(item.getDate()) + " " + number);
+                if (date != null) {
+                    item.setRegistration_number("Исх - " + fd.format(date) + " " + number);
+                } else {
+                    item.setRegistration_number("Исх - " + " " + number);
+                }
                 registration_numberField.setValue("Исх - " + fd.format(item.getDate()) + " " + number);
 
             }
@@ -172,10 +180,9 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
 
         affairField.addValueChangeListener(e -> {
             if (e.getValue() != null) {
-                if (!e.getPrevValue().equals(e.getValue())) {
-                    item.setAffair_date(new Date());
-                    affair_dateField.setValue(new Date());
-                }
+                item.setAffair_date(new Date());
+                affair_dateField.setValue(new Date());
+                
             }
         });
 
@@ -206,9 +213,9 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                 .init(PROCESS_CODE, item);
 
 
-        if(item.getFile_des() == null)
+        if (item.getFile_des() == null)
             item.setFile_des(new ArrayList<>());
-        for(FileDescriptor fd : item.getFile_des()){
+        for (FileDescriptor fd : item.getFile_des()) {
             filesTable.getDatasource().includeItem(fd);
         }
         filesTable.getDatasource().refresh();
