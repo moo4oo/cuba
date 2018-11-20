@@ -10,6 +10,7 @@ import com.haulmont.bpm.entity.ProcTask;
 import com.haulmont.bpm.gui.procactions.ProcActionsFrame;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.entity.FileDescriptor;
+import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.WindowParams;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.security.entity.User;
@@ -68,12 +69,29 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private Table<FileDescriptor> filesTable;
     @Inject
     private OutgoingDocumentsService outgoingDocumentsService;
-    @Inject
-    private FieldGroup mainFieldGroup;
+    @Named("mainFieldGroup.sign")
+    private PickerField signField;
+    @Named("mainFieldGroup.executor")
+    private PickerField executorField;
 
     @Override
     public void init(Map<String, Object> params) {
         super.init(params);
+
+        signField.removeAllActions();
+        signField.addLookupAction();
+        signField.addOpenAction();
+        signField.addClearAction();
+        signField.getOpenAction().setEditScreenOpenType(WindowManager.OpenType.DIALOG);
+
+        executorField.removeAllActions();
+        executorField.addLookupAction();
+        executorField.addOpenAction();
+        executorField.addClearAction();
+        executorField.getOpenAction().setEditScreenOpenType(WindowManager.OpenType.DIALOG);
+
+
+
         printCardInfoBtn.setAction(new EditorPrintFormAction("docCardReport", this, null));
         titleField.setEditable(false);
         registration_numberField.setEditable(false);

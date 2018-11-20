@@ -1,5 +1,6 @@
 package com.company.example.web.workers;
 
+import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.WindowParams;
 import com.haulmont.cuba.gui.components.*;
 import com.company.example.entity.Workers;
@@ -7,6 +8,7 @@ import com.haulmont.cuba.security.entity.User;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -25,15 +27,24 @@ public class WorkersEdit extends AbstractEditor<Workers> {
     private Image workersPhotoView;
     @Named("fieldGroup.patronymic")
     private TextField patronymicField;
+    @Named("fieldGroup.sub_division")
+    private PickerField sub_divisionField;
 
     @Override
     public void init(Map<String, Object> params) {
         super.init(params);
 
+        sub_divisionField.removeAllActions();
+        sub_divisionField.addLookupAction();
+        sub_divisionField.addOpenAction();
+        sub_divisionField.addClearAction();
+        sub_divisionField.getOpenAction().setEditScreenOpenType(WindowManager.OpenType.DIALOG);
+
         Workers worker = (Workers) WindowParams.ITEM.getEntity(params);
-        if(worker != null) {
-            if (worker.getPhoto() != null) {
-                displayPhoto(worker);
+        setItem(worker);
+        if(getItem() != null) {
+            if (getItem().getPhoto() != null) {
+                displayPhoto(getItem());
             }
         }
         userField.addValueChangeListener(e -> {

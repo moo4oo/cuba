@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
+    <item insertBefore="bpm"
+          screen="example$OutgoingDocuments.browse"/>
     <menu id="application-example"
-          insertBefore="administration">
-        <item screen="example$SubDivision.browse"/>
-        <item screen="example$Workers.browse"/>
-        <item screen="example$DocumentTypes.browse"/>
+          insertBefore="bpm">
         <item screen="example$Organizations.browse"/>
-        <item screen="example$RegistrationLogs.browse"/>
+        <separator/>
+        <item screen="example$SubDivision.browse"/>
+        <separator/>
+        <item screen="example$Workers.browse"/>
+        <separator/>
         <item screen="example$AffairsNomenclature.browse"/>
-        <item screen="example$OutgoingDocuments.browse"/>
-        <item screen="bpm$ProcActor.browse"/>
+        <separator/>
+        <item screen="example$DocumentTypes.browse"/>
+        <separator/>
+        <item screen="example$RegistrationLogs.browse"/>
     </menu>
 </menu-config>

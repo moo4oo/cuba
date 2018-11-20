@@ -13,6 +13,8 @@ import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.global.DeletePolicy;
 import com.haulmont.bpm.entity.ProcInstance;
 import com.haulmont.cuba.core.entity.annotation.Listeners;
+import com.haulmont.cuba.core.entity.annotation.Lookup;
+import com.haulmont.cuba.core.entity.annotation.LookupType;
 
 @Listeners("example_OutgoingDocumentsListener")
 @Table(name = "EXAMPLE_OUTGOING_DOCUMENTS")
@@ -20,6 +22,7 @@ import com.haulmont.cuba.core.entity.annotation.Listeners;
 public class OutgoingDocuments extends StandardEntity {
     private static final long serialVersionUID = 3214497642282058730L;
 
+    @Lookup(type = LookupType.DROPDOWN, actions = {"lookup", "open", "clear"})
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @NotNull
     @JoinColumn(name = "DOCUMENT_TYPE_ID")

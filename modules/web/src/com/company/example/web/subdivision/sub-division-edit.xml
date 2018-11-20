@@ -9,6 +9,17 @@
         <datasource id="subDivisionDs"
                     class="com.company.example.entity.SubDivision"
                     view="subDivision-view"/>
+        <collectionDatasource id="subDivisionsDs"
+                              class="com.company.example.entity.SubDivision"
+                              refreshMode="NEVER"
+                              view="subDivision-view"/>
+        <collectionDatasource id="workersesDs"
+                              class="com.company.example.entity.Workers"
+                              view="workers-view">
+            <query>
+                <![CDATA[select e from example$Workers e left join e.photo]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
@@ -22,8 +33,10 @@
                 <field caption="mainMsg://titleCaption"
                        property="name"/>
                 <field caption="mainMsg://leadSubdivisionCaption"
+                       optionsDatasource="subDivisionsDs"
                        property="lead_subdivision"/>
                 <field caption="mainMsg://departamentHeadCaption"
+                       optionsDatasource="workersesDs"
                        property="departament_head"/>
             </column>
         </fieldGroup>

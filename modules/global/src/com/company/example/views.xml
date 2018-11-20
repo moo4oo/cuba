@@ -22,7 +22,7 @@
             <property name="middleName"/>
         </property>
         <property name="photo"
-                  view="_minimal"/>
+                  view="_local"/>
         <property name="sub_division"
                   view="_minimal">
             <property name="lead_subdivision"

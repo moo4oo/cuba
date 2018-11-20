@@ -20,6 +20,8 @@
                        value="com.company.example.service.OutgoingDocumentsProcessService"/>
                 <entry key="example_BpmScreenService"
                        value="com.company.example.service.BpmScreenService"/>
+                <entry key="example_EditSubDivisionService"
+                       value="com.company.example.service.EditSubDivisionService"/>
             </map>
         </property>
     </bean>

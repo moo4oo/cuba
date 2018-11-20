@@ -12,6 +12,13 @@
             <datasource id="photoDs"
                         property="photo"/>
         </datasource>
+        <collectionDatasource id="subDivisionsDs"
+                              class="com.company.example.entity.SubDivision"
+                              view="subDivision-view">
+            <query>
+                <![CDATA[select e from example$SubDivision e]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
@@ -39,6 +46,7 @@
                     <field caption="mainMsg://photoCaption"
                            property="photo"/>
                     <field caption="mainMsg://subdivisionCaption"
+                           optionsDatasource="subDivisionsDs"
                            property="sub_division"/>
                 </column>
             </fieldGroup>

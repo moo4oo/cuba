@@ -6,13 +6,11 @@
         lookupComponent="subDivisionsTable"
         messagesPack="com.company.example.web.subdivision">
     <dsContext>
-        <collectionDatasource id="subDivisionsDs"
-                              class="com.company.example.entity.SubDivision"
-                              view="subDivision-view">
-            <query>
-                <![CDATA[select e from example$SubDivision e]]>
-            </query>
-        </collectionDatasource>
+        <hierarchicalDatasource id="subDivisionsDs"
+                                class="com.company.example.entity.SubDivision"
+                                hierarchyProperty="lead_subdivision"
+                                refreshMode="NEVER"
+                                view="subDivision-view"/>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
@@ -23,12 +21,12 @@
                 datasource="subDivisionsDs">
             <properties include=".*"/>
         </filter>
-        <table id="subDivisionsTable"
-               height="300px"
-               width="100%">
+        <treeTable id="subDivisionsTable"
+                   height="300px"
+                   width="100%">
             <actions>
                 <action id="create"/>
-                <action id="edit"/>
+                <action id="edit" openType="DIALOG"/>
                 <action id="remove"/>
                 <action id="refresh"/>
             </actions>
@@ -57,6 +55,6 @@
                 <button action="subDivisionsTable.refresh"
                         caption="mainMsg://refreshCaption"/>
             </buttonsPanel>
-        </table>
+        </treeTable>
     </layout>
 </window>

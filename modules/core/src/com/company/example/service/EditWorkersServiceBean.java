@@ -1,10 +1,15 @@
 package com.company.example.service;
 
+import com.haulmont.cuba.core.entity.FileDescriptor;
+import com.haulmont.cuba.core.global.DataManager;
+import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.security.entity.User;
 import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Service(EditWorkersService.NAME)
 public class EditWorkersServiceBean implements EditWorkersService {
@@ -13,5 +18,14 @@ public class EditWorkersServiceBean implements EditWorkersService {
     public Map<String, String> setFirstLastNames(User user) {
         Map<String, String> map = new HashMap<>();
         return null;
+    }
+
+    @Inject
+    private DataManager dataManager;
+
+    @Override
+    public FileDescriptor getPhoto(UUID workerId) {
+        return dataManager.load(LoadContext.create(FileDescriptor.class).setQuery(LoadContext.createQuery(
+                "select p from example$Workers e left join e.photo p where e.id = :id").setParameter("id", workerId)));
     }
 }

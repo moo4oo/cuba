@@ -38,6 +38,13 @@ where e.outgoingDocuments.id
         <collectionDatasource id="fileDescriptorsDs"
                               class="com.haulmont.cuba.core.entity.FileDescriptor"
                               refreshMode="NEVER"/>
+        <collectionDatasource id="workersesDs"
+                              class="com.company.example.entity.Workers"
+                              view="workers-view">
+            <query>
+                <![CDATA[select e from example$Workers e]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
@@ -66,8 +73,10 @@ where e.outgoingDocuments.id
                             <field caption="mainMsg://topicCaption"
                                    property="topic"/>
                             <field caption="mainMsg://executorCaption"
+                                   optionsDatasource="workersesDs"
                                    property="executor"/>
                             <field caption="mainMsg://signCaption"
+                                   optionsDatasource="workersesDs"
                                    property="sign"/>
                             <field caption="mainMsg://descriptionCaption"
                                    property="description"
