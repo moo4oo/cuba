@@ -32,4 +32,6 @@
             template="com/company/example/web/forms/bpm-screen.xml"/>
     <screen id="bpm$ProcActor.browse"
             template="com/company/example/web/procactor/proc-actor-browse.xml"/>
+    <screen id="mainWindow"
+            template="com/company/example/ext-mainwindow.xml"/>
 </screen-config>

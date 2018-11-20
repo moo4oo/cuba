@@ -45,9 +45,9 @@ where e.outgoingDocuments.id
             spacing="true">
         <scrollBox id="scrollBox"
                    spacing="true">
-            <tabSheet caption="mainMsg://mainCaption">
+            <tabSheet>
                 <tab id="mainTab"
-                     caption="Main"
+                     caption="mainMsg://mainCaption"
                      margin="true"
                      spacing="true">
                     <fieldGroup id="mainFieldGroup"
@@ -151,7 +151,7 @@ where e.outgoingDocuments.id
                     </hbox>
                 </tab>
                 <tab id="matchingTab"
-                     caption="Matching"
+                     caption="msg://Matching"
                      expand="procTasksTable"
                      margin="true"
                      spacing="true">
