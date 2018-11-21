@@ -6,10 +6,8 @@ import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.WindowParams;
-import com.haulmont.cuba.gui.components.AbstractEditor;
+import com.haulmont.cuba.gui.components.*;
 import com.company.example.entity.SubDivision;
-import com.haulmont.cuba.gui.components.Frame;
-import com.haulmont.cuba.gui.components.PickerField;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
 
 import javax.inject.Inject;
@@ -21,8 +19,8 @@ import java.util.UUID;
 
 public class SubDivisionEdit extends AbstractEditor<SubDivision> {
 
-    @Named("fieldGroup.lead_subdivision")
-    private PickerField lead_subdivisionField;
+    @Named("subDivisionFieldGroup.lead_subdivision")
+    private LookupPickerField lead_subdivisionField;
     @Inject
     private DataManager dataManager;
     @Inject
@@ -33,7 +31,7 @@ public class SubDivisionEdit extends AbstractEditor<SubDivision> {
         return checkLooping(lead_subdivisionField.getValue());
     }
 
-    @Named("fieldGroup.departament_head")
+    @Named("subDivisionFieldGroup.departament_head")
     private PickerField departament_headField;
     @Inject
     private CollectionDatasource<SubDivision, UUID> subDivisionsDs;
@@ -74,6 +72,7 @@ public class SubDivisionEdit extends AbstractEditor<SubDivision> {
     public void init(Map<String, Object> params) {
         super.init(params);
 
+
         lead_subdivisionField.removeAllActions();
         lead_subdivisionField.addLookupAction();
         lead_subdivisionField.addOpenAction();
@@ -97,10 +96,9 @@ public class SubDivisionEdit extends AbstractEditor<SubDivision> {
         subDivisionsDs.excludeItem(getItem());
         subDivisionsDs.refresh();
 
-        SubDivision subDivision = (SubDivision) WindowParams.ITEM.getEntity(params);
         Map<String, Object> key = new HashMap<>();
-        if (subDivision != null) {
-            key.put("subdiv_key", subDivision);
+        if (getItem() != null) {
+            key.put("subdiv_key", getItem());
             lead_subdivisionField.getLookupAction().setLookupScreenParams(key);
         }
 

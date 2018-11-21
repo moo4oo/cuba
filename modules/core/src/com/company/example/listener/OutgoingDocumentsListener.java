@@ -2,7 +2,10 @@ package com.company.example.listener;
 
 import com.company.example.Title;
 import com.company.example.entity.OutgoingDocuments;
+import com.company.example.entity.RegistrationLogs;
 import com.company.example.entity.Workers;
+import com.company.example.service.OutgoingDocumentsService;
+import com.company.example.service.UniqueNumbersHelperService;
 import com.haulmont.cuba.core.app.UniqueNumbersAPI;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
@@ -20,16 +23,20 @@ import java.util.Date;
 public class OutgoingDocumentsListener implements BeforeInsertEntityListener<OutgoingDocuments>, BeforeUpdateEntityListener<OutgoingDocuments> {
 
     @Inject
-    private UniqueNumbersAPI uniqueNumbersAPI;
+    private UniqueNumbersHelperService uniqueNumbersHelperService;
     @Inject
     private DataManager dataManager;
     @Inject
     private UserSessionSource userSessionSource;
+    @Inject
+    private OutgoingDocumentsService outgoingDocumentsService;
 
     @Override
     public void onBeforeInsert(OutgoingDocuments entity, EntityManager entityManager) {
-        entity.setSerial_number(uniqueNumbersAPI.getNextNumber("serial_number_outgoing"));
-        entity.setRegistration_number(entity.getSerial_number() + "");
+        if(entity.getSerial_number() == null) {
+            entity.setSerial_number(uniqueNumbersHelperService.getNextUniqueNumber("outgoing_doc"));
+            entity.setRegistration_number(entity.getSerial_number() + "");
+        }
         entity.setCreate_date(new Date());
         Title title = new Title();
 
@@ -60,6 +67,7 @@ public class OutgoingDocumentsListener implements BeforeInsertEntityListener<Out
             title.setRegNumber(regNumber);
         return title.getStringTitle();
     }
+
 
 
     @Override
@@ -94,6 +102,12 @@ public class OutgoingDocumentsListener implements BeforeInsertEntityListener<Out
             regNumber = entity.getRegistration_number();
         }else {
             regNumber = doc.getRegistration_number();
+        }
+        if(entity.getLog() != null){
+            RegistrationLogs logs = entity.getLog();
+            String f = logs.getNumber_format();
+            String result = outgoingDocumentsService.gerRegNumber(f, entity.getDate(), logs.getNumber(), entity.getSerial_number());
+            entity.setRegistration_number(result);
         }
         if(entity.getAffair() != null)
             entity.setAffair_date(new Date());

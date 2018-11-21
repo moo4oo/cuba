@@ -12,6 +12,7 @@ import com.haulmont.cuba.security.entity.User;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service(OutgoingDocumentsService.NAME)
@@ -23,10 +24,6 @@ public class OutgoingDocumentsServiceBean implements OutgoingDocumentsService {
     private DataManager dataManager;
     @Inject
     private BpmEntitiesService bpmEntitiesService;
-    @Inject
-    private UserSessionSource userSessionSource;
-    @Inject
-    private UniqueNumbersHelperService uniqueNumbersHelperService;
 
     @Override
     public User getCurrentTaskUser(UUID procTaskUUID, UUID docUUID) {
@@ -75,13 +72,47 @@ public class OutgoingDocumentsServiceBean implements OutgoingDocumentsService {
     }
 
     @Override
-    public OutgoingDocuments initNewItem(OutgoingDocuments item) {
-        item.setSerial_number(uniqueNumbersHelperService.getNextUniqueNumber("serial_number_outgoing"));
-        item.setRegistration_number(item.getSerial_number() + "");
-        item.setExecutor(getCurrentWorker(userSessionSource.getUserSession().getUser().getId()));
-        item.setAuthor(userSessionSource.getUserSession().getUser());
-        item.setCreate_date(new Date());
-        return item;
+    public String gerRegNumber(String f, Date date, String number, long serialNumber) {
+        StringBuffer sb = new StringBuffer(f);
+        SimpleDateFormat fd = null;
+        String replace = null;
+        if(sb.lastIndexOf("dd.") >= 0) {
+            if (sb.lastIndexOf("dd.MM") >= 0)
+            {
+                if(sb.lastIndexOf("dd.MM.yyyy") >= 0){
+                    fd = new SimpleDateFormat("dd.MM.yyyy");
+                    replace = "dd.MM.yyyy";
+                }else if(sb.lastIndexOf("dd.MM.yy") >= 0){
+                    fd = new SimpleDateFormat("dd.MM.yy");
+                    replace = "dd.MM.yy";
+                }else{
+                    fd = new SimpleDateFormat("dd.MM");
+                    replace = "dd.MM";
+                }
+            }
+        }else if(sb.lastIndexOf("MM.yyyy") >= 0){
+            fd = new SimpleDateFormat("MM.yyyy");
+            replace = "MM.yyyy";
+        }
+        Date d = null;
+        String result = "";
+        if (date != null) {
+            d = date;
+            if(fd != null) {
+                result = f.replace(replace, fd.format(d));
+            }
+        }else{
+            if(fd != null){
+                    result = f.replace(replace, "");
+            }
+        }
+        String n = "";
+        if(number != null) {
+            n = String.format("%0" + number + "d", serialNumber);
+        }else{
+            n = serialNumber +"";
+        }
+        return result + " " + n;
     }
 
 

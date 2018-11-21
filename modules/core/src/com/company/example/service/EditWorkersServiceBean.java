@@ -1,5 +1,7 @@
 package com.company.example.service;
 
+import com.company.example.entity.OutgoingDocuments;
+import com.company.example.entity.Workers;
 import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
@@ -25,7 +27,9 @@ public class EditWorkersServiceBean implements EditWorkersService {
 
     @Override
     public FileDescriptor getPhoto(UUID workerId) {
-        return dataManager.load(LoadContext.create(FileDescriptor.class).setQuery(LoadContext.createQuery(
-                "select p from example$Workers e left join e.photo p where e.id = :id").setParameter("id", workerId)));
+
+        Workers d = dataManager.load(LoadContext.create(Workers.class).setQuery(LoadContext.createQuery(
+                "select e from example$Workers e where e.id = :id").setParameter("id", workerId)).setView("workers-view"));
+        return d.getPhoto();
     }
 }

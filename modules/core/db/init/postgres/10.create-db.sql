@@ -93,7 +93,7 @@ create table EXAMPLE_REGISTRATION_LOGS (
     --
     CODE varchar(255) not null,
     TITLE varchar(255),
-    NUMBER_FORMAT varchar(255) not null,
+    NUMBER_FORMAT text not null,
     NUMBER_ varchar(255),
     SERIAL_NUMBER bigint,
     --

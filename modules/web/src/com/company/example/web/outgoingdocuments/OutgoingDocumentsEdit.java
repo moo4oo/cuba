@@ -7,19 +7,22 @@ import com.company.example.service.UniqueNumbersHelperService;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
 import com.haulmont.bpm.entity.ProcTask;
+import com.haulmont.bpm.gui.action.CompleteProcTaskAction;
 import com.haulmont.bpm.gui.procactions.ProcActionsFrame;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.entity.FileDescriptor;
+import com.haulmont.cuba.core.global.FileStorageException;
 import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.WindowParams;
 import com.haulmont.cuba.gui.components.*;
+import com.haulmont.cuba.gui.export.ExportDisplay;
+import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
 import com.haulmont.reports.gui.actions.EditorPrintFormAction;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
@@ -29,32 +32,17 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private ProcActionsFrame procActionsFrame;
     @Inject
     private UniqueNumbersHelperService uniqueNumbersHelperService;
-    @Named("mainFieldGroup.registration_number")
-    private TextField registration_numberFieldMain;
-    @Named("mainFieldGroup.date")
-    private DateField dateFieldMain;
+    @Inject
     @Named("registrationsFieldGroup.date")
     private DateField dateField;
     @Named("registrationsFieldGroup.registration_number")
     private TextField registration_numberField;
-    @Named("mainFieldGroup.title")
-    private TextField titleField;
-    @Named("mainFieldGroup.state")
-    private TextField stateField;
-    @Named("mainFieldGroup.change_date")
-    private DateField change_dateField;
-    @Named("mainFieldGroup.create_date")
-    private DateField create_dateField;
-    @Named("mainFieldGroup.author")
-    private PickerField authorField;
-    @Named("mainFieldGroup.document_type")
-    private PickerField document_typeField;
-    @Named("mainFieldGroup.addressee")
-    private PickerField addresseeField;
+    @Inject
+    private ResizableTextArea titleTextArea;
     @Inject
     private UserSession userSession;
-    @Named("mainFieldGroup.topic")
-    private TextField topicField;
+    @Inject
+    private ResizableTextArea topicTextArea;
     @Named("registrationsFieldGroup.log")
     private PickerField logField;
     @Named("registrationsFieldGroup.affair")
@@ -69,60 +57,106 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private Table<FileDescriptor> filesTable;
     @Inject
     private OutgoingDocumentsService outgoingDocumentsService;
-    @Named("mainFieldGroup.sign")
-    private PickerField signField;
-    @Named("mainFieldGroup.executor")
-    private PickerField executorField;
+    @Inject
+    private LookupPickerField signPickerField;
+    @Inject
+    private LookupPickerField executorPickerField;
+    private boolean newItem = false;
+    @Inject
+    private ExportDisplay exportDisplay;
+    @Inject
+    private FileMultiUploadField multiUpload;
+    @Inject
+    private FileUploadingAPI fileUploadingAPI;
+    @Inject
+    private PickerField authorPickerField;
+    @Inject
+    private DateField changeDateField;
+    @Inject
+    private DateField createDateField;
+    @Inject
+    private TextField stateTextField;
+    @Inject
+    private TextField registrationNumberTextArea;
+    @Inject
+    private LookupPickerField docTypePickerField;
+    @Inject
+    private LookupPickerField addresseePickerField;
+    @Inject
+    private DateField regDateField;
 
     @Override
     public void init(Map<String, Object> params) {
         super.init(params);
 
-        signField.removeAllActions();
-        signField.addLookupAction();
-        signField.addOpenAction();
-        signField.addClearAction();
-        signField.getOpenAction().setEditScreenOpenType(WindowManager.OpenType.DIALOG);
+        signPickerField.removeAllActions();
+        signPickerField.addLookupAction();
+        signPickerField.addOpenAction();
+        signPickerField.addClearAction();
+        signPickerField.getOpenAction().setEditScreenOpenType(WindowManager.OpenType.DIALOG);
 
-        executorField.removeAllActions();
-        executorField.addLookupAction();
-        executorField.addOpenAction();
-        executorField.addClearAction();
-        executorField.getOpenAction().setEditScreenOpenType(WindowManager.OpenType.DIALOG);
-
+        executorPickerField.removeAllActions();
+        executorPickerField.addLookupAction();
+        executorPickerField.addOpenAction();
+        executorPickerField.addClearAction();
+        executorPickerField.getOpenAction().setEditScreenOpenType(WindowManager.OpenType.DIALOG);
 
 
         printCardInfoBtn.setAction(new EditorPrintFormAction("docCardReport", this, null));
-        titleField.setEditable(false);
+        titleTextArea.setEditable(false);
         registration_numberField.setEditable(false);
         dateField.setEditable(false);
-        authorField.setEditable(false);
-        create_dateField.setEditable(false);
-        change_dateField.setEditable(false);
-        stateField.setEditable(false);
-        dateFieldMain.setEditable(false);
-        registration_numberFieldMain.setEditable(false);
+        regDateField.setEditable(false);
+        authorPickerField.setEditable(false);
+        createDateField.setEditable(false);
+        changeDateField.setEditable(false);
+        stateTextField.setEditable(false);
+        registrationNumberTextArea.setEditable(false);
         registration_numberField.setEditable(false);
         Entity docs = WindowParams.ITEM.getEntity(params);
         setItem(docs);
         if (getItem() != null) {
             initListeners(getItem());
             List<ProcTask> tasks = outgoingDocumentsService.getDocTasks(getItem().getId());
+            boolean haveTask = false;
             for (ProcTask task : tasks) {
                 if (task.getEndDate() == null) {
                     User user = outgoingDocumentsService.getCurrentTaskUser(task.getId(), getItem().getId());
-                    if (task.getName().equals("Регистрация документов"))
-                        if (user != null)
-                            if (user.getId().equals(userSession.getUser().getId())) {
+                    if (user == null) {
+                        procActionsFrame.setVisible(false);
+                    }
+                    if (user != null)
+                        if (user.getId().equals(userSession.getUser().getId())) {
+                            if (task.getName().equals("Регистрация документов")) {
                                 registrationBtn.setVisible(true);
                                 registrationBtn.setEnabled(true);
                                 Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
                                 registrationBtn.setAction(action);
                             }
+                            haveTask = true;
+                        }else{
+                            haveTask = false;
+                        }
+                }
+            }
+            if(!haveTask)
+                procActionsFrame.setVisible(false);
+        }
+
+    }
+
+    @Override
+    protected boolean preClose(String actionId) {
+        if (actionId.equals("windowClose") || actionId.equals("close")) {
+            if (getItem() != null) {
+                Long number = getItem().getSerial_number();
+                if (number != null) {
+                    if (newItem)
+                        uniqueNumbersHelperService.setNextUniqueNumber("outgoing_doc", number - 1);
                 }
             }
         }
-
+        return super.preClose(actionId);
     }
 
     @Override
@@ -137,10 +171,17 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         return super.preCommit();
     }
 
+
     @Override
     protected void initNewItem(OutgoingDocuments item) {
         super.initNewItem(item);
-        item = outgoingDocumentsService.initNewItem(item);
+        newItem = true;
+        if (item.getSerial_number() == null)
+            item.setSerial_number(uniqueNumbersHelperService.getNextUniqueNumber("outgoing_doc"));
+        item.setRegistration_number(item.getSerial_number() + "");
+        item.setExecutor(outgoingDocumentsService.getCurrentWorker(userSession.getUser().getId()));
+        item.setAuthor(userSession.getUser());
+        item.setCreate_date(new Date());
         initListeners(item);
 
 
@@ -149,7 +190,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
 
     private void initListeners(OutgoingDocuments item) {
         Title title = new Title();
-        document_typeField.addValueChangeListener(e -> {
+        docTypePickerField.addValueChangeListener(e -> {
             if (e.getValue() != null) {
                 updateTitle(item, title);
             }
@@ -165,12 +206,12 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
             }
         });
 
-        addresseeField.addValueChangeListener(e -> {
+        addresseePickerField.addValueChangeListener(e -> {
             if (e.getValue() != null) {
                 updateTitle(item, title);
             }
         });
-        topicField.addValueChangeListener(e -> {
+        topicTextArea.addValueChangeListener(e -> {
             if (e.getValue() != null) {
                 updateTitle(item, title);
             }
@@ -178,21 +219,9 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         logField.addValueChangeListener(e -> {
             if (e.getValue() != null) {
                 RegistrationLogs logs = (RegistrationLogs) e.getValue();
-                SimpleDateFormat fd = new SimpleDateFormat(logs.getNumber_format().getId());
-                String number = " ";
-                Date date = null;
-                if (item.getDate() != null) {
-                    date = item.getDate();
-                }
-                if (logs.getNumber() != null)
-                    number = String.format("%0" + logs.getNumber() + "d", item.getSerial_number());
-                if (date != null) {
-                    item.setRegistration_number("Исх - " + fd.format(date) + " " + number);
-                } else {
-                    item.setRegistration_number("Исх - " + " " + number);
-                }
-                registration_numberField.setValue("Исх - " + fd.format(item.getDate()) + " " + number);
-
+                String f = logs.getNumber_format();
+                String result = outgoingDocumentsService.gerRegNumber(f, item.getDate(), logs.getNumber(), item.getSerial_number());
+                registrationNumberTextArea.setValue(result);
             }
         });
 
@@ -231,6 +260,23 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                 .init(PROCESS_CODE, item);
 
 
+        multiUpload.addQueueUploadCompleteListener(() -> {
+            for (Map.Entry<UUID, String> entry : multiUpload.getUploadsMap().entrySet()) {
+                UUID fileId = entry.getKey();
+                String fileName = entry.getValue();
+                FileDescriptor f = fileUploadingAPI.getFileDescriptor(fileId, fileName);
+                if (f != null) {
+                    try {
+                        fileUploadingAPI.putFileIntoStorage(fileId, f);
+                        filesTable.getDatasource().includeItem(f);
+                    } catch (FileStorageException e) {
+                        new RuntimeException("Error saving file to FileStorage", e);
+                    }
+                }
+            }
+            filesTable.getDatasource().refresh();
+        });
+
         if (item.getFile_des() == null)
             item.setFile_des(new ArrayList<>());
         for (FileDescriptor fd : item.getFile_des()) {
@@ -242,18 +288,27 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     }
 
     private void updateTitle(OutgoingDocuments item, Title title) {
-        if (document_typeField.getValue() != null)
-            title.setDocType(((DocumentTypes) document_typeField.getValue()).getCode() + "");
+        if (docTypePickerField.getValue() != null)
+            title.setDocType(((DocumentTypes) docTypePickerField.getValue()).getCode() + "");
         if (dateField.getValue() != null)
             title.setDate(dateField.getValue().toString() + "");
-        if (topicField.getRawValue() != null)
-            title.setTopic(topicField.getRawValue() + "");
-        if (addresseeField.getValue() != null)
-            title.setAddresse(((Organizations) addresseeField.getValue()).getTitle() + "");
-        if (registration_numberFieldMain.getRawValue() != null)
-            title.setRegNumber(registration_numberFieldMain.getRawValue() + "");
+        if (topicTextArea.getRawValue() != null)
+            title.setTopic(topicTextArea.getRawValue() + "");
+        if (addresseePickerField.getValue() != null)
+            title.setAddresse(((Organizations) addresseePickerField.getValue()).getTitle() + "");
+        if (registrationNumberTextArea.getRawValue() != null)
+            title.setRegNumber(registrationNumberTextArea.getRawValue() + "");
         item.setTitle(title.getStringTitle() + "");
-        titleField.setValue(title.getStringTitle() + "");
+        titleTextArea.setValue(title.getStringTitle() + "");
     }
 
+
+    public void onDownloadButtonClick() {
+        if (filesTable.getSingleSelected() != null) {
+            FileDescriptor fd = filesTable.getSingleSelected();
+            exportDisplay.show(fd);
+
+        }
+
+    }
 }

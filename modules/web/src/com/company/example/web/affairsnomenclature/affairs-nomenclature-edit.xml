@@ -15,8 +15,9 @@
     <layout expand="windowActions"
             spacing="true">
         <fieldGroup id="fieldGroup"
-                    datasource="affairsNomenclatureDs">
-            <column width="250px">
+                    datasource="affairsNomenclatureDs"
+                    width="100%">
+            <column width="100%">
                 <field caption="msg://codeCaption"
                        property="code"/>
                 <field caption="msg://titleCaption"

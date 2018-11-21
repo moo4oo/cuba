@@ -45,128 +45,244 @@ where e.outgoingDocuments.id
                 <![CDATA[select e from example$Workers e]]>
             </query>
         </collectionDatasource>
+        <collectionDatasource id="organizationsesDs"
+                              class="com.company.example.entity.Organizations"
+                              view="organizations-view">
+            <query>
+                <![CDATA[select e from example$Organizations e]]>
+            </query>
+        </collectionDatasource>
+        <collectionDatasource id="documentTypesesDs"
+                              class="com.company.example.entity.DocumentTypes">
+            <query>
+                <![CDATA[select e from example$DocumentTypes e]]>
+            </query>
+        </collectionDatasource>
     </dsContext>
     <dialogMode height="600"
                 width="800"/>
-    <layout expand="scrollBox"
+    <layout expand="tabSheet"
             spacing="true">
-        <scrollBox id="scrollBox"
-                   spacing="true">
-            <tabSheet>
-                <tab id="mainTab"
-                     caption="mainMsg://mainCaption"
-                     margin="true"
-                     spacing="true">
-                    <fieldGroup id="mainFieldGroup"
-                                datasource="outgoingDocumentsesDs">
-                        <column width="250px">
-                            <field caption="mainMsg://documentTypeCaption"
-                                   property="document_type"/>
-                            <field caption="mainMsg://registrationNumberCaption"
-                                   property="registration_number"/>
-                            <field caption="mainMsg://dateCaption"
-                                   property="date"/>
-                            <field caption="mainMsg://addresseeCaption"
-                                   property="addressee"/>
-                            <field caption="mainMsg://fullNameCaption"
-                                   property="full_name"/>
-                            <field caption="mainMsg://topicCaption"
-                                   property="topic"/>
-                            <field caption="mainMsg://executorCaption"
-                                   optionsDatasource="workersesDs"
-                                   property="executor"/>
-                            <field caption="mainMsg://signCaption"
-                                   optionsDatasource="workersesDs"
-                                   property="sign"/>
-                            <field caption="mainMsg://descriptionCaption"
-                                   property="description"
-                                   rows="5"/>
-                            <field caption="mainMsg://titleCaption"
-                                   property="title"/>
-                            <field caption="mainMsg://authorCaption"
-                                   property="author"/>
-                            <field caption="mainMsg://createDateCaption"
-                                   property="create_date"/>
-                            <field caption="mainMsg://changeDateCaption"
-                                   property="change_date"/>
-                            <field caption="mainMsg://stateCaption"
-                                   property="state"/>
-                        </column>
-                    </fieldGroup>
-                </tab>
-                <tab id="documentsTab"
-                     caption="msg://Documents"
-                     margin="true"
-                     spacing="true">
-                    <table id="filesTable"
-                           height="100%"
-                           width="100%">
-                        <actions>
-                            <action id="create"
-                                    openType="DIALOG"/>
-                            <action id="edit"
-                                    openType="DIALOG"/>
-                            <action id="add"
-                                    openType="DIALOG"/>
-                        </actions>
+        <tabSheet id="tabSheet">
+            <tab id="mainTab"
+                 caption="mainMsg://mainCaption"
+                 margin="true"
+                 spacing="true">
+                <scrollBox id="scrollBox"
+                           height="100%">
+                    <grid id="grid"
+                          height="100%"
+                          spacing="true"
+                          width="70%">
                         <columns>
-                            <column id="name"
-                                    caption="mainMsg:// nameCaption"/>
-                            <column id="extension"
-                                    caption="mainMsg://extensionCaption"/>
-                            <column id="size"
-                                    caption="mainMsg://sizeCaption"/>
-                            <column id="createDate"
-                                    caption="mainMsg://createDateCaption"/>
+                            <column/>
+                            <column flex="1.0"/>
+                            <column/>
+                            <column flex="1.0"/>
                         </columns>
-                        <rows datasource="fileDescriptorsDs"/>
-                        <buttonsPanel>
-                            <button id="createButton"
-                                    action="filesTable.create"
-                                    caption="mainMsg://createCaption"/>
-                            <button id="addButton"
-                                    action="filesTable.add"
-                                    caption="mainMsg://addCaption"/>
-                            <button id="editButton"
-                                    action="filesTable.edit"
-                                    caption="mainMsg://editCaption"/>
-                        </buttonsPanel>
-                    </table>
-                </tab>
-                <tab id="registrationTab"
-                     caption="mainMsg://Registrations"
-                     margin="true"
-                     spacing="true">
-                    <hbox spacing="true">
-                        <fieldGroup id="registrationsFieldGroup"
-                                    datasource="outgoingDocumentsesDs">
-                            <field caption="mainMsg://logCaption"
-                                   property="log"/>
-                            <field caption="mainMsg://registrationNumberCaption"
-                                   property="registration_number"/>
-                            <field caption="mainMsg://dateCaption"
-                                   property="date"/>
-                            <field caption="mainMsg://documentDescriptionCaption"
-                                   property="document_description"/>
-                            <field caption="mainMsg://affairCaption"
-                                   property="affair"/>
-                            <field caption="mainMsg://affairDateCaption"
-                                   property="affair_date"/>
-                        </fieldGroup>
-                        <button id="registrationBtn"
-                                caption="Registration"
-                                invoke="onRegistrationBtnClick"
-                                visible="false"/>
-                    </hbox>
-                </tab>
-                <tab id="matchingTab"
-                     caption="msg://Matching"
-                     expand="procTasksTable"
-                     margin="true"
-                     spacing="true">
+                        <rows>
+                            <row>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://documentTypeCaption"/>
+                                <lookupPickerField id="docTypePickerField"
+                                                   datasource="outgoingDocumentsesDs"
+                                                   optionsDatasource="documentTypesesDs"
+                                                   property="document_type"
+                                                   width="100%"/>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://stateCaption"/>
+                                <textField id="stateTextField"
+                                           datasource="outgoingDocumentsesDs"
+                                           property="state"
+                                           width="100%"/>
+                            </row>
+                            <row>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://registrationNumberCaption"/>
+                                <textField id="registrationNumberTextArea"
+                                           colspan="3"
+                                           datasource="outgoingDocumentsesDs"
+                                           property="registration_number"
+                                           width="100%"/>
+                            </row>
+                            <row>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://authorCaption"/>
+                                <pickerField id="authorPickerField"
+                                             datasource="outgoingDocumentsesDs"
+                                             property="author"
+                                             width="100%">
+                                    <actions>
+                                        <action id="lookup"/>
+                                        <action id="open"/>
+                                        <action id="clear"/>
+                                    </actions>
+                                </pickerField>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://dateCaption"/>
+                                <dateField id="regDateField"
+                                           datasource="outgoingDocumentsesDs"
+                                           property="date"
+                                           width="100%"/>
+                            </row>
+                            <row>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://addresseeCaption"/>
+                                <lookupPickerField id="addresseePickerField"
+                                                   datasource="outgoingDocumentsesDs"
+                                                   optionsDatasource="organizationsesDs"
+                                                   property="addressee"
+                                                   width="100%">
+                                    <actions>
+                                        <action id="lookup"/>
+                                        <action id="open"/>
+                                        <action id="clear"/>
+                                    </actions>
+                                </lookupPickerField>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://fullNameCaption"/>
+                                <textField id="fullNameTextField"
+                                           datasource="outgoingDocumentsesDs"
+                                           property="full_name"
+                                           width="100%"/>
+                            </row>
+                            <row>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://topicCaption"/>
+                                <textArea id="topicTextArea"
+                                          colspan="3"
+                                          datasource="outgoingDocumentsesDs"
+                                          property="topic"
+                                          rows="2"
+                                          width="100%"/>
+                            </row>
+                            <row>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://titleCaption"/>
+                                <textArea id="titleTextArea"
+                                          colspan="3"
+                                          datasource="outgoingDocumentsesDs"
+                                          property="title"
+                                          rows="2"
+                                          width="100%"/>
+                            </row>
+                            <row>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://descriptionCaption"/>
+                                <textArea id="descriptionTextArea"
+                                          colspan="3"
+                                          datasource="outgoingDocumentsesDs"
+                                          property="description"
+                                          rows="3"
+                                          width="100%"/>
+                            </row>
+                            <row>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://executorCaption"/>
+                                <lookupPickerField id="executorPickerField"
+                                                   datasource="outgoingDocumentsesDs"
+                                                   optionsDatasource="workersesDs"
+                                                   property="executor"
+                                                   width="100%"/>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://signCaption"/>
+                                <lookupPickerField id="signPickerField"
+                                                   datasource="outgoingDocumentsesDs"
+                                                   optionsDatasource="workersesDs"
+                                                   property="sign"
+                                                   width="100%"/>
+                            </row>
+                            <row>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://createDateCaption"/>
+                                <dateField id="createDateField"
+                                           datasource="outgoingDocumentsesDs"
+                                           property="create_date"
+                                           width="100%"/>
+                                <label align="MIDDLE_CENTER"
+                                       value="msg://changeDateCaption"/>
+                                <dateField id="changeDateField"
+                                           datasource="outgoingDocumentsesDs"
+                                           property="change_date"
+                                           width="100%"/>
+                            </row>
+                        </rows>
+                    </grid>
+                    <groupBox id="registrationBox"
+                              caption="mainMsg://Registrations"
+                              collapsable="true"
+                              spacing="true">
+                        <hbox spacing="true">
+                            <fieldGroup id="registrationsFieldGroup"
+                                        datasource="outgoingDocumentsesDs">
+                                <field caption="mainMsg://logCaption"
+                                       property="log"/>
+                                <field caption="mainMsg://registrationNumberCaption"
+                                       property="registration_number"/>
+                                <field caption="mainMsg://dateCaption"
+                                       property="date"/>
+                                <field caption="mainMsg://documentDescriptionCaption"
+                                       property="document_description"/>
+                                <field caption="mainMsg://affairCaption"
+                                       property="affair"/>
+                                <field caption="mainMsg://affairDateCaption"
+                                       property="affair_date"/>
+                            </fieldGroup>
+                            <button id="registrationBtn"
+                                    caption="Registration"
+                                    invoke="onRegistrationBtnClick"
+                                    visible="false"/>
+                        </hbox>
+                    </groupBox>
+                </scrollBox>
+            </tab>
+            <tab id="documentsTab"
+                 caption="msg://Documents"
+                 margin="true"
+                 spacing="true">
+                <table id="filesTable"
+                       height="100%"
+                       width="100%">
+                    <actions>
+                        <action id="create"
+                                caption="mainMsg://createCaption"
+                                openType="DIALOG"/>
+                        <action id="edit"
+                                caption="mainMsg://editCaption"
+                                openType="DIALOG"/>
+                        <action id="add"
+                                openType="DIALOG"/>
+                    </actions>
+                    <columns>
+                        <column id="name"
+                                caption="mainMsg:// nameCaption"/>
+                        <column id="extension"
+                                caption="mainMsg://extensionCaption"/>
+                        <column id="size"
+                                caption="mainMsg://sizeCaption"/>
+                        <column id="createDate"
+                                caption="mainMsg://createDateCaption"/>
+                    </columns>
+                    <rows datasource="fileDescriptorsDs"/>
+                    <buttonsPanel>
+                        <multiUpload id="multiUpload"
+                                     caption="mainMsg://uploadCaption"
+                                     datasource="fileDescriptorsDs"/>
+                        <button id="downloadButton"
+                                caption="mainMsg://downloadCaption"
+                                invoke="onDownloadButtonClick"/>
+                    </buttonsPanel>
+                </table>
+            </tab>
+            <tab id="matchingTab"
+                 caption="msg://Matching"
+                 margin="true"
+                 spacing="true">
+                <hbox expand="procTasksTable"
+                      spacing="true"
+                      width="100%">
                     <table id="procTasksTable"
-                           height="400px"
-                           width="100%">
+                           height="400px">
                         <columns>
                             <column id="name"/>
                             <column id="procActor.user"/>
@@ -185,10 +301,11 @@ where e.outgoingDocuments.id
                         <frame id="procActionsFrame"
                                screen="procActionsFrame"/>
                     </groupBox>
-                </tab>
-            </tabSheet>
-        </scrollBox>
-        <hbox spacing="true"
+                </hbox>
+            </tab>
+        </tabSheet>
+        <hbox margin="true,false,false,false"
+              spacing="true"
               width="100%">
             <frame id="windowActions"
                    screen="editWindowActions"/>

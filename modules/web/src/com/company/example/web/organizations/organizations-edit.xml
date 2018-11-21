@@ -22,11 +22,14 @@
                 <field caption="mainMsg://shortTitleCaption"
                        property="short_title"/>
                 <field caption="mainMsg://titleCaption"
-                       property="title"/>
-                <field caption="mainMsg://lawAddresseCaption"
-                       property="law_address"/>
+                       property="title"
+                       rows="2"/>
+                <field caption="msg://lawAddresseCaption"
+                       property="law_address"
+                       rows="2"/>
                 <field caption="mainMsg://mailAddressCaption"
-                       property="mail_address"/>
+                       property="mail_address"
+                       rows="2"/>
             </column>
         </fieldGroup>
         <frame id="windowActions"

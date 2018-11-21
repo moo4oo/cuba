@@ -26,7 +26,8 @@
         <groupTable id="documentTypesesTable"
                     width="100%">
             <actions>
-                <action id="create"/>
+                <action id="create"
+                        openType="DIALOG"/>
                 <action id="edit"/>
                 <action id="remove"/>
             </actions>

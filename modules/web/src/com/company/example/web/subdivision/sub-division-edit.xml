@@ -3,7 +3,7 @@
         caption="msg://editorCaption"
         class="com.company.example.web.subdivision.SubDivisionEdit"
         datasource="subDivisionDs"
-        focusComponent="fieldGroup"
+        focusComponent="subDivisionFieldGroup"
         messagesPack="com.company.example.web.subdivision">
     <dsContext>
         <datasource id="subDivisionDs"
@@ -17,7 +17,7 @@
                               class="com.company.example.entity.Workers"
                               view="workers-view">
             <query>
-                <![CDATA[select e from example$Workers e left join e.photo]]>
+                <![CDATA[select e from example$Workers e]]>
             </query>
         </collectionDatasource>
     </dsContext>
@@ -25,9 +25,10 @@
                 width="800"/>
     <layout expand="windowActions"
             spacing="true">
-        <fieldGroup id="fieldGroup"
-                    datasource="subDivisionDs">
-            <column width="250px">
+        <fieldGroup id="subDivisionFieldGroup"
+                    datasource="subDivisionDs"
+                    width="100%">
+            <column width="100%">
                 <field caption="mainMsg://codeCaption"
                        property="code"/>
                 <field caption="mainMsg://titleCaption"

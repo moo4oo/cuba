@@ -1,5 +1,6 @@
 package com.company.example.service;
 
+import com.haulmont.cuba.core.app.UniqueNumbersAPI;
 import com.haulmont.cuba.core.app.UniqueNumbersService;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +10,15 @@ import javax.inject.Inject;
 public class UniqueNumbersHelperServiceBean implements UniqueNumbersHelperService {
 
     @Inject
-    private UniqueNumbersService uniqueNumbersService;
+    private UniqueNumbersAPI uniqueNumbersAPI;
 
     @Override
     public long getNextUniqueNumber(String domain) {
-        return uniqueNumbersService.getNextNumber(domain);
+        return uniqueNumbersAPI.getNextNumber(domain);
+    }
+
+    @Override
+    public void setNextUniqueNumber(String domain, long number) {
+        uniqueNumbersAPI.setCurrentNumber(domain, number);
     }
 }

@@ -39,6 +39,7 @@ public class WorkersEdit extends AbstractEditor<Workers> {
         sub_divisionField.addOpenAction();
         sub_divisionField.addClearAction();
         sub_divisionField.getOpenAction().setEditScreenOpenType(WindowManager.OpenType.DIALOG);
+        
 
         Workers worker = (Workers) WindowParams.ITEM.getEntity(params);
         setItem(worker);
