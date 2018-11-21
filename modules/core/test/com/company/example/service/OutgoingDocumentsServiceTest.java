@@ -13,7 +13,9 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -99,5 +101,16 @@ public class OutgoingDocumentsServiceTest {
     @Test
     public void createProcActor() {
 
+    }
+    @Test
+    public void getRegNumber(){
+        String f = "ИСХ - dd.MM.yyyy -";
+        Date date = new Date();
+        String number = "5";
+        long serialNumber = 5555;
+        SimpleDateFormat fd = new SimpleDateFormat("dd.MM.yyyy");
+        String expected = "ИСХ - "+fd.format(date) + " - 05555";
+        String result = bean.getRegNumber(f, date, number, serialNumber);
+        assertEquals(expected,result);
     }
 }

@@ -72,7 +72,7 @@ public class OutgoingDocumentsServiceBean implements OutgoingDocumentsService {
     }
 
     @Override
-    public String gerRegNumber(String f, Date date, String number, long serialNumber) {
+    public String getRegNumber(String f, Date date, String number, long serialNumber) {
         StringBuffer sb = new StringBuffer(f);
         SimpleDateFormat fd = null;
         String replace = null;

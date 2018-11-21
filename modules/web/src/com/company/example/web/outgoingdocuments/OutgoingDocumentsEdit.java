@@ -7,7 +7,6 @@ import com.company.example.service.UniqueNumbersHelperService;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
 import com.haulmont.bpm.entity.ProcTask;
-import com.haulmont.bpm.gui.action.CompleteProcTaskAction;
 import com.haulmont.bpm.gui.procactions.ProcActionsFrame;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.entity.FileDescriptor;
@@ -220,7 +219,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
             if (e.getValue() != null) {
                 RegistrationLogs logs = (RegistrationLogs) e.getValue();
                 String f = logs.getNumber_format();
-                String result = outgoingDocumentsService.gerRegNumber(f, item.getDate(), logs.getNumber(), item.getSerial_number());
+                String result = outgoingDocumentsService.getRegNumber(f, item.getDate(), logs.getNumber(), item.getSerial_number());
                 registrationNumberTextArea.setValue(result);
             }
         });

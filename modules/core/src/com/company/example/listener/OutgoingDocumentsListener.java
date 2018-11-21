@@ -6,7 +6,6 @@ import com.company.example.entity.RegistrationLogs;
 import com.company.example.entity.Workers;
 import com.company.example.service.OutgoingDocumentsService;
 import com.company.example.service.UniqueNumbersHelperService;
-import com.haulmont.cuba.core.app.UniqueNumbersAPI;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.UserSessionSource;
@@ -106,7 +105,7 @@ public class OutgoingDocumentsListener implements BeforeInsertEntityListener<Out
         if(entity.getLog() != null){
             RegistrationLogs logs = entity.getLog();
             String f = logs.getNumber_format();
-            String result = outgoingDocumentsService.gerRegNumber(f, entity.getDate(), logs.getNumber(), entity.getSerial_number());
+            String result = outgoingDocumentsService.getRegNumber(f, entity.getDate(), logs.getNumber(), entity.getSerial_number());
             entity.setRegistration_number(result);
         }
         if(entity.getAffair() != null)
