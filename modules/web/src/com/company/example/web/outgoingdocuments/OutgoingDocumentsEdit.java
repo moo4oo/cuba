@@ -20,6 +20,7 @@ import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
 import com.haulmont.reports.gui.actions.EditorPrintFormAction;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.*;
@@ -83,6 +84,8 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private LookupPickerField addresseePickerField;
     @Inject
     private DateField regDateField;
+    @Inject
+    private GroupBoxLayout procActionsBox;
 
     @Override
     public void init(Map<String, Object> params) {
@@ -117,7 +120,6 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         if (getItem() != null) {
             initListeners(getItem());
             List<ProcTask> tasks = outgoingDocumentsService.getDocTasks(getItem().getId());
-            boolean haveTask = false;
             for (ProcTask task : tasks) {
                 if (task.getEndDate() == null) {
                     User user = outgoingDocumentsService.getCurrentTaskUser(task.getId(), getItem().getId());
@@ -132,14 +134,15 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                                 Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
                                 registrationBtn.setAction(action);
                             }
-                            haveTask = true;
-                        }else{
-                            haveTask = false;
                         }
                 }
             }
-            if(!haveTask)
-                procActionsFrame.setVisible(false);
+            if(procActionsFrame.getCompleteProcTaskActions().size() == 0){
+                if(procActionsFrame.getStartProcessAction() == null){
+                    procActionsBox.setVisible(false);
+                }
+            }
+
         }
 
     }
@@ -281,7 +284,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         for (FileDescriptor fd : item.getFile_des()) {
             filesTable.getDatasource().includeItem(fd);
         }
-        filesTable.getDatasource().refresh();
+
 
 
     }
