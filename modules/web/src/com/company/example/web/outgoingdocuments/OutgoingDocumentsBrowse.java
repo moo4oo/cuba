@@ -28,26 +28,23 @@ public class OutgoingDocumentsBrowse extends AbstractLookup {
 
 
         User currentUser = userSession.getUser();
-        outgoingDocumentsesTable.addStyleProvider(new Table.StyleProvider<OutgoingDocuments>() {
-            @Override
-            public String getStyleName(OutgoingDocuments doc, @Nullable String property) {
-                if(doc != null){
-                    List<ProcTask> tasks = outgoingDocumentsService.getDocTasks(doc.getId());
-                    for(ProcTask task : tasks){
-                        if(task.getEndDate() == null){
-                            User user = outgoingDocumentsService.getCurrentTaskUser(task.getId(), doc.getId());
-                            if(user != null){
-                                if(user.getId().equals(currentUser.getId())){
-                                    return "colored-cell-red";
-                                }
+        outgoingDocumentsesTable.addStyleProvider((doc, property) -> {
+            if(doc != null){
+                List<ProcTask> tasks = outgoingDocumentsService.getDocTasks(doc.getId());
+                for(ProcTask task : tasks){
+                    if(task.getEndDate() == null){
+                        User user = outgoingDocumentsService.getCurrentTaskUser(task.getId(), doc.getId());
+                        if(user != null){
+                            if(user.getId().equals(currentUser.getId())){
+                                return "colored-cell-red";
                             }
                         }
                     }
-
-
                 }
-                return null;
+
+
             }
+            return null;
         });
     }
 }

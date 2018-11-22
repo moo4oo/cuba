@@ -86,6 +86,8 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private DateField regDateField;
     @Inject
     private GroupBoxLayout procActionsBox;
+    @Inject
+    private Button startProcButton;
 
     @Override
     public void init(Map<String, Object> params) {
@@ -105,6 +107,8 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
 
 
         printCardInfoBtn.setAction(new EditorPrintFormAction("docCardReport", this, null));
+        startProcButton.setVisible(false);
+        startProcButton.setEnabled(false);
         titleTextArea.setEditable(false);
         registration_numberField.setEditable(false);
         dateField.setEditable(false);
@@ -140,6 +144,14 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
             if(procActionsFrame.getCompleteProcTaskActions().size() == 0){
                 if(procActionsFrame.getStartProcessAction() == null){
                     procActionsBox.setVisible(false);
+                }else{
+                    procActionsBox.setVisible(false);
+                    if(getItem().getAuthor().getId().equals(userSession.getUser().getId())) {
+                        startProcButton.setEnabled(true);
+                        startProcButton.setVisible(true);
+                        startProcButton.setAction(procActionsFrame.getStartProcessAction());
+                    }
+                    
                 }
             }
 

@@ -309,6 +309,8 @@ where e.outgoingDocuments.id
               width="100%">
             <frame id="windowActions"
                    screen="editWindowActions"/>
+            <button id="startProcButton"
+                    caption="mainMsg://startProcCaption"/>
             <button id="printCardInfoBtn"
                     align="TOP_RIGHT"
                     caption="msg://Prin Card Report"/>

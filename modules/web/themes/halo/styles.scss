@@ -1,0 +1,17 @@
+@import "halo-defaults";
+@import "com.company.example/halo-ext-defaults";
+@import "app-components";
+@import "com.company.example/halo-ext";
+
+.halo {
+  // include auto-generated app components SCSS
+  @include app_components;
+  
+  @include com_company_example-halo-ext;
+
+ .colored-cell-red{
+
+ font-weight: bold;
+     color: red;
+ }
+}
