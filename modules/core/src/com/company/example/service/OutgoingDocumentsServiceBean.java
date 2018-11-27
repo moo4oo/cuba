@@ -1,6 +1,5 @@
 package com.company.example.service;
 
-import com.company.example.entity.OutgoingDocuments;
 import com.company.example.entity.Workers;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
@@ -73,7 +72,7 @@ public class OutgoingDocumentsServiceBean implements OutgoingDocumentsService {
 
     @Override
     public String getRegNumber(String f, Date date, String number, long serialNumber) {
-        StringBuffer sb = new StringBuffer(f);
+        StringBuilder sb = new StringBuilder(f);
         SimpleDateFormat fd = null;
         String replace = null;
         if(sb.lastIndexOf("dd.") >= 0) {

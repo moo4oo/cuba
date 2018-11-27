@@ -54,10 +54,8 @@ public class OutgoingDocumentsProcessServiceBean implements OutgoingDocumentsPro
     public ProcTask finishTask(FinishTaskRequest finishTaskBody) {
 
         ProcTask procTask = dataManager.load(LoadContext.create(ProcTask.class).setId(UUID.fromString(finishTaskBody.getTaskId())).setView("procTask-view"));
-        if (procTask.getName() != null)
-            if (procTask.getName().equals("Доработка документа")) {
-                if (finishTaskBody.getOutcome().equals("To renegotiate"))
-                    if (finishTaskBody.getMatchers() != null) {
+        if (procTask.getName() != null && procTask.getName().equals("Доработка документа") && finishTaskBody.getOutcome().equals("To renegotiate")
+        && finishTaskBody.getMatchers() != null) {
                         ProcInstance procInstance = procTask.getProcInstance();
                         ProcRole procRole = null;
                         for (ProcActor actor : procInstance.getProcActors()) {
@@ -73,7 +71,6 @@ public class OutgoingDocumentsProcessServiceBean implements OutgoingDocumentsPro
                             dataManager.commit(actor);
                         }
                     }
-            }
         processRuntimeService.completeProcTask(procTask, finishTaskBody.getOutcome(), finishTaskBody.getComment(), null);
         return procTask;
     }
@@ -94,9 +91,9 @@ public class OutgoingDocumentsProcessServiceBean implements OutgoingDocumentsPro
         Workers subDivHead = null;
         if(initSubDivision != null)
             subDivHead = initSubDivision.getDepartament_head();
-        User dev_head = null;
+        User devHead = null;
         if(subDivHead != null)
-            dev_head = subDivHead.getUser();
+            devHead = subDivHead.getUser();
         List<User> matching = new ArrayList<>();
         for (String matcher : startProcBody.getMatching()) {
             matching.add(dataManager.load(LoadContext.create(User.class).setId(UUID.fromString(matcher))));
@@ -105,8 +102,8 @@ public class OutgoingDocumentsProcessServiceBean implements OutgoingDocumentsPro
                 .addProcActor("init", init)
                 .addProcActor("sign", sign)
                 .setEntity(doc);
-        if(dev_head != null){
-            procInstanceDetails.addProcActor("dev_head", dev_head);
+        if(devHead != null){
+            procInstanceDetails.addProcActor("dev_head", devHead);
         }
         for (User user : matching) {
             procInstanceDetails.addProcActor("matching", user);

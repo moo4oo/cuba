@@ -129,7 +129,7 @@ configure(coreModule) {
         host = 'localhost'
         dbName = 'example'
         dbUser = 'cuba'
-        dbPassword = '11111'
+        dbPassword = 'cuba'
     }
 
     task updateDb(dependsOn: assembleDbScripts, description: 'Updates local database', type: CubaDbUpdate) {
@@ -137,7 +137,7 @@ configure(coreModule) {
         host = 'localhost'
         dbName = 'example'
         dbUser = 'cuba'
-        dbPassword = '11111'
+        dbPassword = 'cuba'
     }
 }
     
@@ -237,4 +237,18 @@ task restart(dependsOn: ['stop', ":${modulePrefix}-core:deploy", ":${modulePrefi
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.3.1'
+}
+
+task buildUberJar(type: CubaUberJarBuilding) {
+    singleJar = true
+    coreJettyEnvPath = 'modules/core/web/META-INF/jetty-env.xml'
+    appProperties = ['cuba.automaticDatabaseUpdate' : true]
+}
+
+task buildWar(type: CubaWarBuilding) {
+    webXmlPath = 'modules/web/web/WEB-INF/single-war-web.xml'
+    appProperties = ['cuba.automaticDatabaseUpdate' : true]
+    includeContextXml = true
+    includeJdbcDriver = true
+    appHome = '${app.home}'
 }

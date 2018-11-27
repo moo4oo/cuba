@@ -122,26 +122,26 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         Entity docs = WindowParams.ITEM.getEntity(params);
         setItem(docs);
         if (getItem() != null) {
-            initListeners(getItem());
-            List<ProcTask> tasks = outgoingDocumentsService.getDocTasks(getItem().getId());
-            for (ProcTask task : tasks) {
-                if (task.getEndDate() == null) {
-                    User user = outgoingDocumentsService.getCurrentTaskUser(task.getId(), getItem().getId());
-                    if (user == null) {
-                        procActionsFrame.setVisible(false);
-                    }
-                    if (user != null)
-                        if (user.getId().equals(userSession.getUser().getId())) {
-                            if (task.getName().equals("Регистрация документов")) {
-                                registrationBtn.setVisible(true);
-                                registrationBtn.setEnabled(true);
-                                Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
-                                registrationBtn.setAction(action);
-                            }
+            if(!newItem) {
+                initListeners(getItem());
+                List<ProcTask> tasks = outgoingDocumentsService.getDocTasks(getItem().getId());
+                for (ProcTask task : tasks) {
+                    if (task.getEndDate() == null) {
+                        User user = outgoingDocumentsService.getCurrentTaskUser(task.getId(), getItem().getId());
+                        if (user == null) {
+                            procActionsFrame.setVisible(false);
                         }
+                        if (user != null && user.getId().equals(userSession.getUser().getId()) && task.getName().equals("Регистрация документов")) {
+                            registrationBtn.setVisible(true);
+                            registrationBtn.setEnabled(true);
+                            Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
+                            registrationBtn.setAction(action);
+
+                        }
+                    }
                 }
             }
-            if(procActionsFrame.getCompleteProcTaskActions().size() == 0){
+            if(procActionsFrame.getCompleteProcTaskActions().isEmpty()){
                 if(procActionsFrame.getStartProcessAction() == null){
                     procActionsBox.setVisible(false);
                 }else{
@@ -161,14 +161,11 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
 
     @Override
     protected boolean preClose(String actionId) {
-        if (actionId.equals("windowClose") || actionId.equals("close")) {
-            if (getItem() != null) {
+        if (actionId.equals("windowClose") || actionId.equals("close") && getItem() != null) {
                 Long number = getItem().getSerial_number();
-                if (number != null) {
-                    if (newItem)
+                if (number != null && newItem) {
                         uniqueNumbersHelperService.setNextUniqueNumber("outgoing_doc", number - 1);
                 }
-            }
         }
         return super.preClose(actionId);
     }
