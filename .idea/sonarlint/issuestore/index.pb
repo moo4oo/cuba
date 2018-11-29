@@ -21,3 +21,9 @@ Nmodules/core/src/com/company/example/service/OutgoingDocumentsServiceBean.java
 Pmodules/core/src/com/company/example/service/UniqueNumbersHelperServiceBean.java,e\b\eb620eceb515b2ca1b2473b93fc0aa5c73e9dcb1
 …
 Umodules/core/src/com/company/example/service/OutgoingDocumentsProcessServiceBean.java,c\5\c505f308acefc549804f60c12987a0391c1488f2
+†
+Vmodules/core/test/com/company/example/service/OutgoingDocumentsProcessServiceTest.java,5\4\544254bc952f0702bd89afe25380a4b152d8bfd9
+
+Omodules/core/test/com/company/example/service/OutgoingDocumentsServiceTest.java,9\f\9f4d682633fe548fd7d47470f114cc667f0ed175
+…
+Umodules/core/test/com/company/example/service/UniqueNumbersHelperServiceBeanTest.java,2\e\2e543c80d1e35d44158680334cd116122347331a

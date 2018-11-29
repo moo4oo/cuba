@@ -1,10 +1,9 @@
 
-Hsquid:S1905´"0Remove this unnecessary cast to "Organizations".(‚ŠÙ
-ssquid:S001163"[Rename this field "affair_dateField" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›Ö“
-Msquid:S3984›"5Throw this exception or remove this useless statement(€ÍÜ
-isquid:S3776]"RRefactor this method to reduce its Cognitive Complexity from 25 to the 15 allowed.(şïİå
-Bsquid:S00108ÿ")Either remove or fill this block of code.(”ı¾
-{squid:S00116'"cRename this field "registration_numberField" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»ÃÀ„
-_squid:UselessImportCheck"6Remove this unused import 'javax.annotation.Nullable'.(—å¨Íûÿÿÿÿ
-osquid:S3776É"RRefactor this method to reduce its Cognitive Complexity from 36 to the 15 allowed.(³Œäãşÿÿÿÿ
-Tsquid:S1905®"0Remove this unnecessary cast to "DocumentTypes".(²İî€ûÿÿÿÿ8óÜ–öô,
+Osquid:S1905¯"0Remove this unnecessary cast to "Organizations".(‚ŠÙ8ıøÈõ,
+Tsquid:S1905©"0Remove this unnecessary cast to "DocumentTypes".(²İî€ûÿÿÿÿ8ıøÈõ,
+Tsquid:S3984—"5Throw this exception or remove this useless statement(€ÍÜ8ıøÈõ,
+ssquid:S001161"[Rename this field "affair_dateField" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›Ö“
+Isquid:S00108û")Either remove or fill this block of code.(”ı¾8ıøÈõ,
+vsquid:S3776Å"RRefactor this method to reduce its Cognitive Complexity from 36 to the 15 allowed.(³Œäãşÿÿÿÿ8ıøÈõ,
+isquid:S3776["RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(şïİå
+{squid:S00116%"cRename this field "registration_numberField" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»ÃÀ„
