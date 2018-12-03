@@ -8,7 +8,7 @@
     <dsContext>
         <groupDatasource id="outgoingDocumentsesDs"
                          class="com.company.example.entity.OutgoingDocuments"
-                         view="main-outgoingDocuments-view">
+                         view="outDocBrowse-view">
             <query>
                 <![CDATA[select e from example$OutgoingDocuments e]]>
             </query>

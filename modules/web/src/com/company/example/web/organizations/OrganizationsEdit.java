@@ -13,14 +13,10 @@ public class OrganizationsEdit extends AbstractEditor<Organizations> {
     @Inject
     private UniqueNumbersHelperService uniqueNumbersHelperService;
     boolean newItem = false;
-    @Named("fieldGroup.code")
-    private TextField codeField;
-
 
     @Override
     public void init(Map<String, Object> params) {
         super.init(params);
-        codeField.setEditable(false);
 
     }
 

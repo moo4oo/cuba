@@ -19,20 +19,18 @@ import java.util.UUID;
 
 public class SubDivisionEdit extends AbstractEditor<SubDivision> {
 
-    @Named("subDivisionFieldGroup.lead_subdivision")
-    private LookupPickerField lead_subdivisionField;
     @Inject
     private DataManager dataManager;
     @Inject
     private Frame windowActions;
+    @Inject
+    private LookupPickerField leadDivisionPickerField;
 
     @Override
     protected boolean preCommit() {
-        return checkLooping(lead_subdivisionField.getValue());
+        return checkLooping(leadDivisionPickerField.getValue());
     }
 
-    @Named("subDivisionFieldGroup.departament_head")
-    private PickerField departament_headField;
     @Inject
     private CollectionDatasource<SubDivision, UUID> subDivisionsDs;
 
@@ -71,21 +69,6 @@ public class SubDivisionEdit extends AbstractEditor<SubDivision> {
     @Override
     public void init(Map<String, Object> params) {
         super.init(params);
-
-
-        lead_subdivisionField.removeAllActions();
-        lead_subdivisionField.addLookupAction();
-        lead_subdivisionField.addOpenAction();
-        lead_subdivisionField.addClearAction();
-        lead_subdivisionField.getOpenAction().setEditScreenOpenType(WindowManager.OpenType.DIALOG);
-
-        departament_headField.removeAllActions();
-        departament_headField.addLookupAction();
-        departament_headField.addOpenAction();
-        departament_headField.addClearAction();
-        departament_headField.getOpenAction().setEditScreenOpenType(WindowManager.OpenType.DIALOG);
-
-
         Entity div = WindowParams.ITEM.getEntity(params);
         setItem(div);
 
@@ -99,11 +82,11 @@ public class SubDivisionEdit extends AbstractEditor<SubDivision> {
         Map<String, Object> key = new HashMap<>();
         if (getItem() != null) {
             key.put("subdiv_key", getItem());
-            lead_subdivisionField.getLookupAction().setLookupScreenParams(key);
+            leadDivisionPickerField.getLookupAction().setLookupScreenParams(key);
         }
 
 
-        lead_subdivisionField.addValueChangeListener(e -> {
+        leadDivisionPickerField.addValueChangeListener(e -> {
             if (e.getValue() != null) {
                     if(!checkLooping((SubDivision)e.getValue())){
                         windowActions.setEnabled(false);

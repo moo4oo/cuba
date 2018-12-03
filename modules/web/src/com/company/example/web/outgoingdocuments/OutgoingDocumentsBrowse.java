@@ -27,7 +27,7 @@ public class OutgoingDocumentsBrowse extends AbstractLookup {
         super.init(params);
 
 
-        User currentUser = userSession.getUser();
+        User currentUser = userSession.getCurrentOrSubstitutedUser();
         outgoingDocumentsesTable.addStyleProvider((doc, property) -> {
             if(doc != null){
                 List<ProcTask> tasks = outgoingDocumentsService.getDocTasks(doc.getId());

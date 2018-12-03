@@ -100,6 +100,15 @@ public class OutgoingDocuments extends StandardEntity {
     @ManyToMany
     protected List<FileDescriptor> file_des;
 
+    public DocState getState() {
+        return state == null ? null : DocState.fromId(state);
+    }
+
+    public void setState(DocState state) {
+        this.state = state == null ? null : state.getId();
+    }
+
+
     public void setFile_des(List<FileDescriptor> file_des) {
         this.file_des = file_des;
     }
@@ -126,14 +135,6 @@ public class OutgoingDocuments extends StandardEntity {
     }
 
 
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
 
 
     public void setSerial_number(Long serial_number) {

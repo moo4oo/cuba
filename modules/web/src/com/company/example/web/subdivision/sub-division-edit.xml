@@ -3,7 +3,6 @@
         caption="msg://editorCaption"
         class="com.company.example.web.subdivision.SubDivisionEdit"
         datasource="subDivisionDs"
-        focusComponent="subDivisionFieldGroup"
         messagesPack="com.company.example.web.subdivision">
     <dsContext>
         <datasource id="subDivisionDs"
@@ -21,26 +20,69 @@
             </query>
         </collectionDatasource>
     </dsContext>
-    <dialogMode height="600"
-                width="800"/>
+    <dialogMode width="800"/>
     <layout expand="windowActions"
             spacing="true">
-        <fieldGroup id="subDivisionFieldGroup"
-                    datasource="subDivisionDs"
-                    width="100%">
-            <column width="100%">
-                <field caption="mainMsg://codeCaption"
-                       property="code"/>
-                <field caption="mainMsg://titleCaption"
-                       property="name"/>
-                <field caption="mainMsg://leadSubdivisionCaption"
-                       optionsDatasource="subDivisionsDs"
-                       property="lead_subdivision"/>
-                <field caption="mainMsg://departamentHeadCaption"
-                       optionsDatasource="workersesDs"
-                       property="departament_head"/>
-            </column>
-        </fieldGroup>
+        <grid id="grid"
+              spacing="true"
+              width="100%">
+            <columns>
+                <column/>
+                <column flex="1.0"/>
+            </columns>
+            <rows>
+                <row>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://codeCaption"/>
+                    <textField id="codeTextField"
+                               datasource="subDivisionDs"
+                               editable="false"
+                               property="code"
+                               width="100%"/>
+                </row>
+                <row>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://titleCaption"/>
+                    <textField id="titleTextField"
+                               datasource="subDivisionDs"
+                               property="name"
+                               width="100%"/>
+                </row>
+                <row>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://subdivisionCaption"/>
+                    <lookupPickerField id="leadDivisionPickerField"
+                                       datasource="subDivisionDs"
+                                       optionsDatasource="subDivisionsDs"
+                                       property="lead_subdivision"
+                                       width="100%">
+                        <actions>
+                            <action id="lookup"
+                                    openType="DIALOG"/>
+                            <action id="open"
+                                    openType="DIALOG"/>
+                            <action id="clear"/>
+                        </actions>
+                    </lookupPickerField>
+                </row>
+                <row>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://departamentHeadCaption"/>
+                    <lookupPickerField id="depHeadPickerField"
+                                       datasource="subDivisionsDs"
+                                       optionsDatasource="workersesDs"
+                                       property="departament_head"
+                                       width="100%">
+                        <actions>
+                            <action id="lookup"/>
+                            <action id="open"
+                                    openType="DIALOG"/>
+                            <action id="clear"/>
+                        </actions>
+                    </lookupPickerField>
+                </row>
+            </rows>
+        </grid>
         <frame id="windowActions"
                screen="editWindowActions"/>
     </layout>

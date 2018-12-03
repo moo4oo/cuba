@@ -3,7 +3,6 @@
         caption="msg://editorCaption"
         class="com.company.example.web.workers.WorkersEdit"
         datasource="workersDs"
-        focusComponent="fieldGroup"
         messagesPack="com.company.example.web.workers">
     <dsContext>
         <datasource id="workersDs"
@@ -20,50 +19,96 @@
             </query>
         </collectionDatasource>
     </dsContext>
-    <dialogMode height="600"
-                width="800"/>
-    <layout expand="scrollBox"
-            spacing="true">
-        <scrollBox id="scrollBox">
-            <fieldGroup id="fieldGroup"
-                        datasource="workersDs"
-                        width="100%">
-                <column width="100%">
-                    <field caption="mainMsg://personnelNumberCaption"
-                           property="personnel_number"
+    <dialogMode width="800"/>
+    <layout spacing="true">
+        <grid id="grid"
+              spacing="true"
+              width="100%">
+            <columns>
+                <column/>
+                <column flex="1.0"/>
+                <column/>
+                <column flex="1.0"/>
+            </columns>
+            <rows>
+                <row>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://personnelNumberCaption"/>
+                    <textField id="personnelNumberField"
+                               datasource="workersDs"
+                               property="personnel_number"
+                               width="100%"/>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://userCaption"/>
+                    <pickerField id="userField"
+                                 datasource="workersDs"
+                                 property="user"
+                                 width="100%"/>
+                </row>
+                <row>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://firstNameCaption"/>
+                    <textField id="firstNameField"
+                               datasource="workersDs"
+                               property="first_name"
+                               width="100%"/>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://secondNameCaption"/>
+                    <textField id="secondNameField"
+                               datasource="workersDs"
+                               property="second_name"
+                               width="100%"/>
+                </row>
+                <row>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://patronymicCaption"/>
+                    <textField id="patronymicField"
+                               datasource="workersDs"
+                               property="patronymic"
+                               width="100%"/>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://subdivisionCaption"/>
+                    <lookupPickerField id="subDivisionField"
+                                       datasource="workersDs"
+                                       optionsDatasource="subDivisionsDs"
+                                       property="sub_division"
+                                       width="100%"/>
+                </row>
+                <row>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://emailCaption"/>
+                    <textField id="emailField"
+                               datasource="workersDs"
+                               property="email"
+                               width="100%"/>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://phoneCaption"/>
+                    <textField id="phoneField"
+                               datasource="workersDs"
+                               property="phone"
+                               width="100%"/>
+                </row>
+                <row>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://photoCaption"/>
+                    <upload id="photoField"
+                            align="MIDDLE_CENTER"
+                            clearButtonIcon="PICKERFIELD_CLEAR"
+                            datasource="workersDs"
+                            property="photo"
+                            showClearButton="true"
+                            uploadButtonIcon="UPLOAD"
+                            width="100%"/>
+                    <image id="workersPhotoView"
+                           align="MIDDLE_CENTER"
+                           colspan="2"
+                           height="250px"
+                           scaleMode="FILL"
+                           visible="false"
                            width="100%"/>
-                    <field id="user"
-                           caption="mainMsg://userCaption"
-                           property="user"
-                           width="100%"/>
-                    <field caption="mainMsg://secondNameCaption"
-                           property="second_name"
-                           width="100%"/>
-                    <field caption="mainMsg://firstNameCaption"
-                           property="first_name"
-                           width="100%"/>
-                    <field caption="mainMsg://patronymicCaption"
-                           property="patronymic"
-                           width="100%"/>
-                    <field caption="mainMsg://emailCaption"
-                           property="email"
-                           width="100%"/>
-                    <field caption="mainMsg://phoneCaption"
-                           property="phone"
-                           width="100%"/>
-                    <field caption="mainMsg://photoCaption"
-                           property="photo"/>
-                    <field caption="mainMsg://subdivisionCaption"
-                           optionsDatasource="subDivisionsDs"
-                           property="sub_division"
-                           width="100%"/>
-                </column>
-            </fieldGroup>
-            <image id="workersPhotoView"
-                   height="250px"
-                   visible="false"
-                   width="250px"/>
-        </scrollBox>
+                </row>
+            </rows>
+        </grid>
         <frame id="windowActions"
                screen="editWindowActions"/>
     </layout>

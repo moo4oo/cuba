@@ -10,8 +10,7 @@
                     class="com.company.example.entity.AffairsNomenclature"
                     view="affairsNomenclature-view"/>
     </dsContext>
-    <dialogMode height="600"
-                width="800"/>
+    <dialogMode width="450"/>
     <layout expand="windowActions"
             spacing="true">
         <fieldGroup id="fieldGroup"

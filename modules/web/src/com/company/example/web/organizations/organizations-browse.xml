@@ -30,6 +30,7 @@
                         openType="DIALOG"/>
                 <action id="edit"
                         openType="DIALOG"/>
+                <action id="refresh"/>
                 <action id="remove"/>
             </actions>
             <columns>
@@ -50,13 +51,16 @@
                           alwaysVisible="true">
                 <button id="createBtn"
                         action="organizationsesTable.create"
-                        caption="mainMsg://createCaption"/>
+                        stylename="primary"/>
                 <button id="editBtn"
                         action="organizationsesTable.edit"
-                        caption="mainMsg://editCaption"/>
+                        stylename="friendly"/>
+                <button id="refreshsBtn"
+                        action="organizationsesTable.refresh"
+                        stylename="friendly"/>
                 <button id="removeBtn"
                         action="organizationsesTable.remove"
-                        caption="mainMsg://removeCaption"/>
+                        stylename="danger"/>
             </buttonsPanel>
         </groupTable>
     </layout>

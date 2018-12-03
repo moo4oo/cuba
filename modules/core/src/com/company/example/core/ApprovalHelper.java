@@ -1,9 +1,12 @@
 package com.company.example.core;
 
+import com.company.example.entity.DocState;
 import com.company.example.entity.OutgoingDocuments;
+import com.haulmont.cuba.core.Query;
 import org.springframework.stereotype.Component;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
+
 
 import javax.inject.Inject;
 import java.util.Date;
@@ -17,13 +20,13 @@ public class ApprovalHelper {
 
 
     public void updateState(UUID entityId, String state) {
+        DocState docState = DocState.fromId(state);
         try (Transaction tx = persistence.getTransaction()) {
             OutgoingDocuments doc = persistence.getEntityManager().find(OutgoingDocuments.class, entityId);
             if (doc != null) {
-                doc.setState(state);
+                doc.setState(docState);
                 if(state.equals("Registered")){
                     doc.setDate(new Date());
-                    doc.setTopic(doc.getTopic() + "1");
                 }
             }
             tx.commit();

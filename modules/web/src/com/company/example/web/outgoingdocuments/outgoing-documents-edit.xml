@@ -73,7 +73,7 @@ where e.outgoingDocuments.id
                     <grid id="grid"
                           height="100%"
                           spacing="true"
-                          width="70%">
+                          width="100%">
                         <columns>
                             <column/>
                             <column flex="1.0"/>
@@ -82,51 +82,62 @@ where e.outgoingDocuments.id
                         </columns>
                         <rows>
                             <row>
-                                <label align="MIDDLE_CENTER"
+                                <label align="MIDDLE_LEFT"
                                        value="msg://documentTypeCaption"/>
                                 <lookupPickerField id="docTypePickerField"
                                                    datasource="outgoingDocumentsesDs"
                                                    optionsDatasource="documentTypesesDs"
                                                    property="document_type"
-                                                   width="100%"/>
-                                <label align="MIDDLE_CENTER"
+                                                   width="100%">
+                                    <actions>
+                                        <action id="lookup"/>
+                                        <action id="open"
+                                                openType="DIALOG"/>
+                                    </actions>
+                                </lookupPickerField>
+                                <label align="MIDDLE_LEFT"
                                        value="msg://stateCaption"/>
                                 <textField id="stateTextField"
                                            datasource="outgoingDocumentsesDs"
+                                           editable="false"
                                            property="state"
                                            width="100%"/>
                             </row>
                             <row>
-                                <label align="MIDDLE_CENTER"
+                                <label align="MIDDLE_LEFT"
                                        value="msg://registrationNumberCaption"/>
                                 <textField id="registrationNumberTextArea"
                                            colspan="3"
                                            datasource="outgoingDocumentsesDs"
+                                           editable="false"
                                            property="registration_number"
                                            width="100%"/>
                             </row>
                             <row>
-                                <label align="MIDDLE_CENTER"
+                                <label align="MIDDLE_LEFT"
                                        value="msg://authorCaption"/>
                                 <pickerField id="authorPickerField"
                                              datasource="outgoingDocumentsesDs"
+                                             editable="false"
                                              property="author"
                                              width="100%">
                                     <actions>
                                         <action id="lookup"/>
-                                        <action id="open"/>
+                                        <action id="open"
+                                                openType="DIALOG"/>
                                         <action id="clear"/>
                                     </actions>
                                 </pickerField>
-                                <label align="MIDDLE_CENTER"
+                                <label align="MIDDLE_LEFT"
                                        value="msg://dateCaption"/>
                                 <dateField id="regDateField"
                                            datasource="outgoingDocumentsesDs"
+                                           editable="false"
                                            property="date"
                                            width="100%"/>
                             </row>
                             <row>
-                                <label align="MIDDLE_CENTER"
+                                <label align="MIDDLE_LEFT"
                                        value="msg://addresseeCaption"/>
                                 <lookupPickerField id="addresseePickerField"
                                                    datasource="outgoingDocumentsesDs"
@@ -135,11 +146,12 @@ where e.outgoingDocuments.id
                                                    width="100%">
                                     <actions>
                                         <action id="lookup"/>
-                                        <action id="open"/>
+                                        <action id="open"
+                                                openType="DIALOG"/>
                                         <action id="clear"/>
                                     </actions>
                                 </lookupPickerField>
-                                <label align="MIDDLE_CENTER"
+                                <label align="MIDDLE_LEFT"
                                        value="msg://fullNameCaption"/>
                                 <textField id="fullNameTextField"
                                            datasource="outgoingDocumentsesDs"
@@ -147,7 +159,7 @@ where e.outgoingDocuments.id
                                            width="100%"/>
                             </row>
                             <row>
-                                <label align="MIDDLE_CENTER"
+                                <label align="MIDDLE_LEFT"
                                        value="msg://topicCaption"/>
                                 <textArea id="topicTextArea"
                                           colspan="3"
@@ -157,17 +169,18 @@ where e.outgoingDocuments.id
                                           width="100%"/>
                             </row>
                             <row>
-                                <label align="MIDDLE_CENTER"
+                                <label align="MIDDLE_LEFT"
                                        value="msg://titleCaption"/>
                                 <textArea id="titleTextArea"
                                           colspan="3"
                                           datasource="outgoingDocumentsesDs"
+                                          editable="false"
                                           property="title"
                                           rows="2"
                                           width="100%"/>
                             </row>
                             <row>
-                                <label align="MIDDLE_CENTER"
+                                <label align="MIDDLE_LEFT"
                                        value="msg://descriptionCaption"/>
                                 <textArea id="descriptionTextArea"
                                           colspan="3"
@@ -177,32 +190,48 @@ where e.outgoingDocuments.id
                                           width="100%"/>
                             </row>
                             <row>
-                                <label align="MIDDLE_CENTER"
+                                <label align="MIDDLE_LEFT"
                                        value="msg://executorCaption"/>
                                 <lookupPickerField id="executorPickerField"
                                                    datasource="outgoingDocumentsesDs"
                                                    optionsDatasource="workersesDs"
                                                    property="executor"
-                                                   width="100%"/>
-                                <label align="MIDDLE_CENTER"
+                                                   width="100%">
+                                    <actions>
+                                        <action id="lookup"/>
+                                        <action id="open"
+                                                openType="DIALOG"/>
+                                        <action id="clear"/>
+                                    </actions>
+                                </lookupPickerField>
+                                <label align="MIDDLE_LEFT"
                                        value="msg://signCaption"/>
                                 <lookupPickerField id="signPickerField"
                                                    datasource="outgoingDocumentsesDs"
                                                    optionsDatasource="workersesDs"
                                                    property="sign"
-                                                   width="100%"/>
+                                                   width="100%">
+                                    <actions>
+                                        <action id="lookup"/>
+                                        <action id="open"
+                                                openType="DIALOG"/>
+                                        <action id="clear"/>
+                                    </actions>
+                                </lookupPickerField>
                             </row>
                             <row>
-                                <label align="MIDDLE_CENTER"
+                                <label align="MIDDLE_LEFT"
                                        value="msg://createDateCaption"/>
                                 <dateField id="createDateField"
                                            datasource="outgoingDocumentsesDs"
+                                           editable="false"
                                            property="create_date"
                                            width="100%"/>
                                 <label align="MIDDLE_CENTER"
                                        value="msg://changeDateCaption"/>
                                 <dateField id="changeDateField"
                                            datasource="outgoingDocumentsesDs"
+                                           editable="false"
                                            property="change_date"
                                            width="100%"/>
                             </row>
@@ -218,8 +247,10 @@ where e.outgoingDocuments.id
                                 <field caption="mainMsg://logCaption"
                                        property="log"/>
                                 <field caption="mainMsg://registrationNumberCaption"
+                                       editable="false"
                                        property="registration_number"/>
                                 <field caption="mainMsg://dateCaption"
+                                       editable="false"
                                        property="date"/>
                                 <field caption="mainMsg://documentDescriptionCaption"
                                        property="document_description"/>
@@ -279,10 +310,11 @@ where e.outgoingDocuments.id
                  margin="true"
                  spacing="true">
                 <hbox expand="procTasksTable"
+                      height="100%"
                       spacing="true"
                       width="100%">
                     <table id="procTasksTable"
-                           height="400px">
+                           height="100%">
                         <columns>
                             <column id="name"/>
                             <column id="procActor.user"/>
@@ -310,7 +342,9 @@ where e.outgoingDocuments.id
             <frame id="windowActions"
                    screen="editWindowActions"/>
             <button id="startProcButton"
-                    caption="mainMsg://startProcCaption"/>
+                    caption="mainMsg://startProcCaption"
+                    enable="false"
+                    visible="false"/>
             <button id="printCardInfoBtn"
                     align="TOP_RIGHT"
                     caption="msg://Prin Card Report"/>

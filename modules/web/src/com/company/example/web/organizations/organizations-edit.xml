@@ -3,35 +3,72 @@
         caption="msg://editorCaption"
         class="com.company.example.web.organizations.OrganizationsEdit"
         datasource="organizationsDs"
-        focusComponent="fieldGroup"
         messagesPack="com.company.example.web.organizations">
     <dsContext>
         <datasource id="organizationsDs"
                     class="com.company.example.entity.Organizations"
                     view="organizations-view"/>
     </dsContext>
-    <dialogMode height="600"
-                width="800"/>
+    <dialogMode width="800"/>
     <layout expand="windowActions"
             spacing="true">
-        <fieldGroup id="fieldGroup"
-                    datasource="organizationsDs">
-            <column width="250px">
-                <field caption="mainMsg://codeCaption"
-                       property="code"/>
-                <field caption="mainMsg://shortTitleCaption"
-                       property="short_title"/>
-                <field caption="mainMsg://titleCaption"
-                       property="title"
-                       rows="2"/>
-                <field caption="msg://lawAddresseCaption"
-                       property="law_address"
-                       rows="2"/>
-                <field caption="mainMsg://mailAddressCaption"
-                       property="mail_address"
-                       rows="2"/>
-            </column>
-        </fieldGroup>
+        <grid id="grid"
+              spacing="true"
+              width="100%">
+            <columns>
+                <column/>
+                <column flex="1.0"/>
+                <column/>
+                <column flex="1.0"/>
+            </columns>
+            <rows>
+                <row>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://codeCaption"/>
+                    <textField id="codeTextField"
+                               datasource="organizationsDs"
+                               editable="false"
+                               property="code"
+                               width="100%"/>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://shortTitleCaption"/>
+                    <textField id="shortTitleTextField"
+                               datasource="organizationsDs"
+                               property="short_title"
+                               width="100%"/>
+                </row>
+                <row>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://titleCaption"/>
+                    <textArea id="titleTextField"
+                              colspan="3"
+                              datasource="organizationsDs"
+                              property="title"
+                              rows="3"
+                              width="100%"/>
+                </row>
+                <row>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://lawAddressCaption"/>
+                    <textArea id="lawAddressTextField"
+                              colspan="3"
+                              datasource="organizationsDs"
+                              property="law_address"
+                              rows="3"
+                              width="100%"/>
+                </row>
+                <row>
+                    <label align="MIDDLE_LEFT"
+                           value="msg://mailAddressCaption"/>
+                    <textArea id="mailTextField"
+                              colspan="3"
+                              datasource="organizationsDs"
+                              property="mail_address"
+                              rows="3"
+                              width="100%"/>
+                </row>
+            </rows>
+        </grid>
         <frame id="windowActions"
                screen="editWindowActions"/>
     </layout>

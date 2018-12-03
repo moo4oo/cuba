@@ -1,10 +1,16 @@
 package com.company.example.web.workers;
 
+import com.company.example.entity.MacroEnum;
+import com.haulmont.cuba.core.entity.FileDescriptor;
+import com.haulmont.cuba.core.global.FileStorageException;
 import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.WindowParams;
 import com.haulmont.cuba.gui.components.*;
 import com.company.example.entity.Workers;
+import com.haulmont.cuba.gui.data.DataSupplier;
+import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 import com.haulmont.cuba.security.entity.User;
+import org.apache.commons.fileupload.FileUpload;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,32 +21,26 @@ import java.util.Objects;
 public class WorkersEdit extends AbstractEditor<Workers> {
 
 
-    @Named("fieldGroup.user")
+    @Inject
+    private TextField patronymicField;
+    @Inject
+    private TextField secondNameField;
+    @Inject
+    private TextField firstNameField;
+    @Inject
     private PickerField userField;
-    @Named("fieldGroup.second_name")
-    private TextField second_nameField;
-    @Named("fieldGroup.first_name")
-    private TextField first_nameField;
-    @Named("fieldGroup.photo")
+    @Inject
     private FileUploadField photoField;
     @Inject
     private Image workersPhotoView;
-    @Named("fieldGroup.patronymic")
-    private TextField patronymicField;
-    @Named("fieldGroup.sub_division")
-    private PickerField sub_divisionField;
+    @Inject
+    private FileUploadingAPI fileUploadingAPI;
+    @Inject
+    private DataSupplier dataSupplier;
 
     @Override
     public void init(Map<String, Object> params) {
         super.init(params);
-
-        sub_divisionField.removeAllActions();
-        sub_divisionField.addLookupAction();
-        sub_divisionField.addOpenAction();
-        sub_divisionField.addClearAction();
-        sub_divisionField.getOpenAction().setEditScreenOpenType(WindowManager.OpenType.DIALOG);
-        
-
         Workers worker = (Workers) WindowParams.ITEM.getEntity(params);
         setItem(worker);
         if(getItem() != null) {
@@ -57,12 +57,21 @@ public class WorkersEdit extends AbstractEditor<Workers> {
             }
         });
 
-
-        photoField.addFileUploadSucceedListener(e -> {
+        photoField.addFileUploadSucceedListener(e ->{
             if(e.getFileName() != null){
-                Workers w = getItem();
-                displayPhoto(w);
+                FileDescriptor fd = photoField.getFileDescriptor();
+                try{
+                    fileUploadingAPI.putFileIntoStorage(photoField.getFileId(), fd);
+                }catch (FileStorageException err){
+                    throw new RuntimeException("Error saving file to FileStorage", err);
+                }
+                getItem().setPhoto(dataSupplier.commit(fd));
+                displayPhoto(getItem());
             }
+        });
+        photoField.addAfterValueClearListener(event -> {
+            getItem().setPhoto(null);
+            workersPhotoView.setVisible(false);
         });
 
     }
@@ -79,14 +88,16 @@ public class WorkersEdit extends AbstractEditor<Workers> {
         if(middleName == null){
             middleName = " ";
         }
-        first_nameField.setValue(firstName);
-        second_nameField.setValue(secondName);
+        firstNameField.setValue(firstName);
+        secondNameField.setValue(secondName);
         patronymicField.setValue(middleName);
 
 
     }
     private void displayPhoto(Workers worker){
-        workersPhotoView.setSource(FileDescriptorResource.class).setFileDescriptor(worker.getPhoto());
-        workersPhotoView.setVisible(true);
+        if(worker.getPhoto() != null) {
+            workersPhotoView.setSource(FileDescriptorResource.class).setFileDescriptor(worker.getPhoto());
+            workersPhotoView.setVisible(true);
+        }
     }
 }

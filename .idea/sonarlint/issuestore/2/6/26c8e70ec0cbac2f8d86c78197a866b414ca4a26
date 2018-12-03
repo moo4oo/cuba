@@ -1,0 +1,6 @@
+
+^squid:S1126["BReplace this if-then-else statement by a single method invocation.(—­û¨ýÿÿÿÿ
+asquid:UselessImportCheck"=Remove this unused import 'com.haulmont.bali.util.ParamsMap'.(Ñ¯å“
+ssquid:S3973("WUse curly braces or indentation to denote the code conditionally executed by this "if".(Øþ´²øÿÿÿÿ
+psquid:UselessImportCheck"@Remove this unused import 'com.haulmont.cuba.gui.WindowManager'.(‡Ê×Éþÿÿÿÿ8Œ‹«œ÷,
+Zsquid:UselessImportCheck"/Remove this unused import 'javax.inject.Named'.(»ßáŸ8ª¹¶œ÷,

@@ -11,7 +11,6 @@ import com.haulmont.bpm.gui.procactions.ProcActionsFrame;
 import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.FileStorageException;
 import com.haulmont.cuba.core.global.PersistenceHelper;
-import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.upload.FileUploadingAPI;
@@ -55,10 +54,6 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private Table<FileDescriptor> filesTable;
     @Inject
     private OutgoingDocumentsService outgoingDocumentsService;
-    @Inject
-    private LookupPickerField signPickerField;
-    @Inject
-    private LookupPickerField executorPickerField;
     private boolean newItem = false;
     @Inject
     private ExportDisplay exportDisplay;
@@ -67,56 +62,24 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     @Inject
     private FileUploadingAPI fileUploadingAPI;
     @Inject
-    private PickerField authorPickerField;
-    @Inject
-    private DateField changeDateField;
-    @Inject
-    private DateField createDateField;
-    @Inject
-    private TextField stateTextField;
-    @Inject
-    private TextField registrationNumberTextArea;
-    @Inject
     private LookupPickerField docTypePickerField;
     @Inject
     private LookupPickerField addresseePickerField;
     @Inject
-    private DateField regDateField;
-    @Inject
     private GroupBoxLayout procActionsBox;
     @Inject
     private Button startProcButton;
+    @Inject
+    private TextField registrationNumberTextArea;
+    UUID currentUserId;
+    User currentUser;
 
     @Override
     public void init(Map<String, Object> params) {
         super.init(params);
-
-        signPickerField.removeAllActions();
-        signPickerField.addLookupAction();
-        signPickerField.addOpenAction();
-        signPickerField.addClearAction();
-        signPickerField.getOpenAction().setEditScreenOpenType(WindowManager.OpenType.DIALOG);
-
-        executorPickerField.removeAllActions();
-        executorPickerField.addLookupAction();
-        executorPickerField.addOpenAction();
-        executorPickerField.addClearAction();
-        executorPickerField.getOpenAction().setEditScreenOpenType(WindowManager.OpenType.DIALOG);
-
-
+        currentUser = userSession.getCurrentOrSubstitutedUser();
+        currentUserId = currentUser.getId();
         printCardInfoBtn.setAction(new EditorPrintFormAction("docCardReport", this, null));
-        startProcButton.setVisible(false);
-        startProcButton.setEnabled(false);
-        titleTextArea.setEditable(false);
-        registration_numberField.setEditable(false);
-        dateField.setEditable(false);
-        regDateField.setEditable(false);
-        authorPickerField.setEditable(false);
-        createDateField.setEditable(false);
-        changeDateField.setEditable(false);
-        stateTextField.setEditable(false);
-        registrationNumberTextArea.setEditable(false);
-        registration_numberField.setEditable(false);
         if (params.containsKey("ITEM") && !PersistenceHelper.isNew(params.get("ITEM"))) {
             setItem((OutgoingDocuments) params.get("ITEM"));
             initListeners(getItem());
@@ -127,24 +90,21 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                     if (user == null) {
                         procActionsFrame.setVisible(false);
                     }
-                    if (user != null && user.getId().equals(userSession.getUser().getId()) && task.getName().equals("Регистрация документов")) {
+                    if (user != null && user.getId().equals(currentUserId) && task.getName().equals("Регистрация документов")) {
                         registrationBtn.setVisible(true);
                         registrationBtn.setEnabled(true);
                         Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
                         registrationBtn.setAction(action);
-
                     }
                 }
             }
-
-            
         }
         if (procActionsFrame.getCompleteProcTaskActions().isEmpty()) {
             if (procActionsFrame.getStartProcessAction() == null) {
                 procActionsBox.setVisible(false);
             } else {
                 procActionsBox.setVisible(false);
-                if (getItem().getAuthor().getId().equals(userSession.getUser().getId())) {
+                if (getItem().getAuthor() != null && getItem().getAuthor().getId().equals(currentUserId)) {
                     startProcButton.setEnabled(true);
                     startProcButton.setVisible(true);
                     startProcButton.setAction(procActionsFrame.getStartProcessAction());
@@ -152,7 +112,6 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
 
             }
         }
-
     }
 
     @Override
@@ -185,8 +144,8 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         newItem = true;
         item.setSerial_number(uniqueNumbersHelperService.getNextUniqueNumber("outgoing_doc"));
         item.setRegistration_number(item.getSerial_number() + "");
-        item.setExecutor(outgoingDocumentsService.getCurrentWorker(userSession.getUser().getId()));
-        item.setAuthor(userSession.getUser());
+        item.setExecutor(outgoingDocumentsService.getCurrentWorker(currentUserId));
+        item.setAuthor(currentUser);
         item.setCreate_date(new Date());
         initListeners(item);
 
@@ -244,14 +203,17 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                 .setBeforeStartProcessPredicate(() -> {
                     if (commit()) {
                         ProcInstance procInstance = procActionsFrame.getProcInstance();
-                        ProcActor initActor = outgoingDocumentsService.createProcActor("init", procInstance, userSession.getUser());
+                        ProcActor initActor = outgoingDocumentsService.createProcActor("init", procInstance, currentUser);
                         ProcActor depActor = null;
                         try {
-                            depActor = outgoingDocumentsService.createProcActor("dev_head", procInstance, outgoingDocumentsService.getDevHeaderUser(userSession.getUser()));
+                            depActor = outgoingDocumentsService.createProcActor("dev_head", procInstance, outgoingDocumentsService.getDevHeaderUser(currentUser));
                         } catch (Exception e) {
 
                         }
-                        ProcActor signActor = outgoingDocumentsService.createProcActor("sign", procInstance, item.getSign().getUser());
+                        ProcActor signActor = null;
+                        if (item.getSign() != null) {
+                            signActor = outgoingDocumentsService.createProcActor("sign", procInstance, item.getSign().getUser());
+                        }
                         Set<ProcActor> procActors = new HashSet<>();
                         procActors.add(initActor);
                         if (depActor != null)

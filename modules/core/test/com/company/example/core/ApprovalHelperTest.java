@@ -1,6 +1,7 @@
 package com.company.example.core;
 
 import com.company.example.ExampleTestContainer;
+import com.company.example.entity.DocState;
 import com.company.example.entity.OutgoingDocuments;
 import com.haulmont.cuba.core.global.AppBeans;
 import com.haulmont.cuba.core.global.DataManager;
@@ -28,10 +29,10 @@ public class ApprovalHelperTest {
     @Test
     public void updateState() {
         if(doc != null) {
-            bean.updateState(doc.getId(), "TEST");
+            bean.updateState(doc.getId(), DocState.New.getId());
             OutgoingDocuments d = dataManager.load(LoadContext.create(OutgoingDocuments.class).setId(doc.getId()));
             if (d != null)
-                assertEquals("TEST", d.getState());
+                assertEquals(DocState.New, d.getState());
         }
 
     }

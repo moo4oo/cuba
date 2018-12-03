@@ -10,13 +10,13 @@
                     class="com.company.example.entity.DocumentTypes"
                     view="_local"/>
     </dsContext>
-    <dialogMode height="600"
-                width="800"/>
+    <dialogMode width="450"/>
     <layout expand="windowActions"
             spacing="true">
         <fieldGroup id="fieldGroup"
-                    datasource="documentTypesDs">
-            <column width="250px">
+                    datasource="documentTypesDs"
+                    width="100%">
+            <column width="100%">
                 <field caption="mainMsg://codeCaption"
                        property="code"/>
                 <field caption="mainMsg:// nameCaption"

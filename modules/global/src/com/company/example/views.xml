@@ -105,11 +105,17 @@
     </view>
     <view class="com.company.example.entity.OutgoingDocuments"
           extends="_local"
-          name="documents-outgoingDocuments-view">
-    </view>
-    <view class="com.company.example.entity.OutgoingDocuments"
-          extends="_local"
-          name="matching-outgoingDocuments-view">
+          name="outDocBrowse-view">
+        <property name="addressee"
+                  view="_local"/>
+        <property name="executor"
+                  view="_local"/>
+        <property name="sign"
+                  view="_local"/>
+        <property name="author"
+                  view="_local"/>
+        <property name="document_type"
+                  view="_local"/>
     </view>
     <view class="com.company.example.entity.MatchingTable"
           extends="_local"
