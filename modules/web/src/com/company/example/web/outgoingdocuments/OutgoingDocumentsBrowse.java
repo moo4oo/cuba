@@ -5,11 +5,9 @@ import com.company.example.service.OutgoingDocumentsService;
 import com.haulmont.bpm.entity.ProcTask;
 import com.haulmont.cuba.gui.components.AbstractLookup;
 import com.haulmont.cuba.gui.components.GroupTable;
-import com.haulmont.cuba.gui.components.Table;
 import com.haulmont.cuba.security.entity.User;
 import com.haulmont.cuba.security.global.UserSession;
 
-import javax.annotation.Nullable;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;

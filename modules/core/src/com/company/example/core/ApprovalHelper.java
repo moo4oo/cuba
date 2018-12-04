@@ -2,7 +2,6 @@ package com.company.example.core;
 
 import com.company.example.entity.DocState;
 import com.company.example.entity.OutgoingDocuments;
-import com.haulmont.cuba.core.Query;
 import org.springframework.stereotype.Component;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;

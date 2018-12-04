@@ -1,6 +1,5 @@
 package com.company.example.service;
 
-import com.company.example.entity.OutgoingDocuments;
 import com.company.example.entity.Workers;
 import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.DataManager;

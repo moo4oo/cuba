@@ -45,7 +45,7 @@ public class OutgoingDocumentsListener implements BeforeInsertEntityListener<Out
         }
         entity.setTitle(getTitleString(title, entity.getTopic(), entity.getAddressee().getShort_title(),
                 entity.getDocument_type().getName(), date, entity.getRegistration_number()));
-        User user = userSessionSource.getUserSession().getUser();
+        User user = userSessionSource.getUserSession().getCurrentOrSubstitutedUser();
         Workers executor = dataManager.load(LoadContext.create(Workers.class).setView("workers-view").setQuery(LoadContext.createQuery(
                 "select e from example$Workers e where e.user.id = :userId").setParameter("userId", user.getId())));
         entity.setExecutor(executor);

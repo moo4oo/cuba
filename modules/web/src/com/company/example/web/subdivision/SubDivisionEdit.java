@@ -1,17 +1,14 @@
 package com.company.example.web.subdivision;
 
 import com.company.example.service.EditSubDivisionService;
-import com.haulmont.bali.util.ParamsMap;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.DataManager;
-import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.WindowParams;
 import com.haulmont.cuba.gui.components.*;
 import com.company.example.entity.SubDivision;
 import com.haulmont.cuba.gui.data.CollectionDatasource;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
