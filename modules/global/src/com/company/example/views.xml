@@ -108,15 +108,15 @@
           extends="_local"
           name="outDocBrowse-view">
         <property name="addressee"
-                  view="_local"/>
+                  view="_minimal"/>
         <property name="executor"
-                  view="_local"/>
+                  view="_minimal"/>
         <property name="sign"
-                  view="_local"/>
+                  view="_minimal"/>
         <property name="author"
-                  view="_local"/>
+                  view="_minimal"/>
         <property name="document_type"
-                  view="_local"/>
+                  view="_minimal"/>
     </view>
     <view class="com.company.example.entity.MatchingTable"
           extends="_local"
