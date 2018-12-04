@@ -1,6 +1,0 @@
-
-wsquid:UselessImportCheck"GRemove this unused import 'com.haulmont.cuba.gui.components.TextField'.(ààùÿÿÿÿ8ú·åš÷,
-Ksquid:S1066%"/Merge this if statement with the enclosing one.(¤Â¦Âüÿÿÿÿ
-Fsquid:S1185"(Remove this method to simply inherit it.(şïİå8ú·åš÷,
-Zsquid:UselessImportCheck	"/Remove this unused import 'javax.inject.Named'.(»ßáŸ8æÛäš÷,
-Ksquid:S1066""/Merge this if statement with the enclosing one.(™ø½ÿÿÿÿÿ

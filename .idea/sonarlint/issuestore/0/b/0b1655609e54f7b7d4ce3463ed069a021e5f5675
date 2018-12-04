@@ -1,7 +1,0 @@
-
-dsquid:S1192\"HDefine a constant instead of duplicating this literal "MM.yyyy" 3 times.(Ø¼²©ùÿÿÿÿ
-esquid:S1192T"IDefine a constant instead of duplicating this literal "dd.MM.yy" 3 times.(ÊğØŒıÿÿÿÿ
-isquid:S3776J"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(„ïé
-]squid:S3457n"AFormat specifiers should be used instead of string concatenation.(°Çó½ÿÿÿÿÿ
-gsquid:S1192Q"KDefine a constant instead of duplicating this literal "dd.MM.yyyy" 3 times.(¨÷£ÿÿÿÿÿ
-bsquid:S1192O"FDefine a constant instead of duplicating this literal "dd.MM" 3 times.(µ÷Ğœûÿÿÿÿ

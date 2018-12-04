@@ -1,5 +1,0 @@
-
-Ksquid:S1066&"/Merge this if statement with the enclosing one.(è¸÷²úÿÿÿÿ
-_squid:UselessImportCheck"6Remove this unused import 'javax.annotation.Nullable'.(—å¨Íûÿÿÿÿ
-isquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 20 to the 15 allowed.(þïÝå
-gsquid:UselessImportCheck"CRemove this unused import 'com.haulmont.cuba.gui.components.Table'.(ÚÅ ƒ
