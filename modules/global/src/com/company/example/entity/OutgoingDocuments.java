@@ -94,6 +94,7 @@ public class OutgoingDocuments extends StandardEntity {
     @Column(name = "AFFAIR_DATE")
     protected Date affair_date;
 
+    @OnDelete(DeletePolicy.CASCADE)
     @JoinTable(name = "EXAMPLE_OUTGOING_DOCUMENTS_FILE_DESCRIPTOR_LINK",
         joinColumns = @JoinColumn(name = "OUTGOING_DOCUMENTS_ID"),
         inverseJoinColumns = @JoinColumn(name = "FILE_DESCRIPTOR_ID"))

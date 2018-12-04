@@ -22,6 +22,8 @@
                        value="com.company.example.service.BpmScreenService"/>
                 <entry key="example_EditSubDivisionService"
                        value="com.company.example.service.EditSubDivisionService"/>
+                <entry key="example_CleanDbService"
+                       value="com.company.example.service.CleanDbService"/>
             </map>
         </property>
     </bean>

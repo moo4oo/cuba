@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import com.haulmont.chile.core.annotations.NumberFormat;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
+import com.haulmont.cuba.core.entity.annotation.OnDelete;
+import com.haulmont.cuba.core.global.DeletePolicy;
 
 @NamePattern("%s|name")
 @Table(name = "EXAMPLE_DOCUMENT_TYPES")
@@ -31,6 +33,7 @@ public class DocumentTypes extends StandardEntity {
     @Column(name = "SERIAL_NUMBER")
     protected Long serial_number;
 
+    @OnDelete(DeletePolicy.CASCADE)
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "document_type")
     protected OutgoingDocuments outgoingDocuments;
 
