@@ -1,5 +1,6 @@
 package com.company.example.service;
 
+import com.company.example.entity.OutgoingDocuments;
 import com.company.example.entity.Workers;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
@@ -34,6 +35,15 @@ public class OutgoingDocumentsServiceBean implements OutgoingDocumentsService {
                 "= :docUUID and e.id = :procTaskUUID")
                 .setParameters(parameters)
                 .one();
+    }
+
+    @Override
+    public List<ProcTask> getActiveDocTasks(UUID docUUID) {
+        return dataManager.load(ProcTask.class).query("select e from bpm$ProcTask e " +
+                "where e.procInstance.entity.entityId " +
+                "= :docUUID and e.endDate is NULL")
+                .parameter("docUUID", docUUID)
+                .list();
     }
 
     @Override
@@ -112,6 +122,13 @@ public class OutgoingDocumentsServiceBean implements OutgoingDocumentsService {
             n = serialNumber +"";
         }
         return result + " " + n;
+    }
+
+    @Override
+    public List<OutgoingDocuments> getDocuments() {
+        return dataManager.loadList(LoadContext.create(OutgoingDocuments.class).setView("outDocBrowse-view").setQuery(
+                LoadContext.createQuery("select e from example$OutgoingDocuments e")
+        ));
     }
 
 

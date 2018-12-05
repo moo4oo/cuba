@@ -66,13 +66,16 @@
                           alwaysVisible="true">
                 <button id="createBtn"
                         action="outgoingDocumentsesTable.create"
-                        caption="mainMsg://createCaption"/>
+                        caption="mainMsg://createCaption"
+                        stylename="primary"/>
                 <button id="editBtn"
                         action="outgoingDocumentsesTable.edit"
-                        caption="mainMsg://editCaption"/>
+                        caption="mainMsg://editCaption"
+                        stylename="friendly"/>
                 <button id="removeBtn"
                         action="outgoingDocumentsesTable.remove"
-                        caption="mainMsg://removeCaption"/>
+                        caption="mainMsg://removeCaption"
+                        stylename="danger"/>
             </buttonsPanel>
         </groupTable>
     </layout>

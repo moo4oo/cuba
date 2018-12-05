@@ -41,10 +41,13 @@
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
+                        stylename="primary"
                         action="procActorsTable.create"/>
                 <button id="editBtn"
+                        stylename="friendly"
                         action="procActorsTable.edit"/>
                 <button id="removeBtn"
+                        stylename="danger"
                         action="procActorsTable.remove"/>
             </buttonsPanel>
         </groupTable>

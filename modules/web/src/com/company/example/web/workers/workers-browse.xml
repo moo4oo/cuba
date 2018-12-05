@@ -55,12 +55,15 @@
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
+                        stylename="primary"
                         action="workersesTable.create"
                         caption="mainMsg://createCaption"/>
                 <button id="editBtn"
+                        stylename="friendly"
                         action="workersesTable.edit"
                         caption="mainMsg://editCaption"/>
                 <button id="removeBtn"
+                        stylename="danger"
                         action="workersesTable.remove"
                         caption="mainMsg://removeCaption"/>
             </buttonsPanel>

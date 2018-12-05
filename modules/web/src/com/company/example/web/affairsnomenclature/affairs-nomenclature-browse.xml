@@ -43,12 +43,15 @@
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
+                        stylename="primary"
                         action="affairsNomenclaturesTable.create"
                         caption="msg://createCaption"/>
                 <button id="editBtn"
+                        stylename="friendly"
                         action="affairsNomenclaturesTable.edit"
                         caption="msg://editCaption"/>
                 <button id="removeBtn"
+                        stylename="danger"
                         action="affairsNomenclaturesTable.remove"
                         caption="msg://removeCaption"/>
             </buttonsPanel>

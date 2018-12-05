@@ -47,12 +47,15 @@
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
+                        stylename="primary"
                         action="registrationLogsesTable.create"
                         caption="mainMsg://createCaption"/>
                 <button id="editBtn"
+                        stylename="friendly"
                         action="registrationLogsesTable.edit"
                         caption="mainMsg://editCaption"/>
                 <button id="removeBtn"
+                        stylename="danger"
                         action="registrationLogsesTable.remove"
                         caption="mainMsg://removeCaption"/>
             </buttonsPanel>

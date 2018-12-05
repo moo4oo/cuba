@@ -105,7 +105,7 @@
                   view="_local"/>
     </view>
     <view class="com.company.example.entity.OutgoingDocuments"
-          extends="_local"
+          extends="_minimal"
           name="outDocBrowse-view">
         <property name="addressee"
                   view="_minimal"/>
@@ -117,6 +117,15 @@
                   view="_minimal"/>
         <property name="document_type"
                   view="_minimal"/>
+        <property name="registration_number"/>
+        <property name="date"/>
+        <property name="full_name"/>
+        <property name="topic"/>
+        <property name="description"/>
+        <property name="title"/>
+        <property name="create_date"/>
+        <property name="change_date"/>
+        <property name="state"/>
     </view>
     <view class="com.company.example.entity.MatchingTable"
           extends="_local"
