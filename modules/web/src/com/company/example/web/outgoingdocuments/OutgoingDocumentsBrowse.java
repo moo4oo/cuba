@@ -35,7 +35,7 @@ public class OutgoingDocumentsBrowse extends AbstractLookup {
                         active = true;
                     }
                 }
-                if (tasks != null && !tasks.isEmpty()) {
+                if (active && tasks != null && !tasks.isEmpty()) {
                     for (ProcTask task : tasks) {
                         if (task.getEndDate() == null) {
                             User user = outgoingDocumentsService.getCurrentTaskUser(task.getId(), doc.getId());
@@ -48,6 +48,12 @@ public class OutgoingDocumentsBrowse extends AbstractLookup {
                         }
                     }
                 }
+
+            }
+            if(property != null && property.equals("state")){
+                active = false;
+                tasks = null;
+
             }
             return null;
         });

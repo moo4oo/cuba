@@ -71,8 +71,8 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private Button startProcButton;
     @Inject
     private TextField registrationNumberTextArea;
-    UUID currentUserId;
-    User currentUser;
+    private UUID currentUserId;
+    private User currentUser;
 
     @Override
     public void init(Map<String, Object> params) {
