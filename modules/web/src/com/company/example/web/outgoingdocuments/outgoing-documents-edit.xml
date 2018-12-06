@@ -27,14 +27,6 @@ where e.procInstance.entity.entityId
 = :ds$outgoingDocumentsesDs.id]]>
             </query>
         </collectionDatasource>
-        <collectionDatasource id="matchingTablesDs"
-                              class="com.company.example.entity.MatchingTable">
-            <query>
-                <![CDATA[select e from example$MatchingTable e
-where e.outgoingDocuments.id
-= :ds$outgoingDocumentsesDs.id]]>
-            </query>
-        </collectionDatasource>
         <collectionDatasource id="fileDescriptorsDs"
                               class="com.haulmont.cuba.core.entity.FileDescriptor"
                               refreshMode="NEVER"/>
@@ -343,7 +335,6 @@ where e.outgoingDocuments.id
                    screen="editWindowActions"/>
             <button id="startProcButton"
                     caption="mainMsg://startProcCaption"
-                    enable="false"
                     visible="false"/>
             <button id="printCardInfoBtn"
                     align="TOP_RIGHT"

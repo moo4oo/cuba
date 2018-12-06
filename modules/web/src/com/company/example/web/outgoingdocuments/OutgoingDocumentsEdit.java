@@ -7,11 +7,15 @@ import com.company.example.service.UniqueNumbersHelperService;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
 import com.haulmont.bpm.entity.ProcTask;
+import com.haulmont.bpm.gui.action.CompleteProcTaskAction;
+import com.haulmont.bpm.gui.action.StartProcessAction;
 import com.haulmont.bpm.gui.procactions.ProcActionsFrame;
 import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.FileStorageException;
 import com.haulmont.cuba.core.global.PersistenceHelper;
 import com.haulmont.cuba.gui.components.*;
+import com.haulmont.cuba.gui.data.CollectionDatasource;
+import com.haulmont.cuba.gui.data.Datasource;
 import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 import com.haulmont.cuba.security.entity.User;
@@ -71,6 +75,12 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private Button startProcButton;
     @Inject
     private TextField registrationNumberTextArea;
+    @Inject
+    private Datasource<OutgoingDocuments> outgoingDocumentsesDs;
+    @Inject
+    private CollectionDatasource<ProcTask, UUID> procTasksDs;
+    @Inject
+    private Table<ProcTask> procTasksTable;
     private UUID currentUserId;
     private User currentUser;
 
@@ -89,13 +99,12 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                     User user = outgoingDocumentsService.getCurrentTaskUser(task.getId(), getItem().getId());
                     if (user == null) {
                         procActionsFrame.setVisible(false);
-                    }
-                    if (user != null && user.getId().equals(currentUserId) && task.getName().equals("Регистрация документов")) {
-                        registrationBtn.setVisible(true);
-                        registrationBtn.setEnabled(true);
-                        Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
-                        registrationBtn.setAction(action);
-                    }
+                    } else if(user.getId().equals(currentUserId) && task.getName().equals("Регистрация документов")) {
+                            registrationBtn.setVisible(true);
+                            Action action = procActionsFrame.getCompleteProcTaskActions().get(0);
+                            registrationBtn.setAction(action);
+                        }
+
                 }
             }
         }
@@ -105,9 +114,13 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
             } else {
                 procActionsBox.setVisible(false);
                 if (getItem().getAuthor() != null && getItem().getAuthor().getId().equals(currentUserId)) {
-                    startProcButton.setEnabled(true);
-                    startProcButton.setVisible(true);
-                    startProcButton.setAction(procActionsFrame.getStartProcessAction());
+                    Action action = procActionsFrame.getStartProcessAction();
+                    ((StartProcessAction) action).addAfterActionListener(() -> {
+                        startProcButton.setVisible(false);
+                        procActionsFrame.setVisible(true);
+                        procActionsBox.setVisible(true);
+                    });
+                    startProcButton.setAction(action);
                 }
 
             }
@@ -134,7 +147,8 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
             if (!getItem().getFile_des().contains(fd))
                 getItem().getFile_des().add(fd);
         }
-        return super.preCommit();
+            return super.preCommit();
+
     }
 
 
@@ -200,6 +214,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
 
         procActionsFrame.initializer()
                 .standard()
+                .setAfterCompleteTaskListener(() -> outgoingDocumentsesDs.refresh())
                 .setBeforeStartProcessPredicate(() -> {
                     if (commit()) {
                         ProcInstance procInstance = procActionsFrame.getProcInstance();
@@ -208,7 +223,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
                         try {
                             depActor = outgoingDocumentsService.createProcActor("dev_head", procInstance, outgoingDocumentsService.getDevHeaderUser(currentUser));
                         } catch (Exception e) {
-
+                            showNotification(e.getMessage());
                         }
                         ProcActor signActor = null;
                         if (item.getSign() != null) {
@@ -268,7 +283,6 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         item.setTitle(title.getStringTitle() + "");
         titleTextArea.setValue(title.getStringTitle() + "");
     }
-
 
     public void onDownloadButtonClick() {
         if (filesTable.getSingleSelected() != null) {

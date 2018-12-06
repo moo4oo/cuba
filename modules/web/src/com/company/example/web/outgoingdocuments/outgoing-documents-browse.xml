@@ -28,6 +28,7 @@
             <actions>
                 <action id="create"/>
                 <action id="edit"/>
+                <action id="refresh"/>
                 <action id="remove"/>
             </actions>
             <columns>
@@ -71,6 +72,9 @@
                 <button id="editBtn"
                         action="outgoingDocumentsesTable.edit"
                         caption="mainMsg://editCaption"
+                        stylename="friendly"/>
+                <button id="refreshBtn"
+                        action="outgoingDocumentsesTable.refresh"
                         stylename="friendly"/>
                 <button id="removeBtn"
                         action="outgoingDocumentsesTable.remove"

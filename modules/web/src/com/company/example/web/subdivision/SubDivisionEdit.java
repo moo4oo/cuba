@@ -30,12 +30,13 @@ public class SubDivisionEdit extends AbstractEditor<SubDivision> {
 
     @Inject
     private CollectionDatasource<SubDivision, UUID> subDivisionsDs;
+    @Inject
+    private LookupPickerField depHeadPickerField;
 
     private boolean checkLooping(SubDivision subDiv){
         SubDivision sd = subDiv;
         SubDivision item = getItem();
-        if(sd!=null)
-        if(!sd.getId().equals(item.getId())){
+        if(sd != null && !sd.getId().equals(item.getId())){
             while(sd != null){
                 if(item.getId().equals(sd.getId())){
                     showNotification("Select another Subdivision");

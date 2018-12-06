@@ -35,12 +35,6 @@ public class OutgoingDocumentsServiceBean implements OutgoingDocumentsService {
                 "= :docUUID and e.id = :procTaskUUID")
                 .setParameters(parameters)
                 .one();
-        /*
-        return dataManager.load(LoadContext.create(User.class).setQuery(LoadContext.createQuery(
-                "select e.procActor.user from bpm$ProcTask e " +
-                        "where e.procInstance.entity.entityId " +
-                        "= :docUUID and e.id = :procTaskUUID").setParameters(parameters)));
-         */
     }
 
     @Override

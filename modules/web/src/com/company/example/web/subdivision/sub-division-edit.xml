@@ -36,7 +36,6 @@
                            value="msg://codeCaption"/>
                     <textField id="codeTextField"
                                datasource="subDivisionDs"
-                               editable="false"
                                property="code"
                                width="100%"/>
                 </row>
@@ -69,12 +68,13 @@
                     <label align="MIDDLE_LEFT"
                            value="msg://departamentHeadCaption"/>
                     <lookupPickerField id="depHeadPickerField"
-                                       datasource="subDivisionsDs"
+                                       datasource="subDivisionDs"
                                        optionsDatasource="workersesDs"
                                        property="departament_head"
                                        width="100%">
                         <actions>
-                            <action id="lookup"/>
+                            <action id="lookup"
+                                    openType="DIALOG"/>
                             <action id="open"
                                     openType="DIALOG"/>
                             <action id="clear"/>

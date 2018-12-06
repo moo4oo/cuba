@@ -47,11 +47,6 @@
     <view class="com.company.example.entity.Organizations"
           extends="_local"
           name="organizations-view">
-        <property name="code"/>
-        <property name="short_title"/>
-        <property name="title"/>
-        <property name="law_address"/>
-        <property name="mail_address"/>
     </view>
     <view class="com.company.example.entity.RegistrationLogs"
           extends="_local"
@@ -60,8 +55,6 @@
     <view class="com.company.example.entity.AffairsNomenclature"
           extends="_local"
           name="affairsNomenclature-view">
-        <property name="code"/>
-        <property name="title"/>
     </view>
     <view class="com.company.example.entity.OutgoingDocuments"
           extends="_local"
@@ -126,20 +119,6 @@
         <property name="create_date"/>
         <property name="change_date"/>
         <property name="state"/>
-    </view>
-    <view class="com.company.example.entity.MatchingTable"
-          extends="_local"
-          name="matchingTable-view">
-        <property name="matcher"
-                  view="_minimal">
-            <property name="user"
-                      view="_minimal">
-                <property name="firstName"/>
-                <property name="lastName"/>
-            </property>
-            <property name="sub_division"
-                      view="_minimal"/>
-        </property>
     </view>
     <view class="com.haulmont.bpm.entity.ProcInstance"
           extends="_local"
@@ -250,5 +229,13 @@
                 <property name="entityId"/>
             </property>
         </property>
+    </view>
+    <view class="com.company.example.entity.OutgoingDocuments"
+          extends="_local"
+          name="deleteDoc-view">
+        <property name="executor"
+                  view="_minimal"/>
+        <property name="sign"
+                  view="_minimal"/>
     </view>
 </views>

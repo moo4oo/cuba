@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class OutgoingDocumentsBrowse extends AbstractLookup {
     @Inject
@@ -48,7 +47,6 @@ public class OutgoingDocumentsBrowse extends AbstractLookup {
                         }
                     }
                 }
-
             }
             if(property != null && property.equals("state")){
                 active = false;
