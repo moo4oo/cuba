@@ -93,7 +93,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
         if (params.containsKey("ITEM") && !PersistenceHelper.isNew(params.get("ITEM"))) {
             setItem((OutgoingDocuments) params.get("ITEM"));
             initListeners(getItem());
-            List<ProcTask> tasks = outgoingDocumentsService.getDocTasks(getItem().getId());
+            List<ProcTask> tasks = outgoingDocumentsService.getActiveDocTasks(getItem().getId());
             for (ProcTask task : tasks) {
                 if (task.getEndDate() == null) {
                     User user = outgoingDocumentsService.getCurrentTaskUser(task.getId(), getItem().getId());
@@ -114,8 +114,8 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
             } else {
                 procActionsBox.setVisible(false);
                 if (getItem().getAuthor() != null && getItem().getAuthor().getId().equals(currentUserId)) {
-                    Action action = procActionsFrame.getStartProcessAction();
-                    ((StartProcessAction) action).addAfterActionListener(() -> {
+                    StartProcessAction action = procActionsFrame.getStartProcessAction();
+                    action.addAfterActionListener(() -> {
                         startProcButton.setVisible(false);
                         procActionsFrame.setVisible(true);
                         procActionsBox.setVisible(true);
