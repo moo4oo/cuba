@@ -17,6 +17,7 @@
                     width="100%">
             <column width="100%">
                 <field caption="mainMsg://codeCaption"
+                       editable="false"
                        property="code"/>
                 <field caption="mainMsg://titleCaption"
                        property="title"/>
