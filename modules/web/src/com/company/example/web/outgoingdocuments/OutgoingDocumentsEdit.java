@@ -58,7 +58,6 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private Table<FileDescriptor> filesTable;
     @Inject
     private OutgoingDocumentsService outgoingDocumentsService;
-    private boolean newItem = false;
     @Inject
     private ExportDisplay exportDisplay;
     @Inject
@@ -131,7 +130,7 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     protected boolean preClose(String actionId) {
         if (actionId.equals("windowClose") || actionId.equals("close") && getItem() != null) {
             Long number = getItem().getSerial_number();
-            if (number != null && newItem) {
+            if (number != null && PersistenceHelper.isNew(getItem())) {
                 uniqueNumbersHelperService.setNextUniqueNumber("outgoing_doc", number - 1);
             }
         }
@@ -155,7 +154,6 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     @Override
     protected void initNewItem(OutgoingDocuments item) {
         super.initNewItem(item);
-        newItem = true;
         item.setSerial_number(uniqueNumbersHelperService.getNextUniqueNumber("outgoing_doc"));
         item.setRegistration_number(item.getSerial_number() + "");
         item.setExecutor(outgoingDocumentsService.getCurrentWorker(currentUserId));
