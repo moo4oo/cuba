@@ -62,7 +62,7 @@ public class OutgoingDocumentsProcessServiceTest extends TestContainer {
         finishTaskBody.setMatchers(matchers);
 
 
-        startTaskBody.setDocId("d44b5459-3b13-6384-b8a8-0569b5978400");
+        startTaskBody.setDocId("ab55017b-1d7c-1b79-f145-b53168dfe78a");
         startTaskBody.setInit("60885987-1b61-4247-94c7-dff348347f93");
         startTaskBody.setSign("60885987-1b61-4247-94c7-dff348347f93");
         List<String> m = new ArrayList<>();
@@ -76,6 +76,7 @@ public class OutgoingDocumentsProcessServiceTest extends TestContainer {
     @Test
     public void test1startProcInstance() {
         ProcInstance procInstance = bean.startProcInstance(startTaskBody);
+        
         assertTrue(procInstance.getActive() && (procInstance.getStartDate() != null));
         Set<ProcActor> procActorSet = procInstance.getProcActors();
         boolean checkInit = false, checkDevHead = false, checkSign = false, checkMatching = false, checkDocId = false;
