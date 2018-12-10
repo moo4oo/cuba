@@ -32,7 +32,7 @@ public class OutgoingDocumentsListener implements BeforeInsertEntityListener<Out
 
     @Override
     public void onBeforeInsert(OutgoingDocuments entity, EntityManager entityManager) {
-        if(entity.getSerial_number() == null) {
+        if (entity.getSerial_number() == null) {
             entity.setSerial_number(uniqueNumbersHelperService.getNextUniqueNumber("outgoing_doc"));
             entity.setRegistration_number(entity.getSerial_number() + "");
         }
@@ -40,7 +40,7 @@ public class OutgoingDocumentsListener implements BeforeInsertEntityListener<Out
         Title title = new Title();
 
         String date = null;
-        if(entity.getDate() != null){
+        if (entity.getDate() != null) {
             date = entity.getDate().toString();
         }
         entity.setTitle(getTitleString(title, entity.getTopic(), entity.getAddressee().getShort_title(),
@@ -68,7 +68,6 @@ public class OutgoingDocumentsListener implements BeforeInsertEntityListener<Out
     }
 
 
-
     @Override
     public void onBeforeUpdate(OutgoingDocuments entity, EntityManager entityManager) {
         OutgoingDocuments doc = dataManager.load(LoadContext.create(OutgoingDocuments.class).setView("main-outgoingDocuments-view").setId(entity.getId()));
@@ -87,28 +86,27 @@ public class OutgoingDocumentsListener implements BeforeInsertEntityListener<Out
         if (entity.getAddressee() != null)
             if (entity.getAddressee().getShort_title() != null)
                 addresseTitle = entity.getAddressee().getShort_title();
-        docType = doc.getDocument_type().getName();
         if (entity.getDocument_type() != null)
-            if (entity.getDocument_type().getName() != null)
+            if (!entity.getDocument_type().getName().equals(null))
                 docType = entity.getDocument_type().getName();
         if (entity.getDate() != null) {
             date = entity.getDate().toString();
         } else {
-            if(doc.getDate() != null)
-            date = doc.getDate().toString();
+            if (doc.getDate() != null)
+                date = doc.getDate().toString();
         }
-        if(entity.getRegistration_number() != null){
+        if (entity.getRegistration_number() != null) {
             regNumber = entity.getRegistration_number();
-        }else {
+        } else {
             regNumber = doc.getRegistration_number();
         }
-        if(entity.getLog() != null){
+        if (entity.getLog() != null) {
             RegistrationLogs logs = entity.getLog();
             String f = logs.getNumber_format();
             String result = outgoingDocumentsService.getRegNumber(f, entity.getDate(), logs.getNumber(), entity.getSerial_number());
             entity.setRegistration_number(result);
         }
-        if(entity.getAffair() != null)
+        if (entity.getAffair() != null)
             entity.setAffair_date(new Date());
         entity.setTitle(getTitleString(title, topic, addresseTitle, docType, date, regNumber));
         entity.setChange_date(new Date());

@@ -23,8 +23,7 @@ public class OutgoingDocuments extends StandardEntity {
     private static final long serialVersionUID = 3214497642282058730L;
 
     @Lookup(type = LookupType.DROPDOWN, actions = {"lookup", "open", "clear"})
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @NotNull
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DOCUMENT_TYPE_ID")
     protected DocumentTypes document_type;
 
@@ -38,8 +37,7 @@ public class OutgoingDocuments extends StandardEntity {
     @Column(name = "DATE_")
     protected Date date;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ADDRESSEE_ID")
     protected Organizations addressee;
 

@@ -37,6 +37,7 @@
                     <textField id="codeTextField"
                                datasource="subDivisionDs"
                                property="code"
+                               required="true"
                                width="100%"/>
                 </row>
                 <row>
@@ -45,6 +46,7 @@
                     <textField id="titleTextField"
                                datasource="subDivisionDs"
                                property="name"
+                               required="true"
                                width="100%"/>
                 </row>
                 <row>

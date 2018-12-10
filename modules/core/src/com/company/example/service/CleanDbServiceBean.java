@@ -8,6 +8,7 @@ import com.haulmont.cuba.core.EntityManager;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.entity.Entity;
+import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.core.global.View;
@@ -149,9 +150,9 @@ public class CleanDbServiceBean implements CleanDbService {
         List<DocumentTypes> documentTypes = dataManager.loadList(LoadContext.create(DocumentTypes.class).setQuery(LoadContext.createQuery(
                 "select e from example$DocumentTypes e where e.deleteTs is not null")).setSoftDeletion(false));
         if (documentTypes != null) {
-            for (DocumentTypes org : documentTypes) {
+            for (DocumentTypes docType : documentTypes) {
                 List<OutgoingDocuments> docs = dataManager.loadList(LoadContext.create(OutgoingDocuments.class).setQuery(LoadContext.createQuery(
-                        "select e from example$OutgoingDocuments e where e.document_type.id = :id").setParameter("id", org.getId())).setSoftDeletion(false));
+                        "select e from example$OutgoingDocuments e where e.document_type.id = :id").setParameter("id", docType.getId())).setSoftDeletion(false));
                 for (OutgoingDocuments doc : docs) {
                     try (Transaction tx = persistence.getTransaction()) {
                         EntityManager em = persistence.getEntityManager();
@@ -161,7 +162,7 @@ public class CleanDbServiceBean implements CleanDbService {
                         tx.commit();
                     }
                 }
-                deleteEntity(org);
+                deleteEntity(docType);
             }
         }
         persistence.setSoftDeletion(true);
@@ -215,7 +216,7 @@ public class CleanDbServiceBean implements CleanDbService {
 
     private void cleanOutDocAndTasks() {
         List<OutgoingDocuments> docs = dataManager.loadList(LoadContext.create(OutgoingDocuments.class).setQuery(LoadContext.createQuery(
-                "select e from example$OutgoingDocuments e where e.deleteTs IS NOT NULL")).setSoftDeletion(false));
+                "select e from example$OutgoingDocuments e where e.deleteTs IS NOT NULL")).setSoftDeletion(false).setView("deleteDoc-view"));
         for (OutgoingDocuments doc : docs) {
             List<ProcInstance> procInstances = dataManager.loadList(LoadContext.create(ProcInstance.class).setQuery(LoadContext.createQuery(
                     "select e from bpm$ProcInstance e where e.entity.entityId = :id").setParameter("id", doc.getId())).setSoftDeletion(false)
@@ -246,7 +247,16 @@ public class CleanDbServiceBean implements CleanDbService {
                     deleteEntity(procInstance);
                 }
             }
+
+
+            List<FileDescriptor> fileDescriptors = doc.getFile_des();
             deleteEntity(doc);
+            if(fileDescriptors != null && !fileDescriptors.isEmpty())
+            {
+                for(FileDescriptor fd : fileDescriptors){
+                    deleteFileDes(fd);
+                }
+            }
         }
         persistence.setSoftDeletion(true);
     }
@@ -267,6 +277,15 @@ public class CleanDbServiceBean implements CleanDbService {
             EntityManager em = persistence.getEntityManager();
             em.setSoftDeletion(false);
             em.remove(entity);
+            tx.commit();
+        }
+    }
+    private void deleteFileDes(FileDescriptor entity){
+        persistence.setSoftDeletion(false);
+        try(Transaction tx = persistence.createTransaction()){
+            EntityManager em = persistence.getEntityManager();
+            FileDescriptor fd = em.find(FileDescriptor.class, entity.getId());
+            em.remove(fd);
             tx.commit();
         }
     }

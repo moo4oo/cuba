@@ -37,6 +37,7 @@
                     <textField id="personnelNumberField"
                                datasource="workersDs"
                                property="personnel_number"
+                               required="true"
                                width="100%"/>
                     <label align="MIDDLE_LEFT"
                            value="msg://userCaption"/>
@@ -51,12 +52,14 @@
                     <textField id="firstNameField"
                                datasource="workersDs"
                                property="first_name"
+                               required="true"
                                width="100%"/>
                     <label align="MIDDLE_LEFT"
                            value="msg://secondNameCaption"/>
                     <textField id="secondNameField"
                                datasource="workersDs"
                                property="second_name"
+                               required="true"
                                width="100%"/>
                 </row>
                 <row>
@@ -72,6 +75,7 @@
                                        datasource="workersDs"
                                        optionsDatasource="subDivisionsDs"
                                        property="sub_division"
+                                       required="true"
                                        width="100%"/>
                 </row>
                 <row>

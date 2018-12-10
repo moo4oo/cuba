@@ -7,7 +7,6 @@ import com.company.example.service.UniqueNumbersHelperService;
 import com.haulmont.bpm.entity.ProcActor;
 import com.haulmont.bpm.entity.ProcInstance;
 import com.haulmont.bpm.entity.ProcTask;
-import com.haulmont.bpm.gui.action.CompleteProcTaskAction;
 import com.haulmont.bpm.gui.action.StartProcessAction;
 import com.haulmont.bpm.gui.procactions.ProcActionsFrame;
 import com.haulmont.cuba.core.entity.FileDescriptor;
@@ -76,10 +75,6 @@ public class OutgoingDocumentsEdit extends AbstractEditor<OutgoingDocuments> {
     private TextField registrationNumberTextArea;
     @Inject
     private Datasource<OutgoingDocuments> outgoingDocumentsesDs;
-    @Inject
-    private CollectionDatasource<ProcTask, UUID> procTasksDs;
-    @Inject
-    private Table<ProcTask> procTasksTable;
     private UUID currentUserId;
     private User currentUser;
 

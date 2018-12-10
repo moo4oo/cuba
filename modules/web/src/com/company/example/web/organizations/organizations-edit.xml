@@ -29,12 +29,14 @@
                                datasource="organizationsDs"
                                editable="false"
                                property="code"
+                               required="true"
                                width="100%"/>
                     <label align="MIDDLE_LEFT"
                            value="msg://shortTitleCaption"/>
                     <textField id="shortTitleTextField"
                                datasource="organizationsDs"
                                property="short_title"
+                               required="true"
                                width="100%"/>
                 </row>
                 <row>
@@ -44,6 +46,7 @@
                               colspan="3"
                               datasource="organizationsDs"
                               property="title"
+                              required="true"
                               rows="3"
                               width="100%"/>
                 </row>

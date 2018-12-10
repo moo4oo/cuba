@@ -80,9 +80,11 @@ where e.procInstance.entity.entityId
                                                    datasource="outgoingDocumentsesDs"
                                                    optionsDatasource="documentTypesesDs"
                                                    property="document_type"
+                                                   required="true"
                                                    width="100%">
                                     <actions>
-                                        <action id="lookup"/>
+                                        <action id="lookup"
+                                                openType="DIALOG"/>
                                         <action id="open"
                                                 openType="DIALOG"/>
                                     </actions>
@@ -112,9 +114,11 @@ where e.procInstance.entity.entityId
                                              datasource="outgoingDocumentsesDs"
                                              editable="false"
                                              property="author"
+                                             required="true"
                                              width="100%">
                                     <actions>
-                                        <action id="lookup"/>
+                                        <action id="lookup"
+                                                openType="DIALOG"/>
                                         <action id="open"
                                                 openType="DIALOG"/>
                                         <action id="clear"/>
@@ -135,9 +139,11 @@ where e.procInstance.entity.entityId
                                                    datasource="outgoingDocumentsesDs"
                                                    optionsDatasource="organizationsesDs"
                                                    property="addressee"
+                                                   required="true"
                                                    width="100%">
                                     <actions>
-                                        <action id="lookup"/>
+                                        <action id="lookup"
+                                                openType="DIALOG"/>
                                         <action id="open"
                                                 openType="DIALOG"/>
                                         <action id="clear"/>
@@ -157,6 +163,7 @@ where e.procInstance.entity.entityId
                                           colspan="3"
                                           datasource="outgoingDocumentsesDs"
                                           property="topic"
+                                          required="true"
                                           rows="2"
                                           width="100%"/>
                             </row>
@@ -168,6 +175,7 @@ where e.procInstance.entity.entityId
                                           datasource="outgoingDocumentsesDs"
                                           editable="false"
                                           property="title"
+                                          required="true"
                                           rows="2"
                                           width="100%"/>
                             </row>
@@ -190,7 +198,8 @@ where e.procInstance.entity.entityId
                                                    property="executor"
                                                    width="100%">
                                     <actions>
-                                        <action id="lookup"/>
+                                        <action id="lookup"
+                                                openType="DIALOG"/>
                                         <action id="open"
                                                 openType="DIALOG"/>
                                         <action id="clear"/>
@@ -204,7 +213,8 @@ where e.procInstance.entity.entityId
                                                    property="sign"
                                                    width="100%">
                                     <actions>
-                                        <action id="lookup"/>
+                                        <action id="lookup"
+                                                openType="DIALOG"/>
                                         <action id="open"
                                                 openType="DIALOG"/>
                                         <action id="clear"/>

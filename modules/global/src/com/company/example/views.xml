@@ -231,11 +231,13 @@
         </property>
     </view>
     <view class="com.company.example.entity.OutgoingDocuments"
-          extends="_local"
+          extends="_minimal"
           name="deleteDoc-view">
         <property name="executor"
                   view="_minimal"/>
         <property name="sign"
+                  view="_minimal"/>
+        <property name="file_des"
                   view="_minimal"/>
     </view>
 </views>
