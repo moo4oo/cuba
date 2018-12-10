@@ -22,8 +22,8 @@ import com.haulmont.cuba.core.entity.annotation.LookupType;
 public class OutgoingDocuments extends StandardEntity {
     private static final long serialVersionUID = 3214497642282058730L;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @Lookup(type = LookupType.DROPDOWN, actions = {"lookup", "open", "clear"})
-    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DOCUMENT_TYPE_ID")
     protected DocumentTypes document_type;
 

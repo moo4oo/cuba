@@ -33,18 +33,6 @@ public class DocumentTypes extends StandardEntity {
     @Column(name = "SERIAL_NUMBER")
     protected Long serial_number;
 
-    @OnDelete(DeletePolicy.CASCADE)
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "document_type")
-    protected OutgoingDocuments outgoingDocuments;
-
-    public void setOutgoingDocuments(OutgoingDocuments outgoingDocuments) {
-        this.outgoingDocuments = outgoingDocuments;
-    }
-
-    public OutgoingDocuments getOutgoingDocuments() {
-        return outgoingDocuments;
-    }
-
 
     public void setSerial_number(Long serial_number) {
         this.serial_number = serial_number;
