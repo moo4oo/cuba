@@ -46,20 +46,16 @@
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
                 <button id="createBtn"
-                        stylename="primary"
                         action="subDivisionsTable.create"
-                        caption="mainMsg://createCaption"/>
+                        stylename="primary"/>
                 <button id="editBtn"
-                        stylename="friendly"
                         action="subDivisionsTable.edit"
-                        caption="mainMsg://editCaption"/>
-                <button id="removeBtn"
-                        stylename="danger"
-                        action="subDivisionsTable.remove"
-                        caption="mainMsg://removeCaption"/>
+                        stylename="friendly"/>
                 <button action="subDivisionsTable.refresh"
-                        stylename="friendly"
-                        caption="mainMsg://refreshCaption"/>
+                        stylename="friendly"/>
+                <button id="removeBtn"
+                        action="subDivisionsTable.remove"
+                        stylename="danger"/>
             </buttonsPanel>
         </treeTable>
     </layout>
