@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service(EditSubDivisionService.NAME)
 public class EditSubDivisionServiceBean implements EditSubDivisionService {
-
+    
     @Inject
     private DataManager dataManager;
 
