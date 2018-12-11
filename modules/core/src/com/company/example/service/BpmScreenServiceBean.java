@@ -15,7 +15,6 @@ import java.util.Set;
 @Service(BpmScreenService.NAME)
 public class BpmScreenServiceBean implements BpmScreenService {
 
-
     
     private ProcRole procRole;
     private ProcInstance procInstance = null;
