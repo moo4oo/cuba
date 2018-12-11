@@ -51,7 +51,7 @@
                 </row>
                 <row>
                     <label align="MIDDLE_LEFT"
-                           value="msg://subdivisionCaption"/>
+                           value="mainMsg://leadSubdivisionCaption"/>
                     <lookupPickerField id="leadDivisionPickerField"
                                        datasource="subDivisionDs"
                                        optionsDatasource="subDivisionsDs"
