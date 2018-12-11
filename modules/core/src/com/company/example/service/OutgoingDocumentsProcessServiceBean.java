@@ -21,6 +21,7 @@ import java.util.*;
 @Service(OutgoingDocumentsProcessService.NAME)
 public class OutgoingDocumentsProcessServiceBean implements OutgoingDocumentsProcessService {
 
+    
     @Inject
     private DataManager dataManager;
     @Inject
