@@ -49,10 +49,10 @@ public class SubDivisionEdit extends AbstractEditor<SubDivision> {
                 }
             }
         }else {
-            return false;
+            return true;
         }
-        return true;
 
+        return true;
     }
     private SubDivision getSubDivision(UUID subDivUUID){
         return dataManager.load(SubDivision.class).query("select e.lead_subdivision from example$SubDivision e where " +

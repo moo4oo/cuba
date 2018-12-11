@@ -1,20 +1,15 @@
 package com.company.example.web.workers;
 
-import com.company.example.entity.MacroEnum;
 import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.global.FileStorageException;
-import com.haulmont.cuba.gui.WindowManager;
 import com.haulmont.cuba.gui.WindowParams;
 import com.haulmont.cuba.gui.components.*;
 import com.company.example.entity.Workers;
 import com.haulmont.cuba.gui.data.DataSupplier;
 import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 import com.haulmont.cuba.security.entity.User;
-import org.apache.commons.fileupload.FileUpload;
 
 import javax.inject.Inject;
-import javax.inject.Named;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 

@@ -95,13 +95,16 @@ public class CleanDbServiceBean implements CleanDbService {
                         "select e from example$SubDivision e left join e.lead_subdivision lead_subdivision where lead_subdivision.id = :id").setParameter("id", div.getId())).setSoftDeletion(false));
                 if (workers != null) {
                     for (Workers w : workers) {
+                        persistence.setSoftDeletion(false);
                         try (Transaction tx = persistence.getTransaction()) {
                             EntityManager em = persistence.getEntityManager();
+                            em.setSoftDeletion(false);
                             Workers wk = em.find(Workers.class, w.getId());
                             wk.setSub_division(null);
                             em.persist(wk);
                             tx.commit();
                         }
+                        persistence.setSoftDeletion(true);
                     }
                 }
                 if (leadDivisions != null) {

@@ -83,11 +83,9 @@ public class OutgoingDocumentsListener implements BeforeInsertEntityListener<Out
             topic = doc.getTopic();
         }
         if (entity.getAddressee() != null)
-            if (!entity.getAddressee().getShort_title().equals(null))
-                addresseTitle = entity.getAddressee().getShort_title();
+            addresseTitle = entity.getAddressee().getShort_title();
         if (entity.getDocument_type() != null)
-            if (!entity.getDocument_type().getName().equals(null))
-                docType = entity.getDocument_type().getName();
+            docType = entity.getDocument_type().getName();
         if (entity.getDate() != null) {
             date = entity.getDate().toString();
         } else {
