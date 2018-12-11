@@ -14,9 +14,6 @@ import java.util.UUID;
 
 @Service(EditWorkersService.NAME)
 public class EditWorkersServiceBean implements EditWorkersService {
-
-
-
     
     @Override
     public Map<String, String> setFirstLastNames(User user) {
