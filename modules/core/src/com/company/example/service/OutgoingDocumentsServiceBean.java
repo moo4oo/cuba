@@ -18,6 +18,7 @@ import java.util.*;
 @Service(OutgoingDocumentsService.NAME)
 public class OutgoingDocumentsServiceBean implements OutgoingDocumentsService {
 
+
     
     @Inject
     private Metadata metadata;
