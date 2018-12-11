@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 @Service(UniqueNumbersHelperService.NAME)
 public class UniqueNumbersHelperServiceBean implements UniqueNumbersHelperService {
-
+    
     @Inject
     private UniqueNumbersAPI uniqueNumbersAPI;
 
