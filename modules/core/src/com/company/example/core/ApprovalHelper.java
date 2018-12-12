@@ -18,7 +18,6 @@ import java.util.UUID;
 
 @Component(ApprovalHelper.NAME)
 public class ApprovalHelper {
-    
     public static final String NAME = "demo_ApprovalHelper";
     @Inject
     private Persistence persistence;
