@@ -19,6 +19,7 @@ public class UniqueNumbersHelperServiceBean implements UniqueNumbersHelperServic
 
     @Override
     public void setNextUniqueNumber(String domain, long number) {
+
         
         uniqueNumbersAPI.setCurrentNumber(domain, number);
     }
